@@ -6,6 +6,8 @@ import './styles.css'
 const API = `${(import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')}/api`
 const TARGET = '2026-10-27T12:00:00+00:00' // Accra is UTC in October
 const DEV_PREVIEW = new URLSearchParams(window.location.search).get('preview') === '1'
+const apiUrl = (path) => `${API}${path}${DEV_PREVIEW ? '?preview=1' : ''}`
+const balanceStorageKey = DEV_PREVIEW ? 'ella-preview-balance' : 'ella-balance'
 const fmtMoney = (n) => `GH₵${Number(n || 0).toFixed(2)}`
 
 function SlimePortrait() {
@@ -737,21 +739,20 @@ function App() {
   const [busy, setBusy] = useState(false)
   const [quoteLoading, setQuoteLoading] = useState(false)
   const [cashoutQuote, setCashoutQuote] = useState(null)
-  const [previewEarned, setPreviewEarned] = useState(0)
   const [savingRun, setSavingRun] = useState(false)
   const [lastRun, setLastRun] = useState({ score: 0, gifts: 0, seconds: 0 })
   const refresh = useCallback(async () => {
     try {
-      const requests = DEV_PREVIEW ? [fetch(`${API}/config`)] : [fetch(`${API}/config`), fetch(`${API}/account`)]
+      const requests = [fetch(`${API}/config`), fetch(apiUrl('/account'))]
       const responses = await Promise.all(requests)
       const config = await responses[0].json()
       setUnlocked(config.unlocked || DEV_PREVIEW)
       setCountdown(DEV_PREVIEW ? 0 : config.remainingMs)
-      if (!DEV_PREVIEW) setBalance(await responses[1].json())
+      setBalance(await responses[1].json())
     } catch {
       const left = new Date(TARGET).getTime() - Date.now()
       setUnlocked(DEV_PREVIEW || left <= 0); setCountdown(DEV_PREVIEW ? 0 : Math.max(0, left))
-      const cached = JSON.parse(localStorage.getItem('ella-balance') || '{}')
+      const cached = JSON.parse(localStorage.getItem(balanceStorageKey) || '{}')
       setBalance({ points: cached.points || 0, cashedOut: cached.cashedOut || false, claimedAmount: cached.claimedAmount || null })
     }
   }, [])
@@ -776,17 +777,11 @@ function App() {
     setGameActive(false)
     setLastRun({ score: finalRun.score, gifts: finalRun.gifts, seconds: finalRun.seconds || 0 })
     setModal('round')
-    if (DEV_PREVIEW) {
-      setBalance((current) => ({ ...current, points: Math.min(9000, current.points + finalRun.score), totalRuns: (current.totalRuns || 0) + 1 }))
-      const gameReward = Math.min(500, 50 + 2 * Math.floor(finalRun.seconds || 0) + 5 * finalRun.gifts)
-      setPreviewEarned((current) => Math.min(500, current + gameReward))
-      return
-    }
     setSavingRun(true)
     try {
-      const res = await fetch(`${API}/runs`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ points: finalRun.score, gifts: finalRun.gifts, seconds: Math.min(120, Math.floor(finalRun.seconds || 0)) }) })
+      const res = await fetch(apiUrl('/runs'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ points: finalRun.score, gifts: finalRun.gifts, seconds: Math.min(120, Math.floor(finalRun.seconds || 0)) }) })
       if (!res.ok) throw new Error()
-      const updated = await res.json(); setBalance(updated); localStorage.setItem('ella-balance', JSON.stringify(updated))
+      const updated = await res.json(); setBalance(updated); localStorage.setItem(balanceStorageKey, JSON.stringify(updated))
     } catch { setToast('Could not save this run. Check the server and MongoDB connection.'); setTimeout(() => setToast(''), 3500) }
     finally { setSavingRun(false) }
   }, [])
@@ -796,10 +791,9 @@ function App() {
   const openCashout = async () => {
     if (balance.cashedOut) return
     setModal('cashout'); setCashoutQuote(null)
-    if (DEV_PREVIEW) { setCashoutQuote(Math.max(50, previewEarned)); return }
     setQuoteLoading(true)
     try {
-      const response = await fetch(`${API}/cashout/quote`)
+      const response = await fetch(apiUrl('/cashout/quote'))
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || 'Could not load the birthday gift yet.')
       setCashoutQuote(data.amount)
@@ -809,15 +803,11 @@ function App() {
 
   const cashout = async (e) => {
     e.preventDefault(); setBusy(true)
-    if (DEV_PREVIEW) {
-      setBalance((current) => ({ ...current, cashedOut: true, claimedAmount: cashoutQuote || 50 }))
-      setModal('celebrate'); setBusy(false); return
-    }
     try {
-      const res = await fetch(`${API}/cashout`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(claim) })
+      const res = await fetch(apiUrl('/cashout'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(claim) })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Could not submit just yet.')
-      setBalance(data.account); localStorage.setItem('ella-balance', JSON.stringify(data.account)); setModal('celebrate')
+      setBalance(data.account); localStorage.setItem(balanceStorageKey, JSON.stringify(data.account)); setModal('celebrate')
     } catch (err) { setToast(err.message); setTimeout(() => setToast(''), 3500) }
     finally { setBusy(false) }
   }
@@ -829,7 +819,7 @@ function App() {
     <div className="grain" />
     <header className="topbar"><a className="brand" href="#top"><span className="brand-icon"><Flag size={17} /></span><span>ELLA<span className="brand-soft"> / BIRTHDAY DASH</span></span></a><div className="topbar-right"><span className="for-ella">OCTOBER 27 · TAKORADI</span></div></header>
     {!unlocked ? <section className="countdown-screen" id="top"><div className="countdown-copy"><span className="eyebrow"><Clock3 size={14} /> THE START LINE OPENS SOON</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>Her route through Takoradi is almost ready.<br />The start line opens at noon on October 27.</p><div className="clock-grid">{timeParts && Object.entries(timeParts).map(([unit, val]) => <div className="clock-card" key={unit}><strong>{String(val).padStart(2, '0')}</strong><span>{unit}</span></div>)}</div><div className="unlock-note"><Clock3 size={15} /> Opens October 27 at 12:00 PM · Ghana time</div><button className="preview-link" onClick={() => { const url = new URL(window.location.href); url.searchParams.set('preview', '1'); window.location.href = url.toString() }}>Developer preview <ChevronRight size={14}/></button><div className="countdown-cake" aria-hidden="true"><SlimePortrait/></div></div><div className="countdown-footer">A small birthday surprise, made by hand.</div></section> : <>
-      {DEV_PREVIEW && <div className="preview-banner">DEVELOPER PREVIEW · scores and claims are simulated <button onClick={() => { const url = new URL(window.location.href); url.searchParams.delete('preview'); window.location.href = url.toString() }}>Exit preview</button></div>}
+      {DEV_PREVIEW && <div className="preview-banner">DEVELOPER PREVIEW · data is saved separately from the live game <button onClick={() => { const url = new URL(window.location.href); url.searchParams.delete('preview'); window.location.href = url.toString() }}>Exit preview</button></div>}
       <section className="hero" id="top"><div className="hero-copy"><span className="eyebrow"><MapPin size={14} /> MADE FOR ELLA · OCT 27</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>A little run through the streets of Takoradi.<br />Mind the cakes. Bring home the parcels.</p><button className="primary-btn" onClick={startRun}><span>START A RUN</span><ChevronRight size={18} /></button><div className="control-hint"><span>SPACE</span> or <span>↑</span> jump <i>·</i> tap to jump on mobile</div></div><div className="hero-art"><div className="hero-disc"/><div className="portrait-frame"><CharacterPortrait characterId={selectedCharacter} /></div><span className="float-item fi-a"><Gift size={23}/></span><span className="float-item fi-b"><Cherry size={22}/></span><span className="float-item fi-c"><Heart size={18}/></span><span className="float-item fi-d"><CakeSlice size={23}/></span><div className="hero-label">TAKORADI<br />OCTOBER 27</div></div></section>
       <section className="dashboard"><div className="dashboard-head"><div><span className="eyebrow small">ELLA'S BIRTHDAY DASH</span><h2>Your run so far</h2></div><div className="level-chip"><Star size={14} /> LEVEL 01</div></div><div className="character-picker"><div className="character-picker-head"><span className="eyebrow small">CHOOSE YOUR RUNNER</span><small>Same run. Different character.</small></div><div className="character-options">{CHARACTERS.map((runner) => <button key={runner.id} className={`character-option ${selectedCharacter === runner.id ? 'is-selected' : ''}`} aria-pressed={selectedCharacter === runner.id} onClick={() => chooseCharacter(runner.id)}><span className="character-option-art"><CharacterPortrait characterId={runner.id} /></span><span className="character-option-copy"><strong>{runner.name}</strong><small>{runner.detail}</small></span>{selectedCharacter === runner.id && <Check size={15} />}</button>)}</div></div><div className="stat-grid"><div className="stat-card score-card"><div className="stat-icon pink"><Star size={18} /></div><div><span>YOUR POINTS</span><strong>{points.toLocaleString()}</strong><small>Collected on your runs</small></div><div className="score-spark">✦</div></div><div className="stat-card prize-card surprise-card"><div className="stat-icon gold"><Trophy size={18} /></div><div><span>{balance.cashedOut ? 'YOUR BIRTHDAY GIFT' : 'BIRTHDAY GIFT'}</span><strong>{balance.cashedOut ? fmtMoney(balance.claimedAmount) : '???'}</strong><small>{balance.cashedOut ? 'Claimed · thank you for playing' : 'Tap cash out when you’re ready'}</small></div>{!balance.cashedOut && <div className="surprise-mark">✦</div>}</div></div><div className="game-panel"><div className="game-panel-icon"><Flag size={19} /></div><div className="game-panel-copy"><strong>Ella's Birthday Dash</strong><span>Three lives per run. Jump the cake stands and collect parcels.</span></div><button className="outline-btn" onClick={startRun}>Play a round <ChevronRight size={16} /></button></div><div className="cashout-strip"><div className="cashout-copy"><div className="cashout-gift"><Gift size={19} /></div><div><strong>{balance.cashedOut ? 'Gift claimed' : 'Your birthday gift'}</strong><span>{balance.cashedOut ? 'Your claim is saved. Have a lovely birthday, Ella.' : 'Play a few runs, then cash out once when you’re ready.'}</span></div></div><button className="cashout-btn" disabled={balance.cashedOut} onClick={openCashout}>{balance.cashedOut ? <><Check size={16} /> Claimed</> : <>Cash out <ChevronRight size={16} /></>}</button></div><div className="love-note"><Heart size={13} /> A little birthday run, made just for Ella.</div></section>
     </>}

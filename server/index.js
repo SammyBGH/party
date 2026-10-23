@@ -38,24 +38,32 @@ function calculateRoundReward(seconds, gifts) {
   return Math.min(500, 50 + 2 * seconds + 5 * gifts)
 }
 
+function getAccountId(req) {
+  return req.query.preview === '1' ? 'ella-preview' : 'ella'
+}
+
+function isPreviewRequest(req) {
+  return req.query.preview === '1'
+}
+
 app.get('/api/config', (_req, res) => {
   const remainingMs = Math.max(0, unlockAt - Date.now())
   res.json({ unlocked: remainingMs === 0, remainingMs, unlockAt: new Date(unlockAt).toISOString(), timezone: 'Africa/Accra' })
 })
 
-app.get('/api/account', async (_req, res) => {
+app.get('/api/account', async (req, res) => {
   try {
-    const account = await Account.findById('ella').lean()
+    const account = await Account.findById(getAccountId(req)).lean()
     res.json(accountView(account))
   } catch (error) {
     res.status(503).json({ error: 'Birthday game storage is unavailable.' })
   }
 })
 
-app.get('/api/cashout/quote', async (_req, res) => {
-  if (Date.now() < unlockAt) return res.status(403).json({ error: 'The birthday game has not opened yet.' })
+app.get('/api/cashout/quote', async (req, res) => {
+  if (!isPreviewRequest(req) && Date.now() < unlockAt) return res.status(403).json({ error: 'The birthday game has not opened yet.' })
   try {
-    const account = await Account.findById('ella').lean()
+    const account = await Account.findById(getAccountId(req)).lean()
     if (account?.cashedOut) return res.status(409).json({ error: 'This birthday surprise has already been claimed.' })
     res.json({ amount: Math.max(50, Math.min(500, account?.earned || 0)) })
   } catch {
@@ -68,17 +76,19 @@ app.post('/api/runs', async (req, res) => {
   if (!Number.isSafeInteger(points) || !Number.isSafeInteger(gifts) || !Number.isSafeInteger(seconds) || points !== gifts * 100 || gifts < 0 || gifts > 500 || seconds < 0 || seconds > 120) {
     return res.status(400).json({ error: 'That run score could not be saved.' })
   }
-  if (Date.now() < unlockAt) return res.status(403).json({ error: 'The birthday game has not opened yet.' })
+  if (!isPreviewRequest(req) && Date.now() < unlockAt) return res.status(403).json({ error: 'The birthday game has not opened yet.' })
   try {
+    const accountId = getAccountId(req)
+    const preview = isPreviewRequest(req)
     const roundReward = calculateRoundReward(seconds, gifts)
-    const account = await Account.findByIdAndUpdate('ella', [{
+    const account = await Account.findByIdAndUpdate(accountId, [{
       $set: {
         points: { $min: [9000, { $add: [{ $ifNull: ['$points', 0] }, points] }] },
         earned: { $min: [500, { $add: [{ $ifNull: ['$earned', 0] }, roundReward] }] },
         totalRuns: { $add: [{ $ifNull: ['$totalRuns', 0] }, 1] },
       },
     }], { new: true, upsert: true })
-    await Run.create({ points, gifts, survivalSeconds: seconds, roundReward })
+    await Run.create({ accountId, preview, points, gifts, survivalSeconds: seconds, roundReward })
     res.json(accountView(account))
   } catch {
     res.status(503).json({ error: 'Could not save this run. Please try again.' })
@@ -92,10 +102,11 @@ app.post('/api/cashout', async (req, res) => {
   if (name.length < 2 || !/^[+\d][\d\s()-]{6,19}$/.test(mobile) || !Number.isInteger(rating) || rating < 1 || rating > 10) {
     return res.status(400).json({ error: 'Please check your name, mobile number, and rating.' })
   }
-  if (Date.now() < unlockAt) return res.status(403).json({ error: 'The birthday game has not opened yet.' })
+  if (!isPreviewRequest(req) && Date.now() < unlockAt) return res.status(403).json({ error: 'The birthday game has not opened yet.' })
   try {
+    const accountId = getAccountId(req)
     const claimed = await Account.findOneAndUpdate(
-      { _id: 'ella', cashedOut: { $ne: true } },
+      { _id: accountId, cashedOut: { $ne: true } },
       [{ $set: {
         cashedOut: true,
         cashout: {
