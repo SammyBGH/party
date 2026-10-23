@@ -5,7 +5,7 @@ import './styles.css'
 
 const API = `${(import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')}/api`
 const TARGET = '2026-10-27T12:00:00+00:00' // Accra is UTC in October
-const DEV_PREVIEW = import.meta.env.DEV && new URLSearchParams(window.location.search).get('preview') === '1'
+const DEV_PREVIEW = new URLSearchParams(window.location.search).get('preview') === '1'
 const fmtMoney = (n) => `GH₵${Number(n || 0).toFixed(2)}`
 
 function SlimePortrait() {
