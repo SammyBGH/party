@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { ArrowUp, CakeSlice, Check, Cherry, ChevronRight, Clock3, Flag, Gift, Heart, Magnet, MapPin, Shield, Star, Trophy, Vibrate, Volume2, VolumeX, X } from 'lucide-react'
+import { ArrowUp, CakeSlice, Check, Cherry, ChevronRight, Clock3, Flag, Gift, Heart, Magnet, MapPin, Shield, Star, Trophy, Vibrate, Volume2, VolumeX, X, Zap } from 'lucide-react'
 import './styles.css'
 
 const API = `${(import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')}/api`
@@ -42,7 +42,7 @@ function CatPortrait() {
 }
 
 function CrabPortrait() {
-  return <svg className="slime-portrait" viewBox="0 0 180 190" role="img" aria-label="Kofi, the beach crab">
+  return <svg className="slime-portrait" viewBox="0 0 180 190" role="img" aria-label="Boakye, the beach crab">
     <ellipse cx="91" cy="169" rx="55" ry="9" fill="#1b102f" opacity=".22" />
     <path d="m56 132-17 16m30-11-12 22m49-24 12 21m5-27 19 17" fill="none" stroke="#ac624d" strokeWidth="7" strokeLinecap="round" />
     <path d="M57 111c0-24 16-42 39-42s40 18 40 42c0 22-18 36-40 36s-39-14-39-36Z" fill="#e47d61" stroke="#493249" strokeWidth="5" />
@@ -56,15 +56,43 @@ function CrabPortrait() {
   </svg>
 }
 
+function AketePortrait() {
+  return <svg className="slime-portrait" viewBox="0 0 180 190" role="img" aria-label="Akete, smiling in blue and black">
+    <ellipse cx="91" cy="169" rx="46" ry="8" fill="#1b102f" opacity=".22" />
+    <path d="M53 160c2-28 13-48 38-51l4 22 8-22c25 3 38 23 40 51Z" fill="#246bc5" stroke="#202235" strokeWidth="5" />
+    <path d="m64 123 27 12-14 24-20-14m68-22-26 12 14 24 19-14" fill="#347fdc" stroke="#202235" strokeWidth="4" strokeLinejoin="round" />
+    <path d="m76 111 15 13 8 25 9-25 15-13-10-10H84Z" fill="#8f513d" stroke="#202235" strokeWidth="4" />
+    <path d="M59 78c0-29 14-48 37-48 25 0 38 20 35 49l-8 29c-8 15-48 18-59 0Z" fill="#8f513d" stroke="#202235" strokeWidth="5" />
+    <path d="M59 78c-3-31 7-55 34-57 28-3 46 18 43 51-10-6-15-17-18-26-12 14-33 20-59 18Z" fill="#171923" stroke="#202235" strokeWidth="5" strokeLinejoin="round" />
+    <circle cx="64" cy="57" r="9" fill="#171923"/><circle cx="77" cy="35" r="8" fill="#171923"/><circle cx="97" cy="28" r="8" fill="#171923"/><circle cx="118" cy="35" r="8" fill="#171923"/><circle cx="132" cy="55" r="9" fill="#171923"/>
+    <path d="M68 77c16 3 39 2 56-8" fill="none" stroke="#397fd1" strokeWidth="5" strokeLinecap="round" />
+    <path d="M72 86q8-5 16 0m18 0q8-5 16 0" fill="none" stroke="#202235" strokeWidth="3.5" strokeLinecap="round" />
+    <ellipse cx="81" cy="94" rx="3" ry="4" fill="#202235"/><ellipse cx="114" cy="94" rx="3" ry="4" fill="#202235"/>
+    <path d="M89 103q10 15 21 0" fill="#fff0e1" stroke="#202235" strokeWidth="2.5" strokeLinejoin="round" />
+    <path d="M70 101q-5 4-1 8m50-8q5 4 1 8" fill="none" stroke="#cc786e" strokeWidth="3" strokeLinecap="round" />
+    <path d="m91 137 7 22m-26-12 18 8m21-8-13 8" fill="none" stroke="#9fc8ff" strokeWidth="4" strokeLinecap="round" />
+    <path d="M56 163h27m20 0h29" stroke="#171923" strokeWidth="8" strokeLinecap="round" />
+  </svg>
+}
+
 const CHARACTERS = [
-  { id: 'slime', name: 'Bloop', detail: 'A bouncy classic' },
-  { id: 'cat', name: 'Miso', detail: 'Quick little paws' },
-  { id: 'crab', name: 'Kofi', detail: 'Straight from the shore' },
+  { id: 'slime', name: 'Bloop', detail: 'Double jump' },
+  { id: 'cat', name: 'Miso', detail: 'Parcel magnet' },
+  { id: 'crab', name: 'Boakye', detail: 'Blocks one hit' },
+  { id: 'akete', name: 'Akete', detail: 'Speed burst + safe dash' },
 ]
+
+const CHARACTER_POWERS = {
+  slime: { label: 'Double jump', cooldown: 8, description: 'Bounce again in mid-air to clear a tricky cake stand.' },
+  cat: { label: 'Parcel magnet', cooldown: 14, description: 'Pull nearby parcels in while you keep running.' },
+  crab: { label: 'Shell guard', cooldown: 18, description: 'Block the next bump with Boakye’s shell.' },
+  akete: { label: 'Smile dash', cooldown: 18, description: 'Dash through the next stretch without taking a hit.' },
+}
 
 function CharacterPortrait({ characterId }) {
   if (characterId === 'cat') return <CatPortrait />
   if (characterId === 'crab') return <CrabPortrait />
+  if (characterId === 'akete') return <AketePortrait />
   return <SlimePortrait />
 }
 
@@ -83,13 +111,20 @@ function roundedRect(ctx, x, y, w, h, r) {
 }
 
 function createGame() {
-  return { phase: 'intro', elapsed: 0, speed: 310, groundOffset: 0, playerY: 0, playerVY: 0, grounded: true, obstacles: [], gifts: [], powerups: [], particles: [], obstacleTimer: 1.25, giftTimer: 1.1, powerupTimer: 8, giftsCount: 0, lives: 3, shieldTimer: 0, magnetTimer: 0, powerupMessage: '', powerupMessageTimer: 0, invulnerableUntil: 0, resurrectionTimer: 0, overAt: 0 }
+  return { phase: 'intro', elapsed: 0, speed: 310, groundOffset: 0, playerY: 0, playerVY: 0, grounded: true, obstacles: [], gifts: [], powerups: [], particles: [], obstacleTimer: 1.25, giftTimer: 1.1, powerupTimer: 8, giftsCount: 0, lives: 3, shieldTimer: 0, magnetTimer: 0, abilityCooldown: 0, aketeBoostTimer: 0, powerupMessage: '', powerupMessageTimer: 0, invulnerableUntil: 0, resurrectionTimer: 0, overAt: 0 }
 }
 
-function drawSlime(ctx, x, groundY, jumpY, elapsed, phase) {
-  const squash = phase === 'playing' && jumpY === 0 ? Math.sin(elapsed * 19) * 1.5 : 0
-  const w = 60, h = 54, base = groundY - jumpY + squash
+function drawSlime(ctx, x, groundY, jumpY, elapsed, vy, phase) {
+  const airborne = jumpY > 2
+  const runBounce = phase === 'playing' && !airborne ? Math.max(0, Math.sin(elapsed * 19)) * 2 : 0
+  const w = 60, h = 54, base = groundY - jumpY - runBounce
   ctx.save()
+  if (airborne) {
+    const stretch = Math.min(.16, Math.abs(vy) / 420 * .16)
+    ctx.translate(x + 30, base); ctx.scale(1 - stretch * .45, 1 + stretch); ctx.translate(-(x + 30), -base)
+  } else if (runBounce > 0) {
+    ctx.translate(x + 30, base); ctx.scale(1 + runBounce * .009, 1 - runBounce * .012); ctx.translate(-(x + 30), -base)
+  }
   ctx.globalAlpha = .24
   ctx.fillStyle = '#170e36'
   ctx.beginPath(); ctx.ellipse(x + 30, groundY + 3, Math.max(15, 28 - jumpY * .08), 7, 0, 0, Math.PI * 2); ctx.fill()
@@ -119,6 +154,12 @@ function drawSlime(ctx, x, groundY, jumpY, elapsed, phase) {
   ctx.fillStyle = '#ff8e9d'; ctx.globalAlpha = .8
   ctx.beginPath(); ctx.ellipse(x + 37, base - 19, 4.4, 2.6, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
 
+  // Tiny side nubs lift on takeoff and settle on the run.
+  const armLift = airborne ? (vy > 0 ? 10 : 5) : Math.sin(elapsed * 19) * 2
+  ctx.strokeStyle = '#73cc67'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath()
+  ctx.moveTo(x + 9, base - 19); ctx.quadraticCurveTo(x - 1, base - 23 - armLift, x + 5, base - 29 - armLift)
+  ctx.moveTo(x + 55, base - 19); ctx.quadraticCurveTo(x + 65, base - 24 - armLift, x + 59, base - 30 - armLift); ctx.stroke()
+
   // A tiny party hat makes the hero part of the birthday world.
   ctx.fillStyle = '#ff7098'; ctx.strokeStyle = '#fff2a8'; ctx.lineWidth = 2
   ctx.beginPath(); ctx.moveTo(x + 27, base - 49); ctx.lineTo(x + 36, base - 72); ctx.lineTo(x + 45, base - 48); ctx.closePath(); ctx.fill(); ctx.stroke()
@@ -131,20 +172,23 @@ function drawCat(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   const falling = airborne && vy < -80
   const running = phase === 'playing'
   const stride = running ? Math.sin(elapsed * 19) : 0
-  const base = groundY - jumpY - (!airborne && running ? Math.abs(stride) * 1.8 : 0)
+  const base = groundY - jumpY - (!airborne && running ? Math.max(0, stride) * 3 : 0)
   ctx.save()
   ctx.globalAlpha = .22; ctx.fillStyle = '#17111f'; ctx.beginPath(); ctx.ellipse(x + 30, groundY + 3, Math.max(15, 27 - jumpY * .08), 7, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
   // Paws cycle opposite each other on the ground, tuck in the jump, and reach on descent.
-  const pawReach = falling ? 8 : airborne ? -5 : 0
-  const legSwing = airborne ? 2 : stride * 7
+  const pawReach = falling ? 10 : airborne ? -7 : 0
+  const legSwing = airborne ? (falling ? -2 : 3) : stride * 8
   ctx.strokeStyle = '#a85f49'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath()
-  ctx.moveTo(x + 21, base - 10); ctx.lineTo(x + 18 - legSwing, base + 2 + pawReach)
-  ctx.moveTo(x + 31, base - 10); ctx.lineTo(x + 30 + legSwing, base + 2 + pawReach)
-  ctx.moveTo(x + 43, base - 10); ctx.lineTo(x + 42 + legSwing, base + 2 + pawReach)
-  ctx.moveTo(x + 53, base - 10); ctx.lineTo(x + 55 - legSwing, base + 2 + pawReach); ctx.stroke()
+  ctx.moveTo(x + 20, base - 13); ctx.lineTo(x + 18 - legSwing, base + pawReach)
+  ctx.moveTo(x + 31, base - 13); ctx.lineTo(x + 30 + legSwing, base + pawReach)
+  ctx.moveTo(x + 43, base - 13); ctx.lineTo(x + 42 + legSwing, base + pawReach)
+  ctx.moveTo(x + 53, base - 13); ctx.lineTo(x + 55 - legSwing, base + pawReach); ctx.stroke()
+  ctx.fillStyle = '#d99669'; ctx.beginPath()
+  for (const paw of [[18 - legSwing, base + pawReach], [30 + legSwing, base + pawReach], [42 + legSwing, base + pawReach], [55 - legSwing, base + pawReach]]) ctx.ellipse(x + paw[0], paw[1], 4, 3, 0, 0, Math.PI * 2)
+  ctx.fill()
   // Tail counter-swings during the run and streams behind during airtime.
   ctx.strokeStyle = '#a85f49'; ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(x + 14, base - 20); ctx.quadraticCurveTo(x - 3, base - 32 - stride * 3, x + (airborne ? 1 : 7 + stride * 4), base - (falling ? 54 : 47)); ctx.stroke()
-  ctx.save(); ctx.translate(x + 36, base - 26); ctx.rotate(airborne ? (falling ? -.12 : .1) : stride * .035); ctx.translate(-(x + 36), -(base - 26))
+  ctx.save(); ctx.translate(x + 36, base - 26); ctx.rotate(airborne ? (falling ? -.2 : .13) : stride * .035); ctx.translate(-(x + 36), -(base - 26))
   ctx.fillStyle = '#d99669'; ctx.strokeStyle = '#493249'; ctx.lineWidth = 3
   ctx.beginPath(); ctx.moveTo(x + 10, base - 4); ctx.quadraticCurveTo(x + 7, base - 31, x + 20, base - 43); ctx.lineTo(x + 22, base - 59); ctx.lineTo(x + 35, base - 47); ctx.quadraticCurveTo(x + 45, base - 51, x + 51, base - 45); ctx.lineTo(x + 61, base - 59); ctx.lineTo(x + 62, base - 39); ctx.quadraticCurveTo(x + 69, base - 21, x + 58, base - 4); ctx.closePath(); ctx.fill(); ctx.stroke()
   ctx.fillStyle = '#e7a5a0'; ctx.beginPath(); ctx.moveTo(x + 24, base - 48); ctx.lineTo(x + 24, base - 54); ctx.lineTo(x + 30, base - 49); ctx.fill(); ctx.beginPath(); ctx.moveTo(x + 54, base - 48); ctx.lineTo(x + 60, base - 54); ctx.lineTo(x + 59, base - 45); ctx.fill()
@@ -154,6 +198,9 @@ function drawCat(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   ctx.strokeStyle = '#493249'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + 53, base - 17); ctx.quadraticCurveTo(x + 58, base - 13, x + 62, base - 17); ctx.stroke()
   ctx.strokeStyle = '#72544a'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 48, base - 18); ctx.lineTo(x + 36, base - 15); ctx.moveTo(x + 55, base - 18); ctx.lineTo(x + 66, base - 14); ctx.stroke()
   ctx.fillStyle = '#8eaaa0'; ctx.beginPath(); ctx.moveTo(x + 21, base - 17); ctx.lineTo(x + 43, base - 17); ctx.lineTo(x + 39, base - 9); ctx.lineTo(x + 31, base - 6); ctx.lineTo(x + 23, base - 10); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#efc878'; ctx.beginPath(); ctx.arc(x + 32, base - 14, 2, 0, Math.PI * 2); ctx.fill()
+  // A warm cheek mark and a small shoulder patch carry Miso's collar colors through the animation.
+  ctx.fillStyle = '#df9b86'; ctx.beginPath(); ctx.ellipse(x + 42, base - 22, 3, 2, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#e5c27f'; ctx.beginPath(); ctx.arc(x + 18, base - 12, 2.2, 0, Math.PI * 2); ctx.fill()
   ctx.restore(); ctx.restore()
 }
 
@@ -165,14 +212,15 @@ function drawCrab(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   const base = groundY - jumpY - (!airborne && running ? Math.abs(stride) * 1.5 : 0)
   ctx.save()
   ctx.globalAlpha = .22; ctx.fillStyle = '#17111f'; ctx.beginPath(); ctx.ellipse(x + 30, groundY + 3, Math.max(15, 27 - jumpY * .08), 7, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
-  ctx.save(); ctx.translate(x + 31, base - 24); ctx.rotate(airborne ? (falling ? -.1 : .1) : stride * .045); ctx.translate(-(x + 31), -(base - 24))
+  const bodyBob = airborne ? 0 : Math.max(0, Math.sin(elapsed * 17)) * 2
+  ctx.save(); ctx.translate(x + 31, base - 24 - bodyBob); ctx.rotate(airborne ? (falling ? -.16 : .13) : stride * .055); ctx.translate(-(x + 31), -(base - 24 - bodyBob))
   ctx.fillStyle = '#e47d61'; ctx.strokeStyle = '#493249'; ctx.lineWidth = 3
   ctx.beginPath(); ctx.ellipse(x + 31, base - 24, 29, 20, 0, Math.PI, Math.PI * 2); ctx.lineTo(x + 60, base - 19); ctx.quadraticCurveTo(x + 31, base + 1, x + 2, base - 19); ctx.closePath(); ctx.fill(); ctx.stroke()
   ctx.strokeStyle = '#f6ad78'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x + 31, base - 23, 20, Math.PI * 1.05, Math.PI * 1.95); ctx.stroke()
-  // Six alternating legs give Kofi a quick sideways scuttle; airborne legs tuck, then reach to land.
+  // Six alternating legs give Boakye a quick sideways scuttle; airborne legs tuck, then reach to land.
   ctx.strokeStyle = '#ac624d'; ctx.lineWidth = 4.5; ctx.lineCap = 'round'; ctx.beginPath()
   for (let i = 0; i < 3; i++) {
-    const offset = airborne ? (falling ? 3 : -2) : stride * (i % 2 ? -6 : 6)
+    const offset = airborne ? (falling ? 5 : -4) : stride * (i % 2 ? -8 : 8)
     const leftX = x + 10 + i * 9, rightX = x + 52 - i * 9
     const legEndY = falling ? base + 2 : airborne ? base - 8 : base + 2
     ctx.moveTo(leftX, base - 17); ctx.lineTo(leftX - 6 + offset, legEndY)
@@ -182,16 +230,47 @@ function drawCrab(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   ctx.strokeStyle = '#493249'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x + 20, base - 39); ctx.lineTo(x + 18, base - 47); ctx.moveTo(x + 43, base - 39); ctx.lineTo(x + 45, base - 47); ctx.stroke()
   ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.arc(x + 17, base - 49, 6, 0, Math.PI * 2); ctx.arc(x + 46, base - 49, 6, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#29253e'; ctx.beginPath(); ctx.arc(x + 19, base - 49, 2, 0, Math.PI * 2); ctx.arc(x + 48, base - 49, 2, 0, Math.PI * 2); ctx.fill()
   // Claws bob opposite each other in a scuttle and sweep forward to balance a jump.
-  const clawLift = airborne ? (falling ? 2 : 8) : stride * 3
+  const clawLift = airborne ? (falling ? -2 : 10) : stride * 5
   ctx.strokeStyle = '#ac624d'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(x + 4, base - 27); ctx.lineTo(x - 2, base - 38 - clawLift); ctx.lineTo(x - 6, base - 42 - clawLift); ctx.moveTo(x + 57, base - 27); ctx.lineTo(x + 63, base - 38 + clawLift); ctx.lineTo(x + 67, base - 42 + clawLift); ctx.stroke()
   ctx.fillStyle = '#e88c68'; ctx.beginPath(); ctx.arc(x - 7, base - 44 - clawLift, 6, .2, Math.PI * 1.85); ctx.arc(x + 68, base - 44 + clawLift, 6, 1.3, Math.PI * 2.95); ctx.fill()
+  ctx.restore(); ctx.restore()
+}
+
+function drawAkete(ctx, x, groundY, jumpY, elapsed, vy, phase) {
+  const airborne = jumpY > 2
+  const falling = airborne && vy < -80
+  const stride = phase === 'playing' ? Math.sin(elapsed * 19) : 0
+  const base = groundY - jumpY - (!airborne ? Math.abs(stride) * 1.5 : 0)
+  ctx.save()
+  ctx.globalAlpha = .22; ctx.fillStyle = '#17111f'; ctx.beginPath(); ctx.ellipse(x + 31, groundY + 3, Math.max(14, 25 - jumpY * .08), 6, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
+  ctx.save(); ctx.translate(x + 30, base - 32); ctx.rotate(airborne ? (falling ? -.1 : .1) : stride * .025); ctx.translate(-(x + 30), -(base - 32))
+  // Compact legs tuck on take-off and reach down as she lands.
+  const legY = airborne ? (falling ? base + 1 : base - 7) : base + 1
+  ctx.strokeStyle = '#292b3a'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath()
+  ctx.moveTo(x + 24, base - 12); ctx.lineTo(x + 21 - stride * 5, legY)
+  ctx.moveTo(x + 38, base - 12); ctx.lineTo(x + 40 + stride * 5, legY); ctx.stroke()
+  ctx.fillStyle = '#151927'; ctx.beginPath(); ctx.roundRect(x + 12, base - 43, 38, 34, 10); ctx.fill()
+  ctx.fillStyle = '#2876d5'; ctx.beginPath(); ctx.roundRect(x + 11, base - 42, 40, 28, 10); ctx.fill()
+  ctx.fillStyle = '#4d95ed'; ctx.fillRect(x + 28, base - 39, 5, 24)
+  ctx.fillStyle = '#151927'; ctx.beginPath(); ctx.roundRect(x + 8, base - 15, 17, 7, 3); ctx.roundRect(x + 38, base - 15, 17, 7, 3); ctx.fill()
+  ctx.fillStyle = '#f1b28d'; ctx.beginPath(); ctx.roundRect(x + 25, base - 51, 12, 10, 4); ctx.arc(x + 31, base - 59, 18, 0, Math.PI * 2); ctx.fill()
+  // Curls, blue headband and a broad smile keep Akete recognizable at runner size.
+  ctx.fillStyle = '#171923'; ctx.beginPath(); ctx.arc(x + 30, base - 64, 19, Math.PI, Math.PI * 2); ctx.lineTo(x + 51, base - 54); ctx.quadraticCurveTo(x + 47, base - 47, x + 42, base - 54); ctx.quadraticCurveTo(x + 36, base - 48, x + 31, base - 54); ctx.quadraticCurveTo(x + 24, base - 48, x + 19, base - 55); ctx.closePath(); ctx.fill()
+  for (const curl of [[15, -60], [22, -75], [34, -78], [46, -71], [51, -60]]) { ctx.beginPath(); ctx.arc(x + curl[0], base + curl[1], 5, 0, Math.PI * 2); ctx.fill() }
+  ctx.strokeStyle = '#4b91e7'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x + 16, base - 66); ctx.quadraticCurveTo(x + 31, base - 72, x + 46, base - 66); ctx.stroke()
+  ctx.fillStyle = '#211c2d'; ctx.beginPath(); ctx.arc(x + 25, base - 59, 1.8, 0, Math.PI * 2); ctx.arc(x + 37, base - 59, 1.8, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#d57e75'; ctx.globalAlpha = .8; ctx.beginPath(); ctx.arc(x + 20, base - 52, 3, 0, Math.PI * 2); ctx.arc(x + 42, base - 52, 3, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
+  ctx.fillStyle = '#fff0e1'; ctx.beginPath(); ctx.roundRect(x + 26, base - 51, 12, 4, 2); ctx.fill()
+  ctx.strokeStyle = '#f1b28d'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(x + 14, base - 35); ctx.lineTo(x + 7 - stride * 3, base - 22); ctx.moveTo(x + 48, base - 35); ctx.lineTo(x + 55 + stride * 3, base - 23); ctx.stroke()
+  ctx.fillStyle = '#f1b28d'; ctx.beginPath(); ctx.arc(x + 7 - stride * 3, base - 22, 2.5, 0, Math.PI * 2); ctx.arc(x + 55 + stride * 3, base - 23, 2.5, 0, Math.PI * 2); ctx.fill()
   ctx.restore(); ctx.restore()
 }
 
 function drawCharacter(ctx, character, x, groundY, jumpY, elapsed, phase, playerVY) {
   if (character === 'cat') drawCat(ctx, x, groundY, jumpY, elapsed, playerVY, phase)
   else if (character === 'crab') drawCrab(ctx, x, groundY, jumpY, elapsed, playerVY, phase)
-  else drawSlime(ctx, x, groundY, jumpY, elapsed, phase)
+  else if (character === 'akete') drawAkete(ctx, x, groundY, jumpY, elapsed, playerVY, phase)
+  else drawSlime(ctx, x, groundY, jumpY, elapsed, playerVY, phase)
 }
 
 function createArcadeAudio() {
@@ -291,6 +370,12 @@ function drawPowerup(ctx, item, elapsed) {
 function drawPowerupAura(ctx, x, groundY, jumpY, game) {
   const cx = x + 31, cy = groundY - 27 - jumpY
   ctx.save()
+  if (game.aketeBoostTimer > 0) {
+    ctx.globalAlpha = .55 + Math.sin(game.elapsed * 20) * .18
+    ctx.strokeStyle = '#75b8ff'; ctx.lineWidth = 4; ctx.setLineDash([7, 6])
+    ctx.beginPath(); ctx.arc(cx, cy, 43 + Math.sin(game.elapsed * 14) * 3, -.9, 1.4); ctx.stroke()
+    ctx.beginPath(); ctx.arc(cx, cy, 51 + Math.sin(game.elapsed * 14) * 3, 2.1, 4.6); ctx.stroke()
+  }
   if (game.magnetTimer > 0) {
     ctx.globalAlpha = .28 + Math.sin(game.elapsed * 7) * .08
     ctx.strokeStyle = '#91c6c5'; ctx.lineWidth = 2; ctx.setLineDash([5, 7])
@@ -340,7 +425,7 @@ function drawResurrection(ctx, width, groundY, playerX, game) {
     ctx.beginPath(); ctx.ellipse(cx, groundY - 25, 9 + landing * 64, 6 + landing * 17, 0, 0, Math.PI * 2); ctx.stroke()
     ctx.globalAlpha = 1
   }
-  ctx.textAlign = 'center'; ctx.fillStyle = '#fff7df'; ctx.font = '700 11px Space Grotesk, sans-serif'; ctx.fillText(progress < .68 ? 'HELP IS ON THE WAY' : 'BACK IN THE RUN', width / 2, 54)
+  ctx.textAlign = 'center'; ctx.fillStyle = '#fff7df'; ctx.font = '700 11px Space Grotesk, sans-serif'; ctx.fillText(progress < .68 ? 'COMING DOWN…' : 'BACK AT IT', width / 2, 54)
   ctx.restore()
 }
 
@@ -367,32 +452,55 @@ function drawScene(ctx, width, height, game, scene, alpha) {
       ctx.beginPath(); ctx.moveTo(waveX - 30, groundY - 102 + wave * 6); ctx.quadraticCurveTo(waveX, groundY - 106 + wave * 6, waveX + 30, groundY - 102 + wave * 6); ctx.stroke()
     }
   }
-  const buildingGap = 154, cityScroll = scroll * .16 % buildingGap
+  const buildingGap = scene.kind === 'coast' ? 220 : scene.kind === 'market' ? 184 : 198
+  const cityScroll = scroll * .16 % buildingGap
   for (let i = -1; i < Math.ceil(width / buildingGap) + 2; i++) {
-    const x = i * buildingGap - cityScroll, kind = (i + 9) % 3, bh = [82, 105, 72][kind]
-    const heightOffset = scene.kind === 'coast' ? 34 : scene.kind === 'market' ? 8 : scene.kind === 'harbour' ? 24 : 0
-    const top = groundY - bh + heightOffset
-    ctx.fillStyle = scene.buildings[kind]
-    ctx.fillRect(x, top, 124, groundY - top)
-    ctx.fillStyle = scene.roof; ctx.fillRect(x - 4, top - 7, 132, 9)
+    const variant = (i + 12) % 4
+    const x = i * buildingGap - cityScroll
+    if (scene.kind === 'coast') {
+      // Open shoreline with small kiosks, so it reads differently from town streets.
+      if (variant !== 1) continue
+      const kioskY = groundY - 91 - (variant % 2) * 12
+      ctx.fillStyle = scene.buildings[variant % 3]; ctx.fillRect(x + 22, kioskY, 105, groundY - kioskY - 39)
+      ctx.fillStyle = scene.awning; ctx.beginPath(); ctx.moveTo(x + 13, kioskY + 4); ctx.lineTo(x + 137, kioskY + 4); ctx.lineTo(x + 124, kioskY - 13); ctx.lineTo(x + 27, kioskY - 13); ctx.closePath(); ctx.fill()
+      ctx.fillStyle = '#f3d5a1'; ctx.fillRect(x + 66, kioskY + 31, 18, groundY - kioskY - 70)
+      continue
+    }
+    const widths = scene.kind === 'market' ? [112, 138, 104, 152] : [132, 154, 118, 145]
+    const heights = scene.kind === 'harbour' ? [62, 85, 71, 94] : scene.kind === 'market' ? [76, 112, 83, 99] : [94, 72, 116, 84]
+    const buildingWidth = widths[variant]
+    const bh = heights[variant]
+    const top = groundY - bh + (scene.kind === 'harbour' ? 17 : 0)
+    ctx.fillStyle = scene.buildings[variant % scene.buildings.length]
+    ctx.fillRect(x, top, buildingWidth, groundY - top)
+    ctx.fillStyle = scene.roof
     if (scene.kind === 'market') {
-      ctx.fillStyle = scene.awning
-      ctx.beginPath(); ctx.moveTo(x + 10, groundY - 39); ctx.lineTo(x + 113, groundY - 39); ctx.lineTo(x + 105, groundY - 25); ctx.lineTo(x + 18, groundY - 25); ctx.closePath(); ctx.fill()
-      ctx.fillStyle = '#f2d0a1'
-      for (let stripe = 0; stripe < 5; stripe++) ctx.fillRect(x + 17 + stripe * 19, groundY - 39, 4, 14)
-    }
-    if (scene.kind !== 'coast') {
+      ctx.beginPath(); ctx.moveTo(x - 5, top + 4); ctx.lineTo(x + buildingWidth / 2, top - 13 - (variant % 2) * 5); ctx.lineTo(x + buildingWidth + 5, top + 4); ctx.closePath(); ctx.fill()
+    } else if (variant === 1) {
+      ctx.beginPath(); ctx.moveTo(x - 5, top + 2); ctx.lineTo(x + buildingWidth / 2, top - 11); ctx.lineTo(x + buildingWidth + 5, top + 2); ctx.closePath(); ctx.fill()
+    } else ctx.fillRect(x - 4, top - 7, buildingWidth + 8, 9)
+    if (scene.kind === 'market') {
+      ctx.fillStyle = variant % 2 ? '#d88970' : scene.awning
+      ctx.fillRect(x + 8, groundY - 40, buildingWidth - 16, 14)
+      for (let stripe = 0; stripe < 5; stripe++) { ctx.fillStyle = stripe % 2 ? '#f2d0a1' : '#fff0cf'; ctx.fillRect(x + 12 + stripe * ((buildingWidth - 27) / 5), groundY - 40, 7, 14) }
+      ctx.fillStyle = '#8a5948'; ctx.fillRect(x + 15, groundY - 26, 3, 26); ctx.fillRect(x + buildingWidth - 18, groundY - 26, 3, 26)
+      ctx.fillStyle = '#efc878'; for (let fruit = 0; fruit < 3; fruit++) { ctx.beginPath(); ctx.arc(x + 35 + fruit * 15, groundY - 17, 4, 0, Math.PI * 2); ctx.fill() }
+    } else if (scene.kind === 'harbour') {
+      ctx.fillStyle = '#303342'; ctx.fillRect(x + 12, groundY - 31, buildingWidth - 24, 31)
+      ctx.fillStyle = scene.awning; ctx.fillRect(x + 15, groundY - 29, (buildingWidth - 30) / 2 - 2, 27)
+      ctx.fillStyle = '#d8a66c'; ctx.fillRect(x + buildingWidth / 2 + 1, groundY - 29, (buildingWidth - 30) / 2 - 2, 27)
+    } else {
       ctx.fillStyle = scene.windows
-      for (let wx = x + 13; wx < x + 112; wx += 25) {
-        ctx.fillRect(wx, top + 17, 12, 15)
-        ctx.fillStyle = '#443849'; ctx.fillRect(wx - 2, top + 34, 16, 2); ctx.fillStyle = scene.windows
+      const panes = variant === 2 ? 2 : 3
+      for (let pane = 0; pane < panes; pane++) {
+        const wx = x + 13 + pane * ((buildingWidth - 42) / Math.max(1, panes - 1))
+        ctx.fillRect(wx, top + 18, 14, 19); ctx.fillStyle = '#40384b'; ctx.fillRect(wx - 2, top + 39, 18, 2); ctx.fillStyle = scene.windows
       }
-    }
-    if (scene.kind !== 'coast') {
-      ctx.fillStyle = scene.awning
-      ctx.fillRect(x + 19, groundY - 30, 84, 30)
-      ctx.fillStyle = '#f4d1a0'; ctx.fillRect(x + 24, groundY - 25, 74, 2)
-      ctx.fillStyle = '#51384b'; ctx.fillRect(x + 56, groundY - 17, 11, 17)
+      if (variant !== 2) {
+        ctx.fillStyle = scene.awning; ctx.fillRect(x + 17, groundY - 34, buildingWidth - 34, 10)
+        for (let stripe = 0; stripe < 4; stripe++) { ctx.fillStyle = stripe % 2 ? '#f4d1a0' : scene.awning; ctx.fillRect(x + 18 + stripe * ((buildingWidth - 36) / 4), groundY - 34, (buildingWidth - 36) / 4, 10) }
+      }
+      ctx.fillStyle = '#51384b'; ctx.fillRect(x + buildingWidth / 2 - 6, groundY - 20, 12, 20)
     }
   }
   if (scene.kind === 'coast') {
@@ -460,7 +568,7 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
   const gameRef = useRef(createGame())
   const finishRef = useRef(false)
   const [phase, setPhase] = useState('intro')
-  const [hud, setHud] = useState({ gifts: 0, points: 0, speed: 310, lives: 3, shield: false, magnet: 0 })
+  const [hud, setHud] = useState({ gifts: 0, points: 0, speed: 310, lives: 3, shield: false, magnet: 0, abilityCooldown: 0, grounded: true })
   const [soundEnabled, setSoundEnabled] = useState(() => localStorage.getItem('ella-sound') !== 'off')
   const hapticsSupported = typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function'
   const [hapticsEnabled, setHapticsEnabled] = useState(() => hapticsSupported && localStorage.getItem('ella-haptics') !== 'off')
@@ -468,6 +576,7 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
   const soundEnabledRef = useRef(soundEnabled)
   const hapticsEnabledRef = useRef(hapticsEnabled)
   const jumpRef = useRef(() => {})
+  const abilityRef = useRef(() => {})
   const endRef = useRef(() => {})
   const abortRef = useRef(() => {})
   const runnerName = CHARACTERS.find((runner) => runner.id === character)?.name || 'Bloop'
@@ -515,7 +624,9 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
         if (game.resurrectionTimer <= 0) { playSound('revive'); pulse([14, 22, 14]); game.phase = 'playing'; game.resurrectionTimer = 0; setPhase('playing') }
       } else if (game.phase === 'playing') {
         game.elapsed += dt
-        game.speed = 310 + Math.min(game.elapsed * 7, 300)
+        game.abilityCooldown = Math.max(0, game.abilityCooldown - dt)
+        game.aketeBoostTimer = Math.max(0, game.aketeBoostTimer - dt)
+        game.speed = 310 + Math.min(game.elapsed * 7, 300) + (game.aketeBoostTimer > 0 ? 145 : 0)
         game.shieldTimer = Math.max(0, game.shieldTimer - dt)
         game.magnetTimer = Math.max(0, game.magnetTimer - dt)
         game.powerupMessageTimer = Math.max(0, game.powerupMessageTimer - dt)
@@ -581,12 +692,12 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
               game.powerupMessageTimer = 1.8
               game.obstacles = game.obstacles.filter((hazard) => hazard !== item)
               for (let i = 0; i < 14; i++) game.particles.push({ x: playerX + 30, y: groundY - 29 - game.playerY, vx: (Math.random() - .5) * 210, vy: (Math.random() - .5) * 210, life: .35 + Math.random() * .35, color: i % 2 ? '#efc878' : '#fff0c7' })
-              setHud({ gifts: game.giftsCount, points: game.giftsCount * 100, speed: game.speed, lives: game.lives, shield: false, magnet: game.magnetTimer })
+              setHud({ gifts: game.giftsCount, points: game.giftsCount * 100, speed: game.speed, lives: game.lives, shield: false, magnet: game.magnetTimer, abilityCooldown: game.abilityCooldown, grounded: game.grounded })
               break
             }
             playSound('hit'); pulse([24, 30, 24])
             game.lives -= 1
-            setHud({ gifts: game.giftsCount, points: game.giftsCount * 100, speed: game.speed, lives: game.lives, shield: false, magnet: game.magnetTimer })
+            setHud({ gifts: game.giftsCount, points: game.giftsCount * 100, speed: game.speed, lives: game.lives, shield: false, magnet: game.magnetTimer, abilityCooldown: game.abilityCooldown, grounded: game.grounded })
             game.playerY = 0; game.playerVY = 0; game.grounded = true
             game.obstacles = game.obstacles.filter((hazard) => hazard.x > playerX + 250)
             if (game.lives > 0) {
@@ -628,10 +739,13 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
             return false
           })
         }
+        if (game.aketeBoostTimer > 0 && Math.random() < dt * 24) {
+          game.particles.push({ x: Math.max(52, width * .17) + 7, y: height - 82 - game.playerY - 25 + (Math.random() - .5) * 32, vx: -90 - Math.random() * 90, vy: (Math.random() - .5) * 70, life: .28, color: Math.random() < .5 ? '#76baff' : '#e5f3ff' })
+        }
         game.particles.forEach((p) => { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 300 * dt; p.life -= dt })
         game.particles = game.particles.filter((p) => p.life > 0)
         hudTimer += dt
-        if (hudTimer > .12) { hudTimer = 0; setHud({ gifts: game.giftsCount, points: game.giftsCount * 100, speed: game.speed, lives: game.lives, shield: game.shieldTimer > 0, magnet: game.magnetTimer }) }
+        if (hudTimer > .12) { hudTimer = 0; setHud({ gifts: game.giftsCount, points: game.giftsCount * 100, speed: game.speed, lives: game.lives, shield: game.shieldTimer > 0, magnet: game.magnetTimer, abilityCooldown: game.abilityCooldown, grounded: game.grounded }) }
       }
 
       const groundY = drawWorld(ctx, width, height, game)
@@ -668,7 +782,7 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
       }
       if (game.phase === 'over') {
         ctx.fillStyle = '#21123dcc'; ctx.fillRect(0, 0, width, height)
-        ctx.fillStyle = '#f2d18d'; ctx.font = '700 28px Space Grotesk, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('RUN OVER', width / 2, height / 2 - 10)
+        ctx.fillStyle = '#f2d18d'; ctx.font = '700 28px Space Grotesk, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('THAT’S THE RUN', width / 2, height / 2 - 10)
         ctx.fillStyle = '#fff4e9'; ctx.font = '600 13px DM Sans, sans-serif'; ctx.fillText(`${game.giftsCount} gifts collected`, width / 2, height / 2 + 24)
         if (!finishRef.current && now - game.overAt > 850) endRef.current()
       }
@@ -680,7 +794,41 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
 
   jumpRef.current = () => {
     const game = gameRef.current
-    if (game.phase === 'playing' && game.grounded) { playSound('jump'); game.grounded = false; game.playerVY = 670 }
+    if (game.phase === 'playing' && game.grounded) { playSound('jump'); game.grounded = false; game.playerVY = 670; setHud((current) => ({ ...current, grounded: false })) }
+  }
+  abilityRef.current = () => {
+    const game = gameRef.current
+    if (game.phase !== 'playing' || game.abilityCooldown > 0) return
+    const power = CHARACTER_POWERS[character] || CHARACTER_POWERS.slime
+    if (character === 'slime') {
+      if (game.grounded) {
+        game.powerupMessage = 'Jump first, then use your extra hop'
+        game.powerupMessageTimer = 1.5
+        return
+      }
+      game.playerVY = 650
+      game.abilityCooldown = power.cooldown
+      game.powerupMessage = 'Bloop bounced again!'
+      playSound('jump'); pulse(12)
+    } else if (character === 'cat') {
+      game.magnetTimer = 5
+      game.abilityCooldown = power.cooldown
+      game.powerupMessage = 'Miso magnet · parcels coming in'
+      playSound('magnet'); pulse(12)
+    } else if (character === 'crab') {
+      game.shieldTimer = 9
+      game.abilityCooldown = power.cooldown
+      game.powerupMessage = 'Boakye’s shell is up'
+      playSound('shield'); pulse(14)
+    } else {
+      game.aketeBoostTimer = 2.5
+      game.invulnerableUntil = Math.max(game.invulnerableUntil, game.elapsed + 2.5)
+      game.abilityCooldown = power.cooldown
+      game.powerupMessage = 'Akete’s smile dash!'
+      playSound('jump'); pulse([12, 20, 12])
+    }
+    game.powerupMessageTimer = 1.8
+    setHud((current) => ({ ...current, abilityCooldown: game.abilityCooldown, grounded: game.grounded, shield: game.shieldTimer > 0, magnet: game.magnetTimer }))
   }
   endRef.current = () => {
     if (finishRef.current) return
@@ -696,6 +844,7 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
   useEffect(() => {
     const keyDown = (event) => {
       if (event.code === 'Space' || event.code === 'ArrowUp' || event.code === 'KeyW') { event.preventDefault(); jumpRef.current() }
+      if (event.code === 'ShiftLeft' || event.code === 'ShiftRight' || event.code === 'KeyE') { event.preventDefault(); abilityRef.current() }
       if (event.code === 'Escape') abortRef.current()
     }
     window.addEventListener('keydown', keyDown)
@@ -717,13 +866,19 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
     localStorage.setItem('ella-haptics', next ? 'on' : 'off')
     setHapticsEnabled(next)
   }
+  const runnerPower = CHARACTER_POWERS[character] || CHARACTER_POWERS.slime
+  const powerIcon = character === 'cat' ? <Magnet size={19}/> : character === 'crab' ? <Shield size={19}/> : character === 'akete' ? <Zap size={19}/> : <ArrowUp size={19}/>
+  const abilityReady = phase === 'playing' && hud.abilityCooldown <= 0 && (character !== 'slime' || !hud.grounded)
+  const powerHint = character === 'slime' && hud.grounded ? 'Jump first to use your double jump' : hud.abilityCooldown > 0 ? `${runnerPower.label} recharges in ${Math.ceil(hud.abilityCooldown)} seconds` : `${runnerPower.label} ready`
+  const powerProgress = Math.max(0, Math.min(1, 1 - hud.abilityCooldown / runnerPower.cooldown))
   return <div className="game-overlay dino-game">
-    <div className="game-topline"><button className="game-exit" onClick={finish} aria-label="End run"><X size={19}/></button><div className="game-title">ELLA'S BIRTHDAY DASH</div><div className="dino-hud"><div className="dino-lives" aria-label={`${hud.lives} lives remaining`}>{[0, 1, 2].map((life) => <span key={life} className={life < hud.lives ? 'life-full' : 'life-lost'}>♥</span>)}</div><div className="powerup-status">{hud.shield && <span className="powerup-chip shield-chip" title="Shield: blocks one hit"><Shield size={13}/> SHIELD</span>}{hud.magnet > 0 && <span className="powerup-chip magnet-chip" title={`Magnet: ${Math.ceil(hud.magnet)} seconds remaining`}><Magnet size={13}/> {Math.ceil(hud.magnet)}s</span>}</div><div className="dino-score"><span className="gift-counter"><Gift size={14}/> {hud.gifts}</span><b>{hud.points.toLocaleString()} pts</b></div>{claimedAmount != null && <b className="claimed-chip">CLAIMED {fmtMoney(claimedAmount)}</b>}</div></div>
+    <div className="game-topline"><button className="game-exit" onClick={finish} aria-label="End run"><X size={19}/></button><div className="game-title">TAKORADI RUN</div><div className="dino-hud"><div className="dino-lives" aria-label={`${hud.lives} lives remaining`}>{[0, 1, 2].map((life) => <span key={life} className={life < hud.lives ? 'life-full' : 'life-lost'}>♥</span>)}</div><div className="powerup-status">{hud.shield && <span className="powerup-chip shield-chip" title="Shield: blocks one hit"><Shield size={13}/> SHIELD</span>}{hud.magnet > 0 && <span className="powerup-chip magnet-chip" title={`Magnet: ${Math.ceil(hud.magnet)} seconds remaining`}><Magnet size={13}/> {Math.ceil(hud.magnet)}s</span>}</div><div className="dino-score"><span className="gift-counter"><Gift size={14}/> {hud.gifts}</span><b>{hud.points.toLocaleString()} pts</b></div>{claimedAmount != null && <b className="claimed-chip">CLAIMED {fmtMoney(claimedAmount)}</b>}</div></div>
     <div className="dino-world"><canvas ref={canvasRef} className="dino-canvas" onPointerDown={jump} aria-label="Birthday runner game. Tap to jump over obstacles and collect floating gifts." />
-      {phase === 'intro' && <div className="dino-intro"><span className="dino-badge">TAKORADI · GHANA</span><h2>{runnerName} is ready.</h2><p>Three lives. Jump over cupcakes, cake stacks, and lollipops. Collect parcels and look out for shield and magnet pickups.</p><div className="dino-tip"><span className="keycap">SPACE</span><span className="keycap">↑</span><span>jump</span><i>·</i><span>tap anywhere to jump</span></div><div className="pickup-legend"><span><Shield size={14}/> Blocks one hit</span><span><Magnet size={14}/> Pulls in parcels</span></div><button className="primary-btn dino-start" onClick={beginRun}><span>START RUN</span><ArrowUp size={17}/></button></div>}
+      {phase === 'playing' && <button className={`ability-button power-${character} ${abilityReady ? 'ability-ready' : ''}`} style={{ '--power-charge': `${powerProgress * 360}deg` }} onClick={(event) => { event.stopPropagation(); abilityRef.current() }} disabled={!abilityReady} aria-label={powerHint} title={`${powerHint} · press Shift or E`}><span>{powerIcon}</span></button>}
+      {phase === 'intro' && <div className="dino-intro"><span className="dino-badge">TAKORADI · GHANA</span><h2>{runnerName} is ready.</h2><p>Three lives. Jump the cakes, grab parcels, and watch for shields and magnets.</p><div className="dino-tip"><span className="desktop-game-tip"><span className="keycap">SPACE</span> or <span className="keycap">↑</span> to jump · <span className="keycap">SHIFT</span> or <span className="keycap">E</span> for power</span><span className="mobile-game-tip">Tap anywhere to jump · tap the glowing circle for your power</span></div><div className="runner-power-tip"><Zap size={14}/><span><b>{runnerPower.label}:</b> {runnerPower.description}</span></div><div className="pickup-legend"><span><Shield size={14}/> Blocks one hit</span><span><Magnet size={14}/> Pulls in parcels</span></div><button className="primary-btn dino-start" onClick={beginRun}><span>START RUN</span><ArrowUp size={17}/></button></div>}
       {phase === 'playing' && <div className="dino-speed"><span>RUN SPEED</span><i><b style={{ width: `${Math.min(100, ((hud.speed - 310) / 300) * 100)}%` }}/></i><strong>{Math.round(hud.speed)} km/h</strong></div>}
     </div>
-    <div className={`dino-controls ${phase !== 'playing' ? 'dino-controls-idle' : ''}`}><span>{phase === 'playing' ? 'JUMP · COLLECT' : "ELLA'S BIRTHDAY DASH"}</span><div className="sensory-toggles"><button className={`sensory-toggle ${soundEnabled ? 'is-on' : ''}`} onClick={toggleSound} aria-label={soundEnabled ? 'Mute game sounds' : 'Enable game sounds'} aria-pressed={soundEnabled} title={soundEnabled ? 'Sound on' : 'Sound off'}>{soundEnabled ? <Volume2 size={16}/> : <VolumeX size={16}/>}</button><button className={`sensory-toggle ${hapticsEnabled ? 'is-on' : ''}`} onClick={toggleHaptics} disabled={!hapticsSupported} aria-label={hapticsSupported ? (hapticsEnabled ? 'Turn haptics off' : 'Turn haptics on') : 'Haptics are not supported on this device'} aria-pressed={hapticsEnabled} title={hapticsSupported ? (hapticsEnabled ? 'Haptics on' : 'Haptics off') : 'Haptics not supported'}><Vibrate size={16}/></button></div>{phase === 'playing' && <button onPointerDown={jump} className="jump-button"><ArrowUp size={22}/><small>JUMP</small></button>}</div>
+    <div className={`dino-controls ${phase !== 'playing' ? 'dino-controls-idle' : ''}`}><span>{phase === 'playing' ? 'TAP TO JUMP' : 'THREE LIVES · ONE BIG RUN'}</span><div className="sensory-toggles"><button className={`sensory-toggle ${soundEnabled ? 'is-on' : ''}`} onClick={toggleSound} aria-label={soundEnabled ? 'Mute game sounds' : 'Enable game sounds'} aria-pressed={soundEnabled} title={soundEnabled ? 'Sound on' : 'Sound off'}>{soundEnabled ? <Volume2 size={16}/> : <VolumeX size={16}/>}</button><button className={`sensory-toggle ${hapticsEnabled ? 'is-on' : ''}`} onClick={toggleHaptics} disabled={!hapticsSupported} aria-label={hapticsSupported ? (hapticsEnabled ? 'Turn haptics off' : 'Turn haptics on') : 'Haptics are not supported on this device'} aria-pressed={hapticsEnabled} title={hapticsSupported ? (hapticsEnabled ? 'Haptics on' : 'Haptics off') : 'Haptics not supported'}><Vibrate size={16}/></button></div></div>
   </div>
 }
 
@@ -817,20 +972,20 @@ function App() {
 
   return <main className="app-shell">
     <div className="grain" />
-    <header className="topbar"><a className="brand" href="#top"><span className="brand-icon"><Flag size={17} /></span><span>ELLA<span className="brand-soft"> / BIRTHDAY DASH</span></span></a><div className="topbar-right"><span className="for-ella">OCTOBER 27 · TAKORADI</span></div></header>
-    {!unlocked ? <section className="countdown-screen" id="top"><div className="countdown-copy"><span className="eyebrow"><Clock3 size={14} /> THE START LINE OPENS SOON</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>Her route through Takoradi is almost ready.<br />The start line opens at 7:10 PM on October 27.</p><div className="clock-grid">{timeParts && Object.entries(timeParts).map(([unit, val]) => <div className="clock-card" key={unit}><strong>{String(val).padStart(2, '0')}</strong><span>{unit}</span></div>)}</div><div className="unlock-note"><Clock3 size={15} /> Opens October 27 at 7:10 PM · Ghana time</div>{import.meta.env.DEV && <button className="preview-link" onClick={() => { const url = new URL(window.location.href); url.searchParams.set('preview', '1'); window.location.href = url.toString() }}>Developer preview <ChevronRight size={14}/></button>}<div className="countdown-cake" aria-hidden="true"><SlimePortrait/></div></div><div className="countdown-footer">A small birthday surprise, made by hand.</div></section> : <>
+    <header className="topbar"><a className="brand" href="#top"><span className="brand-icon"><Flag size={17} /></span><span>ELLA<span className="brand-soft"> / OCTOBER 27</span></span></a><div className="topbar-right"><span className="for-ella">TAKORADI · GHANA</span></div></header>
+    {!unlocked ? <section className="countdown-screen" id="top"><div className="countdown-copy"><span className="eyebrow"><Clock3 size={14} /> THE START LINE OPENS SOON</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>Her route through Takoradi is almost ready.<br />The start line opens at 7:10 PM on October 27.</p><div className="clock-grid">{timeParts && Object.entries(timeParts).map(([unit, val]) => <div className="clock-card" key={unit}><strong>{String(val).padStart(2, '0')}</strong><span>{unit}</span></div>)}</div><div className="unlock-note"><Clock3 size={15} /> Opens October 27 at 7:10 PM · Ghana time</div>{import.meta.env.DEV && <button className="preview-link" onClick={() => { const url = new URL(window.location.href); url.searchParams.set('preview', '1'); window.location.href = url.toString() }}>Developer preview <ChevronRight size={14}/></button>}<div className="countdown-cake" aria-hidden="true"><SlimePortrait/></div></div><div className="countdown-footer">October 27 · Takoradi</div></section> : <>
       {DEV_PREVIEW && <div className="preview-banner">DEVELOPER PREVIEW · data is saved separately from the live game <button onClick={() => { const url = new URL(window.location.href); url.searchParams.delete('preview'); window.location.href = url.toString() }}>Exit preview</button></div>}
-      <section className="hero" id="top"><div className="hero-copy"><span className="eyebrow"><MapPin size={14} /> MADE FOR ELLA · OCT 27</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>A little run through the streets of Takoradi.<br />Mind the cakes. Bring home the parcels.</p><button className="primary-btn" onClick={startRun}><span>START A RUN</span><ChevronRight size={18} /></button><div className="control-hint"><span>SPACE</span> or <span>↑</span> jump <i>·</i> tap to jump on mobile</div></div><div className="hero-art"><div className="hero-disc"/><div className="portrait-frame"><CharacterPortrait characterId={selectedCharacter} /></div><span className="float-item fi-a"><Gift size={23}/></span><span className="float-item fi-b"><Cherry size={22}/></span><span className="float-item fi-c"><Heart size={18}/></span><span className="float-item fi-d"><CakeSlice size={23}/></span><div className="hero-label">TAKORADI<br />OCTOBER 27</div></div></section>
-      <section className="dashboard"><div className="dashboard-head"><div><span className="eyebrow small">ELLA'S BIRTHDAY DASH</span><h2>Your run so far</h2></div><div className="level-chip"><Star size={14} /> LEVEL 01</div></div><div className="character-picker"><div className="character-picker-head"><span className="eyebrow small">CHOOSE YOUR RUNNER</span><small>Same run. Different character.</small></div><div className="character-options">{CHARACTERS.map((runner) => <button key={runner.id} className={`character-option ${selectedCharacter === runner.id ? 'is-selected' : ''}`} aria-pressed={selectedCharacter === runner.id} onClick={() => chooseCharacter(runner.id)}><span className="character-option-art"><CharacterPortrait characterId={runner.id} /></span><span className="character-option-copy"><strong>{runner.name}</strong><small>{runner.detail}</small></span>{selectedCharacter === runner.id && <Check size={15} />}</button>)}</div></div><div className="stat-grid"><div className="stat-card score-card"><div className="stat-icon pink"><Star size={18} /></div><div><span>YOUR POINTS</span><strong>{points.toLocaleString()}</strong><small>Collected on your runs</small></div><div className="score-spark">✦</div></div><div className="stat-card prize-card surprise-card"><div className="stat-icon gold"><Trophy size={18} /></div><div><span>{balance.cashedOut ? 'YOUR BIRTHDAY GIFT' : 'BIRTHDAY GIFT'}</span><strong>{balance.cashedOut ? fmtMoney(balance.claimedAmount) : '???'}</strong><small>{balance.cashedOut ? 'Claimed · thank you for playing' : 'Tap cash out when you’re ready'}</small></div>{!balance.cashedOut && <div className="surprise-mark">✦</div>}</div></div><div className="game-panel"><div className="game-panel-icon"><Flag size={19} /></div><div className="game-panel-copy"><strong>Ella's Birthday Dash</strong><span>Three lives per run. Jump the cake stands and collect parcels.</span></div><button className="outline-btn" onClick={startRun}>Play a round <ChevronRight size={16} /></button></div><div className="cashout-strip"><div className="cashout-copy"><div className="cashout-gift"><Gift size={19} /></div><div><strong>{balance.cashedOut ? 'Gift claimed' : 'Your birthday gift'}</strong><span>{balance.cashedOut ? 'Your claim is saved. Have a lovely birthday, Ella.' : 'Play a few runs, then cash out once when you’re ready.'}</span></div></div><button className="cashout-btn" disabled={balance.cashedOut} onClick={openCashout}>{balance.cashedOut ? <><Check size={16} /> Claimed</> : <>Cash out <ChevronRight size={16} /></>}</button></div><div className="love-note"><Heart size={13} /> A little birthday run, made just for Ella.</div></section>
+      <section className="hero" id="top"><div className="hero-copy"><span className="eyebrow"><MapPin size={14} /> TAKORADI · OCTOBER 27</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>Take a run around Takoradi. Dodge the cakes and grab as many parcels as you can.</p><button className="primary-btn" onClick={startRun}><span>START A RUN</span><ChevronRight size={18} /></button><div className="control-hint"><span className="desktop-control-hint"><span>SPACE</span> or <span>↑</span> jump</span><span className="mobile-control-hint">Tap anywhere to jump</span></div></div><div className="hero-art"><div className="hero-disc"/><div className="portrait-frame"><CharacterPortrait characterId={selectedCharacter} /></div><span className="float-item fi-a"><Gift size={23}/></span><span className="float-item fi-b"><Cherry size={22}/></span><span className="float-item fi-c"><Heart size={18}/></span><span className="float-item fi-d"><CakeSlice size={23}/></span><div className="hero-label">TAKORADI<br />OCTOBER 27</div></div></section>
+      <section className="dashboard"><div className="dashboard-head"><div><span className="eyebrow small">YOUR RUNS</span><h2>Your run so far</h2></div></div><div className="character-picker"><div className="character-picker-head"><span className="eyebrow small">CHOOSE YOUR RUNNER</span><small>Each has their own power.</small></div><div className="character-options">{CHARACTERS.map((runner) => <button key={runner.id} className={`character-option ${selectedCharacter === runner.id ? 'is-selected' : ''}`} aria-pressed={selectedCharacter === runner.id} onClick={() => chooseCharacter(runner.id)}><span className="character-option-art"><CharacterPortrait characterId={runner.id} /></span><span className="character-option-copy"><strong>{runner.name}</strong><small>{runner.detail}</small></span>{selectedCharacter === runner.id && <Check size={15} />}</button>)}</div></div><div className="stat-grid"><div className="stat-card score-card"><div className="stat-icon pink"><Star size={18} /></div><div><span>YOUR POINTS</span><strong>{points.toLocaleString()}</strong><small>Collected on your runs</small></div><div className="score-spark">✦</div></div><div className="stat-card prize-card surprise-card"><div className="stat-icon gold"><Trophy size={18} /></div><div><span>{balance.cashedOut ? 'YOUR BIRTHDAY GIFT' : 'BIRTHDAY GIFT'}</span><strong>{balance.cashedOut ? fmtMoney(balance.claimedAmount) : '???'}</strong><small>{balance.cashedOut ? 'Claimed · thank you for playing' : 'Tap cash out when you’re ready'}</small></div>{!balance.cashedOut && <div className="surprise-mark">✦</div>}</div></div><div className="game-panel"><div className="game-panel-icon"><Flag size={19} /></div><div className="game-panel-copy"><strong>The Takoradi run</strong><span>Jump the cakes, grab parcels, and see if you can beat your last score.</span></div><button className="outline-btn" onClick={startRun}>Play a round <ChevronRight size={16} /></button></div><div className="cashout-strip"><div className="cashout-copy"><div className="cashout-gift"><Gift size={19} /></div><div><strong>{balance.cashedOut ? 'Gift claimed' : 'Your birthday gift'}</strong><span>{balance.cashedOut ? 'All sorted. Have the best birthday, Ella.' : 'Play a few runs, then cash out once when you’re ready.'}</span></div></div><button className="cashout-btn" disabled={balance.cashedOut} onClick={openCashout}>{balance.cashedOut ? <><Check size={16} /> Claimed</> : <>Cash out <ChevronRight size={16} /></>}</button></div><div className="love-note"><Heart size={13} /> Happy birthday, Ella. Hope this makes you smile.</div></section>
     </>}
 
-    {modal === 'welcome' && <div className="modal-backdrop welcome-backdrop" onClick={() => setModal('')}><div className="modal welcome-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="welcome-confetti" aria-hidden="true"><i/><i/><i/><SlimePortrait/></div><span className="eyebrow">OCTOBER 27 · MADE FOR YOU</span><h2>Happy Birthday,<br /><span>Ella.</span></h2><p>I made you a little game for your day. Take the long way through Takoradi, dodge the cakes, and see how many parcels you can bring back.</p><div className="welcome-signoff">Have the loveliest day <Heart size={15} /></div><button className="primary-btn modal-cta" onClick={() => setModal('')}><span>TAKE A LOOK</span><ChevronRight size={18}/></button></div></div>}
-    {modal === 'round' && <div className="modal-backdrop" onClick={() => setModal('')}><div className="modal round-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="celebrate-burst"><ParcelIcon/></div><span className="eyebrow">RUN SUMMARY</span><h2>Nice run, <span>Ella.</span></h2><div className="round-stats"><div><strong>{lastRun.score}</strong><span>POINTS</span></div><div><strong>{lastRun.gifts}</strong><span>PARCELS</span></div><div><strong>{lastRun.seconds}s</strong><span>TIME</span></div></div><p>That’s all three lives. Take another run, or cash out your birthday gift when you’re ready.</p><button className="primary-btn modal-cta" onClick={startRun}><span>RUN AGAIN</span><ChevronRight size={18}/></button><button className="round-cashout" onClick={openCashout} disabled={savingRun || balance.cashedOut}>{savingRun ? 'Saving your run…' : balance.cashedOut ? 'Gift already claimed' : 'Cash out birthday gift'}</button></div></div>}
-    {modal === 'cashout' && <div className="modal-backdrop" onClick={() => setModal('')}><form className="modal cashout-modal" onSubmit={cashout} onClick={(e) => e.stopPropagation()}><button type="button" className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="cashout-modal-icon"><Gift size={23}/></div><span className="eyebrow">YOUR ONE-TIME BIRTHDAY CLAIM</span><h2>You won <span>{quoteLoading || cashoutQuote === null ? '…' : fmtMoney(cashoutQuote)}</span></h2><p>This is your birthday gift. Add your details below to claim it.</p><label>Your name<input required value={claim.name} onChange={(e) => setClaim({ ...claim, name: e.target.value })} placeholder="Name" maxLength="80" /></label><label>Mobile money number<input required value={claim.mobile} onChange={(e) => setClaim({ ...claim, mobile: e.target.value })} placeholder="e.g. 024 123 4567" inputMode="tel" maxLength="20" /></label><label>How much fun did you have? <span className="rating-line">{claim.rating}/10</span><input className="rating-range" type="range" min="1" max="10" value={claim.rating} onChange={(e) => setClaim({ ...claim, rating: e.target.value })}/></label><button className="primary-btn submit-btn" type="submit" disabled={busy || quoteLoading || cashoutQuote === null}><span>{busy ? 'SENDING…' : 'CLAIM MY BIRTHDAY MONEY'}</span><ChevronRight size={18}/></button><small className="privacy-note">Your details are only used to send your birthday gift.</small></form></div>}
-    {modal === 'celebrate' && <div className="modal-backdrop" onClick={() => setModal('')}><div className="modal celebrate-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="celebrate-burst"><Check size={35}/></div><span className="eyebrow">CLAIM SAVED</span><h2>It's yours,<br /><span>Ella.</span></h2><p>Your birthday gift is <strong className="claimed-reveal">{fmtMoney(balance.claimedAmount)}</strong>. I hope it makes the day a little sweeter.</p><button className="primary-btn modal-cta" onClick={() => setModal('')}><span>BACK TO THE DASH</span><ChevronRight size={18}/></button></div></div>}
+    {modal === 'welcome' && <div className="modal-backdrop welcome-backdrop" onClick={() => setModal('')}><div className="modal welcome-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="welcome-confetti" aria-hidden="true"><i/><i/><i/><SlimePortrait/></div><span className="eyebrow">OCTOBER 27 · YOUR DAY</span><h2>Happy Birthday,<br /><span>Ella.</span></h2><p>I made you a little game for your day. Take the long way through Takoradi, dodge the cakes, and see how many parcels you can bring back.</p><div className="welcome-signoff">Hope you have a really good day <Heart size={15} /></div><button className="primary-btn modal-cta" onClick={() => setModal('')}><span>TAKE A LOOK</span><ChevronRight size={18}/></button></div></div>}
+    {modal === 'round' && <div className="modal-backdrop" onClick={() => setModal('')}><div className="modal round-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="celebrate-burst"><ParcelIcon/></div><span className="eyebrow">RUN SUMMARY</span><h2>Nice run, <span>Ella.</span></h2><div className="round-stats"><div><strong>{lastRun.score}</strong><span>POINTS</span></div><div><strong>{lastRun.gifts}</strong><span>PARCELS</span></div><div><strong>{lastRun.seconds}s</strong><span>TIME</span></div></div><p>That’s all three lives. Fancy another go, or ready to claim your gift?</p><button className="primary-btn modal-cta" onClick={startRun}><span>RUN AGAIN</span><ChevronRight size={18}/></button><button className="round-cashout" onClick={openCashout} disabled={savingRun || balance.cashedOut}>{savingRun ? 'Saving your run…' : balance.cashedOut ? 'Gift already claimed' : 'Claim your gift'}</button></div></div>}
+    {modal === 'cashout' && <div className="modal-backdrop" onClick={() => setModal('')}><form className="modal cashout-modal" onSubmit={cashout} onClick={(e) => e.stopPropagation()}><button type="button" className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="cashout-modal-icon"><Gift size={23}/></div><span className="eyebrow">YOUR BIRTHDAY GIFT</span><h2>You won <span>{quoteLoading || cashoutQuote === null ? '…' : fmtMoney(cashoutQuote)}</span></h2><p>Add your details and I’ll get your birthday gift to you.</p><label>Your name<input required value={claim.name} onChange={(e) => setClaim({ ...claim, name: e.target.value })} placeholder="Name" maxLength="80" /></label><label>Mobile money number<input required value={claim.mobile} onChange={(e) => setClaim({ ...claim, mobile: e.target.value })} placeholder="e.g. 024 123 4567" inputMode="tel" maxLength="20" /></label><label>How much fun did you have? <span className="rating-line">{claim.rating}/10</span><input className="rating-range" type="range" min="1" max="10" value={claim.rating} onChange={(e) => setClaim({ ...claim, rating: e.target.value })}/></label><button className="primary-btn submit-btn" type="submit" disabled={busy || quoteLoading || cashoutQuote === null}><span>{busy ? 'SAVING…' : 'SEND MY DETAILS'}</span><ChevronRight size={18}/></button><small className="privacy-note">I’ll use these details to send your gift.</small></form></div>}
+    {modal === 'celebrate' && <div className="modal-backdrop" onClick={() => setModal('')}><div className="modal celebrate-modal" onClick={(e) => e.stopPropagation()}><div className="celebrate-photo" aria-hidden="true"/><button className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="celebrate-burst"><Check size={35}/></div><span className="eyebrow">ALL YOURS</span><h2>It’s yours,<br /><span>Ella!</span></h2><p>You’ve got <strong className="claimed-reveal">{fmtMoney(balance.claimedAmount)}</strong> coming your way. Happy birthday!</p><button className="primary-btn modal-cta" onClick={() => setModal('')}><span>BACK TO THE GAME</span><ChevronRight size={18}/></button></div></div>}
     {gameActive && <CanvasGame onFinish={finishRun} onAbort={() => setGameActive(false)} claimedAmount={balance.cashedOut ? balance.claimedAmount : null} character={selectedCharacter} />}
     {toast && <div className="toast">{toast}</div>}
-    <footer className="site-footer">Made for Ella · October 27</footer>
+    <footer className="site-footer">Takoradi · October 27</footer>
   </main>
 }
 

@@ -7,7 +7,7 @@
 .surprise-card .surprise-mark{position:absolute;right:23px;top:13px;color:#ffd36f42;font-size:43px;animation:twinkle 2.4s ease-in-out infinite alternate}.surprise-card strong{letter-spacing:.12em;color:#ffdf96}
 .preview-banner{position:relative;z-index:3;display:flex;justify-content:center;align-items:center;gap:12px;padding:8px 12px;background:#ffd36f;color:#2b153b;font:700 9px 'Space Grotesk',sans-serif;letter-spacing:.08em}.preview-banner button{border:0;border-radius:5px;background:#2b153b;color:#fff2df;padding:5px 8px;font:700 9px 'DM Sans',sans-serif;cursor:pointer}.preview-link{display:flex;align-items:center;justify-content:center;gap:5px;border:1px solid #fff3;background:#ffffff0a;color:#c5afce;border-radius:8px;padding:8px 12px;margin:16px auto 0;font-size:10px;cursor:pointer;transition:.2s}.preview-link:hover{color:var(--yellow);border-color:#ffd36f88}
 .dino-game{background:#180b2d;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}.dino-game .game-topline{height:62px;padding:0 clamp(13px,3vw,30px);background:#211035}.dino-score{display:flex;align-items:center;gap:12px;font:700 11px 'Space Grotesk',sans-serif;color:#ffe7a0}.dino-score span{color:#ff9eb5}.dino-score b{padding:7px 10px;border-radius:9px;background:#ffffff0d;color:#fff4e8}.dino-world{position:relative;flex:1;min-height:250px;overflow:hidden;background:#38204d}.dino-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:pointer}.dino-intro{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,calc(100% - 34px));padding:25px 28px 24px;text-align:center;border:1px solid #fff3;border-radius:22px;background:#24133de8;box-shadow:0 18px 55px #16082888;backdrop-filter:blur(10px);animation:popIn .4s}.dino-badge{display:inline-flex;padding:6px 10px;border-radius:30px;background:#ff70991c;color:#ffadc1;font:700 8px 'Space Grotesk',sans-serif;letter-spacing:.17em}.dino-intro h2{font:700 34px 'Fraunces',serif;margin:11px 0 8px}.dino-intro p{max-width:330px;margin:0 auto;color:#d2bed8;font-size:11px;line-height:1.65}.dino-tip{display:flex;justify-content:center;align-items:center;gap:7px;margin:17px 0;color:#c7b4d0;font-size:9px}.dino-tip i{font-style:normal;color:#ff8baa}.keycap{display:inline-grid;place-items:center;min-width:28px;height:24px;padding:0 5px;border:1px solid #fff4;border-radius:6px;background:#fff1;color:#fff0dd;font:700 8px 'Space Grotesk',sans-serif}.dino-start{padding:13px 18px;gap:12px;font-size:10px}.dino-speed{position:absolute;left:18px;right:18px;bottom:16px;display:flex;align-items:center;gap:10px;color:#fff1dc;font:700 8px 'Space Grotesk',sans-serif;letter-spacing:.1em;text-shadow:0 1px 3px #32153c}.dino-speed i{height:5px;max-width:190px;flex:1;border-radius:5px;background:#fff5;overflow:hidden}.dino-speed i b{height:100%;display:block;border-radius:5px;background:#ffdb77;transition:width .18s}.dino-speed strong{font-size:9px;color:#ffe5a4;white-space:nowrap}.dino-controls{height:76px;flex:none;padding:0 20px;display:flex;align-items:center;justify-content:space-between;background:#1d1030;color:#bbaac4;font:700 8px 'Space Grotesk',sans-serif;letter-spacing:.11em}.dino-controls-idle{justify-content:center}.dino-controls-idle i{font-style:normal;color:#ff8baa;margin-left:7px}.jump-button{width:54px;height:54px;margin-top:-27px;border:0;border-radius:17px;background:#ffd36f;color:#2b153b;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 5px 0 #bd8243,0 10px 24px #10091d77;cursor:pointer;touch-action:manipulation}.jump-button:active{transform:translateY(3px);box-shadow:0 2px 0 #bd8243}.jump-button small{font:700 7px 'Space Grotesk',sans-serif;letter-spacing:.1em}.dino-game .game-exit{background:#ffffff12}
-.dino-hud{display:flex;align-items:center;gap:10px}.dino-lives{display:flex;gap:3px;font-size:17px;line-height:1}.dino-lives .life-full{color:#ff7a9f;text-shadow:0 0 10px #ff759d88;animation:heartBeat 1.3s ease-in-out infinite}.dino-lives .life-lost{color:#776781;opacity:.45}.claimed-chip{padding:7px 9px;border-radius:9px;background:#ffe17b20;color:#ffe89c;font:700 9px 'Space Grotesk',sans-serif;white-space:nowrap}.dino-resurrect{animation:angelFloat 1.2s ease-in-out infinite alternate}.surprise-card .surprise-mark{color:#ffd36f42}.@keyframes heartBeat{0%,100%{transform:scale(1)}13%{transform:scale(1.2)}26%{transform:scale(1)}}@keyframes angelFloat{from{transform:translateY(2px)}to{transform:translateY(-7px)}}
+.dino-hud{display:flex;align-items:center;gap:10px}.dino-lives{display:flex;gap:3px;font-size:17px;line-height:1}.dino-lives .life-full{color:#ff7a9f;text-shadow:0 0 10px #ff759d88;animation:heartBeat 1.3s ease-in-out infinite}.dino-lives .life-lost{color:#776781;opacity:.45}.claimed-chip{padding:7px 9px;border-radius:9px;background:#ffe17b20;color:#ffe89c;font:700 9px 'Space Grotesk',sans-serif;white-space:nowrap}.dino-resurrect{animation:angelFloat 1.2s ease-in-out infinite alternate}.surprise-card .surprise-mark{color:#ffd36f42}@keyframes heartBeat{0%,100%{transform:scale(1)}13%{transform:scale(1.2)}26%{transform:scale(1)}}@keyframes angelFloat{from{transform:translateY(2px)}to{transform:translateY(-7px)}}
 @media(max-width:700px){.dino-game .game-topline{height:55px;padding:0 9px}.dino-game .game-title{font-size:7px;letter-spacing:.04em}.dino-hud{gap:5px}.dino-lives{font-size:14px;gap:1px}.dino-score{gap:5px;font-size:8px}.dino-score b{padding:6px 5px;font-size:8px}.claimed-chip{font-size:7px;padding:6px}.dino-intro{padding:21px 18px}.dino-intro h2{font-size:30px}.dino-intro p{font-size:10px}.dino-tip{gap:5px;flex-wrap:wrap}.dino-controls{height:83px;padding:0 17px}.dino-speed{left:10px;right:10px;bottom:11px}.dino-world{min-height:220px}}
 
 .claimed-reveal{display:inline-block;color:#ffe18a;font:700 1.05em 'Space Grotesk',sans-serif;text-shadow:0 0 22px #ffd36f70}
@@ -46,3 +46,42 @@ body{background:#211d2b}.app-shell{background:linear-gradient(135deg,#2b2635 0%,
 .character-option-copy strong{font:600 13px 'Fraunces',Georgia,serif}
 .character-option-copy small{color:#b9aa9e;font-size:9px;line-height:1.3}
 @media(max-width:700px){.character-picker{padding:12px;margin:16px 0}.character-picker-head small{font-size:8px}.character-options{gap:6px}.character-option{min-height:82px;flex-direction:column;justify-content:center;gap:5px;padding:7px 4px;text-align:center}.character-option>svg{position:absolute;right:5px;top:5px;width:12px;height:12px}.character-option-art{width:43px;height:44px;background:transparent}.character-option-art .slime-portrait{width:49px;height:51px}.character-option-copy{align-items:center;gap:2px}.character-option-copy strong{font-size:11px}.character-option-copy small{font-size:7px;white-space:nowrap}}
+
+/* Akete joins the character row; keep the choices roomy on phones. */
+.character-options{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:700px){.character-options{grid-template-columns:repeat(2,minmax(0,1fr))}.character-option{flex-direction:row;justify-content:flex-start;text-align:left;padding:8px}.character-option-copy{align-items:flex-start}.character-option-copy small{font-size:8px;white-space:normal}}
+.celebrate-modal{position:relative;isolation:isolate;overflow:hidden}
+.celebrate-photo{position:absolute;z-index:-1;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(29,23,34,.89),rgba(29,23,34,.84)),url('/birthday-together.jpg') center 42%/cover no-repeat}
+.site-footer{color:#ad9f96}
+.ability-button{position:absolute;z-index:5;top:16px;right:16px;width:48px;height:48px;padding:3px;border:0;border-radius:50%;display:grid;place-items:center;color:#ded3e3;cursor:pointer;touch-action:manipulation;background:conic-gradient(from -90deg,#efc878 0 var(--power-charge),#ffffff38 var(--power-charge) 360deg);transition:background .15s linear,transform .15s,filter .2s}
+.ability-button::before{content:"";position:absolute;inset:3px;border-radius:50%;background:#251d30;transition:background .2s}
+.ability-button span{position:relative;z-index:1;display:grid;place-items:center}
+.ability-button:disabled{cursor:default;filter:saturate(.72)}
+.ability-button.ability-ready{color:#fff6e8;background:conic-gradient(from -90deg,#ffc66f,#ffedaf 32%,#f99058 66%,#ffc66f);animation:abilityEmber 1.6s ease-in-out infinite alternate}
+.ability-button.power-slime.ability-ready::before{background:#315a40}
+.ability-button.power-cat.ability-ready::before{background:#28595b}
+.ability-button.power-crab.ability-ready::before{background:#774934}
+.ability-button.power-akete.ability-ready::before{background:#245b91}
+.ability-button.ability-ready:active{transform:scale(.94);animation:none}
+.ability-button:focus-visible{outline:2px solid #fff0b5;outline-offset:3px}
+@keyframes abilityEmber{from{filter:drop-shadow(0 0 3px #ffb45d80)}to{filter:drop-shadow(0 0 8px #ff965080)}}
+@media(max-width:700px){.ability-button{top:12px;right:12px;width:44px;height:44px}}
+@media(prefers-reduced-motion:reduce){.ability-button.ability-ready{animation:none}}
+
+/* Keep instructions matched to the device, and make each runner's power clear. */
+.mobile-game-tip,.mobile-control-hint{display:none}
+.runner-power-tip{display:flex;align-items:flex-start;justify-content:center;gap:7px;max-width:330px;margin:0 auto 12px;color:#e7bd91;font-size:10px;line-height:1.5}
+.runner-power-tip svg{flex:none;margin-top:1px;color:#efc878}
+.runner-power-tip b{color:#f4ead8}
+.dino-intro .dino-tip{line-height:1.6}
+.dino-intro .desktop-game-tip{display:inline-flex;align-items:center;gap:5px}
+.dino-intro .desktop-game-tip .keycap{margin:0 1px}
+.level-chip{display:none}
+.desktop-control-hint{display:inline-flex;align-items:center;gap:6px}
+@media(max-width:700px){
+  .desktop-control-hint,.desktop-game-tip{display:none!important}
+  .mobile-control-hint,.mobile-game-tip{display:inline!important}
+  .mobile-control-hint{border:0!important;padding:0!important}
+  .runner-power-tip{max-width:290px;font-size:9px}
+  .dino-intro .dino-tip{margin:13px 0}
+}
