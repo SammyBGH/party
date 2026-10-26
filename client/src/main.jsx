@@ -39,7 +39,6 @@ function CatPortrait() {
     <path d="M94 139h20l-3 12-8 5-8-5Z" fill="#8eaaa0" stroke="#493249" strokeWidth="3"/><circle cx="104" cy="146" r="3" fill="#efc878"/>
   </svg>
 }
-
 function CrabPortrait() {
   return <svg className="slime-portrait" viewBox="0 0 180 190" role="img" aria-label="Boakye, a man and crab hybrid">
     <ellipse cx="90" cy="169" rx="56" ry="9" fill="#1b102f" opacity=".22" />
@@ -240,39 +239,73 @@ function drawCat(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   const airborne = jumpY > 2
   const falling = airborne && vy < -80
   const running = phase === 'playing'
-  const stride = running ? Math.sin(elapsed * 19) : 0
-  const base = groundY - jumpY - (!airborne && running ? Math.max(0, stride) * 3 : 0)
-  ctx.save()
-  ctx.globalAlpha = .22; ctx.fillStyle = '#17111f'; ctx.beginPath(); ctx.ellipse(x + 30, groundY + 3, Math.max(15, 27 - jumpY * .08), 7, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
-  // Paws cycle opposite each other on the ground, tuck in the jump, and reach on descent.
-  const pawReach = falling ? 10 : airborne ? -7 : 0
-  const legSwing = airborne ? (falling ? -2 : 3) : stride * 8
-  ctx.strokeStyle = '#a85f49'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath()
-  ctx.moveTo(x + 20, base - 13); ctx.lineTo(x + 18 - legSwing, base + pawReach)
-  ctx.moveTo(x + 31, base - 13); ctx.lineTo(x + 30 + legSwing, base + pawReach)
-  ctx.moveTo(x + 43, base - 13); ctx.lineTo(x + 42 + legSwing, base + pawReach)
-  ctx.moveTo(x + 53, base - 13); ctx.lineTo(x + 55 - legSwing, base + pawReach); ctx.stroke()
-  ctx.fillStyle = '#d99669'; ctx.beginPath()
-  for (const paw of [[18 - legSwing, base + pawReach], [30 + legSwing, base + pawReach], [42 + legSwing, base + pawReach], [55 - legSwing, base + pawReach]]) ctx.ellipse(x + paw[0], paw[1], 4, 3, 0, 0, Math.PI * 2)
-  ctx.fill()
-  // Tail counter-swings during the run and streams behind during airtime.
-  ctx.strokeStyle = '#a85f49'; ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(x + 14, base - 20); ctx.quadraticCurveTo(x - 3, base - 32 - stride * 3, x + (airborne ? 1 : 7 + stride * 4), base - (falling ? 54 : 47)); ctx.stroke()
-  ctx.save(); ctx.translate(x + 36, base - 26); ctx.rotate(airborne ? (falling ? -.2 : .13) : stride * .035); ctx.translate(-(x + 36), -(base - 26))
-  ctx.fillStyle = '#d99669'; ctx.strokeStyle = '#493249'; ctx.lineWidth = 3
-  ctx.beginPath(); ctx.moveTo(x + 10, base - 4); ctx.quadraticCurveTo(x + 7, base - 31, x + 20, base - 43); ctx.lineTo(x + 22, base - 59); ctx.lineTo(x + 35, base - 47); ctx.quadraticCurveTo(x + 45, base - 51, x + 51, base - 45); ctx.lineTo(x + 61, base - 59); ctx.lineTo(x + 62, base - 39); ctx.quadraticCurveTo(x + 69, base - 21, x + 58, base - 4); ctx.closePath(); ctx.fill(); ctx.stroke()
-  ctx.fillStyle = '#e7a5a0'; ctx.beginPath(); ctx.moveTo(x + 24, base - 48); ctx.lineTo(x + 24, base - 54); ctx.lineTo(x + 30, base - 49); ctx.fill(); ctx.beginPath(); ctx.moveTo(x + 54, base - 48); ctx.lineTo(x + 60, base - 54); ctx.lineTo(x + 59, base - 45); ctx.fill()
-  ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.ellipse(x + 43, base - 32, 4.5, 6, 0, 0, Math.PI * 2); ctx.ellipse(x + 54, base - 31, 4, 5.5, 0, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#29253e'; ctx.beginPath(); ctx.arc(x + 45, base - 31, 2.4, 0, Math.PI * 2); ctx.arc(x + 56, base - 30, 2.2, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#b96366'; ctx.beginPath(); ctx.moveTo(x + 48, base - 20); ctx.lineTo(x + 53, base - 23); ctx.lineTo(x + 57, base - 20); ctx.lineTo(x + 53, base - 17); ctx.fill()
-  ctx.strokeStyle = '#493249'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + 53, base - 17); ctx.quadraticCurveTo(x + 58, base - 13, x + 62, base - 17); ctx.stroke()
-  ctx.strokeStyle = '#72544a'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 48, base - 18); ctx.lineTo(x + 36, base - 15); ctx.moveTo(x + 55, base - 18); ctx.lineTo(x + 66, base - 14); ctx.stroke()
-  ctx.fillStyle = '#8eaaa0'; ctx.beginPath(); ctx.moveTo(x + 21, base - 17); ctx.lineTo(x + 43, base - 17); ctx.lineTo(x + 39, base - 9); ctx.lineTo(x + 31, base - 6); ctx.lineTo(x + 23, base - 10); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#efc878'; ctx.beginPath(); ctx.arc(x + 32, base - 14, 2, 0, Math.PI * 2); ctx.fill()
-  // A warm cheek mark and a small shoulder patch carry Miso's collar colors through the animation.
-  ctx.fillStyle = '#df9b86'; ctx.beginPath(); ctx.ellipse(x + 42, base - 22, 3, 2, 0, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#e5c27f'; ctx.beginPath(); ctx.arc(x + 18, base - 12, 2.2, 0, Math.PI * 2); ctx.fill()
-  ctx.restore(); ctx.restore()
-}
+  const gait = running && !airborne ? Math.sin(elapsed * 18) : 0
+  const base = groundY - jumpY - (!airborne && running ? Math.abs(gait) * 1.2 : 0)
+  const bodyBob = airborne ? 0 : Math.abs(gait) * 1.2
+  const stride = airborne ? (falling ? 2 : 4) : gait * 6
 
+  ctx.save(); ctx.globalAlpha = .22; ctx.fillStyle = '#17111f'
+  ctx.beginPath(); ctx.ellipse(x + 32, groundY + 3, Math.max(14, 27 - jumpY * .08), 6, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore()
+
+  // A long curved tail counterbalances the cat's stride and lifts in the air.
+  ctx.strokeStyle = '#b76e4e'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.beginPath()
+  ctx.moveTo(x + 17, base - 24 - bodyBob)
+  ctx.bezierCurveTo(x + 2, base - 35 - gait * 3, x + 3 - stride * .4, base - (falling ? 45 : 54), x + 12 - stride * .3, base - (falling ? 51 : 61))
+  ctx.stroke()
+  ctx.strokeStyle = '#704735'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + 10 - stride * .3, base - 57); ctx.lineTo(x + 13 - stride * .3, base - 52); ctx.stroke()
+
+  const drawLeg = (shoulderX, rear, far = false) => {
+    let kneeX, footX, kneeY, footY
+    if (airborne) {
+      const tuck = falling ? 1 : 6
+      kneeX = shoulderX + (rear ? 4 : -3) + (rear ? stride : -stride) * .35
+      footX = shoulderX + (rear ? 8 : -7) + (rear ? stride : -stride) * .55
+      kneeY = base - (rear ? 13 : 14) - tuck * .35
+      footY = base - 7 - tuck
+      if (falling && !rear) { kneeX += 3; footX += 9; footY = base - 1 }
+    } else {
+      const phase = gait * (rear ? 1 : -1) + (far ? Math.PI : 0)
+      kneeX = shoulderX + Math.sin(phase) * 5
+      footX = shoulderX + Math.sin(phase + .75) * 8
+      kneeY = base - 12 - Math.max(0, Math.cos(phase)) * 2 + bodyBob
+      footY = base - Math.max(0, Math.sin(phase + .75)) * 5 + bodyBob
+    }
+    const fur = far ? '#aa664b' : '#c9825b'
+    ctx.strokeStyle = fur; ctx.lineWidth = far ? 4 : 5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'
+    ctx.beginPath(); ctx.moveTo(shoulderX, base - (rear ? 21 : 24) + bodyBob); ctx.lineTo(kneeX, kneeY); ctx.lineTo(footX, footY); ctx.stroke()
+    ctx.fillStyle = fur; ctx.beginPath(); ctx.ellipse(footX + 2, footY + 1, 5, 3.2, 0, 0, Math.PI * 2); ctx.fill()
+    ctx.fillStyle = '#704735'; ctx.beginPath(); ctx.arc(footX + 5, footY + 1, .65, 0, Math.PI * 2); ctx.arc(footX + 7, footY + 1, .65, 0, Math.PI * 2); ctx.fill()
+  }
+
+  // Far legs sit behind the body; diagonal pairs alternate during a real running gait.
+  drawLeg(x + 20, true, true); drawLeg(x + 42, false, true)
+  ctx.save(); ctx.translate(x + 32, base - 25 - bodyBob); ctx.rotate(airborne ? (falling ? -.08 : .07) : gait * .025); ctx.translate(-(x + 32), -(base - 25 - bodyBob))
+  ctx.fillStyle = '#c9825b'; ctx.strokeStyle = '#493249'; ctx.lineWidth = 2.5
+  ctx.beginPath(); ctx.ellipse(x + 31, base - 24 - bodyBob, 21, 12, -.04, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
+  // Tabby stripes follow the curve of the back instead of reading as clothing.
+  ctx.strokeStyle = '#78483b'; ctx.lineWidth = 2.2; ctx.lineCap = 'round'
+  ctx.beginPath(); ctx.moveTo(x + 17, base - 32 - bodyBob); ctx.quadraticCurveTo(x + 20, base - 27 - bodyBob, x + 22, base - 22 - bodyBob); ctx.moveTo(x + 25, base - 35 - bodyBob); ctx.quadraticCurveTo(x + 28, base - 30 - bodyBob, x + 29, base - 25 - bodyBob); ctx.moveTo(x + 34, base - 36 - bodyBob); ctx.quadraticCurveTo(x + 37, base - 31 - bodyBob, x + 38, base - 26 - bodyBob); ctx.stroke()
+  // Shoulder, neck, and head form a forward-facing feline profile.
+  ctx.fillStyle = '#c9825b'; ctx.strokeStyle = '#493249'; ctx.lineWidth = 2.5
+  ctx.beginPath(); ctx.ellipse(x + 43, base - 31 - bodyBob, 11, 13, .22, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(x + 38, base - 42 - bodyBob); ctx.lineTo(x + 37, base - 57 - bodyBob); ctx.lineTo(x + 44, base - 51 - bodyBob); ctx.lineTo(x + 51, base - 57 - bodyBob); ctx.lineTo(x + 53, base - 42 - bodyBob); ctx.quadraticCurveTo(x + 52, base - 31 - bodyBob, x + 42, base - 31 - bodyBob); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.fillStyle = '#e7a5a0'; ctx.beginPath(); ctx.moveTo(x + 40, base - 53 - bodyBob); ctx.lineTo(x + 41, base - 45 - bodyBob); ctx.lineTo(x + 44, base - 48 - bodyBob); ctx.closePath(); ctx.fill(); ctx.beginPath(); ctx.moveTo(x + 46, base - 48 - bodyBob); ctx.lineTo(x + 50, base - 45 - bodyBob); ctx.lineTo(x + 50, base - 53 - bodyBob); ctx.closePath(); ctx.fill()
+  // Cream muzzle, nose, alert eye, and whiskers make Miso read as a cat at game size.
+  ctx.fillStyle = '#f1d3b7'; ctx.beginPath(); ctx.ellipse(x + 49, base - 36 - bodyBob, 7, 5, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.ellipse(x + 48, base - 43 - bodyBob, 3.5, 4.8, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#29253e'; ctx.beginPath(); ctx.ellipse(x + 49.5, base - 43 - bodyBob, 1.5, 3, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x + 49, base - 45 - bodyBob, 1, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#b96366'; ctx.beginPath(); ctx.moveTo(x + 54, base - 37 - bodyBob); ctx.lineTo(x + 59, base - 36 - bodyBob); ctx.lineTo(x + 54, base - 39 - bodyBob); ctx.closePath(); ctx.fill()
+  ctx.strokeStyle = '#72544a'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 54, base - 36 - bodyBob); ctx.lineTo(x + 53, base - 34 - bodyBob); ctx.moveTo(x + 49, base - 35 - bodyBob); ctx.lineTo(x + 44, base - 34 - bodyBob); ctx.moveTo(x + 51, base - 34 - bodyBob); ctx.lineTo(x + 46, base - 32 - bodyBob); ctx.moveTo(x + 52, base - 34 - bodyBob); ctx.lineTo(x + 58, base - 34 - bodyBob); ctx.moveTo(x + 52, base - 32 - bodyBob); ctx.lineTo(x + 58, base - 31 - bodyBob); ctx.stroke()
+  // A plain collar and tiny bell keep the birthday character recognizable without dressing her like a person.
+  ctx.strokeStyle = '#8eaaa0'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x + 38, base - 27 - bodyBob); ctx.quadraticCurveTo(x + 42, base - 23 - bodyBob, x + 46, base - 26 - bodyBob); ctx.stroke()
+  ctx.fillStyle = '#efc878'; ctx.beginPath(); ctx.arc(x + 42, base - 23 - bodyBob, 2, 0, Math.PI * 2); ctx.fill()
+  ctx.restore()
+
+  // Near-side legs finish in paws and follow the same alternating stride.
+  drawLeg(x + 23, true); drawLeg(x + 40, false)
+  ctx.restore()
+}
 function drawCrab(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   const airborne = jumpY > 2
   const falling = airborne && vy < -80
