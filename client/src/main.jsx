@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { ArrowUp, CakeSlice, Check, Cherry, ChevronRight, Clock3, Flag, Gift, Heart, Magnet, MapPin, Shield, Star, Trophy, Vibrate, Volume2, VolumeX, X, Zap } from 'lucide-react'
+import { ArrowUp, Check, ChevronRight, Clock3, Flag, Gift, Heart, Magnet, MapPin, Shield, Vibrate, Volume2, VolumeX, X, Zap } from 'lucide-react'
 import './styles.css'
 
 const API = `${(import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')}/api`
@@ -42,17 +42,35 @@ function CatPortrait() {
 }
 
 function CrabPortrait() {
-  return <svg className="slime-portrait" viewBox="0 0 180 190" role="img" aria-label="Boakye, the beach crab">
-    <ellipse cx="91" cy="169" rx="55" ry="9" fill="#1b102f" opacity=".22" />
-    <path d="m56 132-17 16m30-11-12 22m49-24 12 21m5-27 19 17" fill="none" stroke="#ac624d" strokeWidth="7" strokeLinecap="round" />
-    <path d="M57 111c0-24 16-42 39-42s40 18 40 42c0 22-18 36-40 36s-39-14-39-36Z" fill="#e47d61" stroke="#493249" strokeWidth="5" />
-    <path d="M68 102q28-28 57 0m-60 13q32-18 62 0m-56 14q24-11 49 0" fill="none" stroke="#f6ad78" strokeWidth="4" strokeLinecap="round" />
-    <path d="M75 75 65 56m38 20 8-23" stroke="#493249" strokeWidth="4" strokeLinecap="round" />
-    <ellipse cx="63" cy="53" rx="10" ry="12" fill="#fff3dc" stroke="#493249" strokeWidth="3"/><ellipse cx="114" cy="50" rx="10" ry="12" fill="#fff3dc" stroke="#493249" strokeWidth="3"/>
-    <circle cx="67" cy="54" r="3.5" fill="#29253e"/><circle cx="117" cy="51" r="3.5" fill="#29253e"/>
-    <path d="M58 98 42 80m80 15 17-19" fill="none" stroke="#ac624d" strokeWidth="7" strokeLinecap="round"/>
-    <path d="M42 81c-14-6-17-21-8-26 7-4 14 1 16 7 5-5 14-5 17 2 5 10-8 19-25 17Zm96-4c14-7 16-22 7-26-7-3-14 2-16 8-6-5-14-4-17 3-4 10 9 18 26 15Z" fill="#e88c68" stroke="#493249" strokeWidth="4" strokeLinejoin="round" />
-    <path d="M83 143h17l-2 10-7 5-7-5Z" fill="#8eaaa0" stroke="#493249" strokeWidth="3"/><circle cx="91" cy="149" r="3" fill="#efc878"/>
+  return <svg className="slime-portrait" viewBox="0 0 180 190" role="img" aria-label="Boakye, a man and crab hybrid">
+    <ellipse cx="90" cy="169" rx="56" ry="9" fill="#1b102f" opacity=".22" />
+    {/* Crab legs and shell peek out around his upright human frame. */}
+    <path d="m60 132-25 13m28-5-21 23m60-30 23 17m-17-22 28 8" fill="none" stroke="#ac624d" strokeWidth="7" strokeLinecap="round" />
+    <path d="m38 143-7 2m12 17-8 6m101-20 8 4m-14 14 7 5" fill="none" stroke="#e88c68" strokeWidth="4" strokeLinecap="round" />
+    <path d="M50 124c0-22 15-36 40-36s42 14 42 36v23H50Z" fill="#e47d61" stroke="#493249" strokeWidth="5" />
+    <path d="M59 119q29-19 62 0m-59 12q28-15 56 0m-48 13q20-8 39 0" fill="none" stroke="#f6ad78" strokeWidth="3.5" strokeLinecap="round" />
+    {/* Shorts and two planted human legs make his stance read upright. */}
+    <path d="M63 133h54l-5 22-19 4-6-15-7 15-19-4Z" fill="#263446" stroke="#493249" strokeWidth="4" strokeLinejoin="round" />
+    <path d="m77 154-3 12m26-12 4 12" stroke="#9b5949" strokeWidth="7" strokeLinecap="round" />
+    <path d="M65 168h16m23 0h16" stroke="#292b3a" strokeWidth="8" strokeLinecap="round" />
+    {/* Broad human torso in a sleeveless beach jersey, backed by the carapace. */}
+    <path d="M61 87q8-14 27-14t28 14l10 39H52Z" fill="#446e70" stroke="#493249" strokeWidth="5" strokeLinejoin="round" />
+    <path d="m78 77 10 17 10-17m-10 18v35" fill="none" stroke="#efc878" strokeWidth="4" strokeLinejoin="round" />
+    <path d="M59 96 45 112m73-16 15 16" fill="none" stroke="#9b5949" strokeWidth="9" strokeLinecap="round" />
+    {/* His forearms end in crab pincers. */}
+    <path d="m45 112-8 10m96-10 8 10" stroke="#ac624d" strokeWidth="7" strokeLinecap="round" />
+    <path d="M37 119q-13-7-16 1-2 7 7 10l-6 8q9 3 15-5 8 4 13-2 5-7-3-12-5-3-10 0Zm104 0q13-7 16 1 2 7-7 10l6 8q-9 3-15-5-8 4-13-2-5-7 3-12 5-3 10 0Z" fill="#e88c68" stroke="#493249" strokeWidth="4" strokeLinejoin="round" />
+    {/* Human face and curls, with the crab eyestalks kept above the hairline. */}
+    <path d="M66 81c-5-20 5-38 24-38 20 0 31 17 26 39-8 8-42 9-50-1Z" fill="#a9614a" stroke="#493249" strokeWidth="4" />
+    <path d="M67 58q20-23 48 0l-5-17q-20-18-39 0Z" fill="#23242c" stroke="#493249" strokeWidth="4" strokeLinejoin="round" />
+    <circle cx="76" cy="43" r="6" fill="#23242c"/><circle cx="88" cy="37" r="6" fill="#23242c"/><circle cx="101" cy="38" r="6" fill="#23242c"/><circle cx="111" cy="45" r="6" fill="#23242c"/>
+    <path d="M75 62q7-4 13 0m10 0q7-4 13 0" fill="none" stroke="#382c31" strokeWidth="3.5" strokeLinecap="round" />
+    <ellipse cx="83" cy="68" rx="2.5" ry="3.5" fill="#29253e"/><ellipse cx="105" cy="68" rx="2.5" ry="3.5" fill="#29253e"/>
+    <path d="M86 78q8 8 16 0m-14-2q5-4 10 0" fill="none" stroke="#332a34" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M76 43Q72 33 68 26m31 17q7-10 17-17" fill="none" stroke="#493249" strokeWidth="4" strokeLinecap="round" />
+    <ellipse cx="67" cy="23" rx="8" ry="9" fill="#fff3dc" stroke="#493249" strokeWidth="3"/><ellipse cx="117" cy="23" rx="8" ry="9" fill="#fff3dc" stroke="#493249" strokeWidth="3"/>
+    <circle cx="69" cy="24" r="2.8" fill="#29253e"/><circle cx="119" cy="24" r="2.8" fill="#29253e"/>
+    <path d="M88 131h17l-2 11-7 5-7-5Z" fill="#8eaaa0" stroke="#493249" strokeWidth="3"/><circle cx="96" cy="137" r="3" fill="#efc878"/>
   </svg>
 }
 
@@ -103,6 +121,42 @@ function ParcelIcon() {
     <path d="M21 17v25m6-25v25" stroke="#b96768" strokeWidth="4" />
     <path d="M24 17c-13 0-15-12-8-12 5 0 8 7 8 12Zm0 0c13 0 15-12 8-12-5 0-8 7-8 12Z" fill="#df8178" stroke="#493249" strokeWidth="2.5" strokeLinejoin="round" />
   </svg>
+}
+
+function HeroRunScene({ characterId }) {
+  return <div className="hero-art" aria-label="A sunset run through a Takoradi street">
+    <svg className="hero-route-art" viewBox="0 0 560 360" role="img" aria-label="A Takoradi street at sunset, with a runner, cake obstacle and parcel">
+      <defs>
+        <linearGradient id="route-sky" x1="0" x2="0" y1="0" y2="1"><stop stopColor="#c8c4aa"/><stop offset="1" stopColor="#e0a17e"/></linearGradient>
+        <linearGradient id="route-road" x1="0" x2="0" y1="0" y2="1"><stop stopColor="#74616a"/><stop offset="1" stopColor="#342d3a"/></linearGradient>
+      </defs>
+      <rect x="4" y="8" width="552" height="344" rx="24" fill="url(#route-sky)"/>
+      <circle cx="414" cy="99" r="40" fill="#f2d294" opacity=".82"/>
+      <path d="M4 208q80-41 153-4t147-2 134-4 118 16v76H4Z" fill="#8b8580" opacity=".38"/>
+      <path d="M4 231h552v71H4Z" fill="#85736d" opacity=".32"/>
+      <g fill="#65545b">
+        <path d="M25 181h65v76H25zM32 157h49v24H32zM107 164h71v93h-71zM117 145h50v19h-50zM200 178h63v79h-63zM270 154h74v103h-74zM281 136h52v18h-52zM365 171h70v86h-70zM446 151h80v106h-80z"/>
+      </g>
+      <g fill="#e5c18c" opacity=".85">
+        <path d="M39 190h12v17H39zm25 0h12v17H64zm-25 28h12v17H39zm80-38h13v18h-13zm26 0h13v18h-13zm-26 28h13v18h-13zm94-17h14v18h-14zm27 0h14v18h-14zm-27 28h14v18h-14zm74-44h13v19h-13zm27 0h13v19h-13zm-27 29h13v19h-13zm85 0h13v18h-13zm27 0h13v18h-13zm52-27h14v19h-14zm28 0h14v19h-14z"/>
+      </g>
+      <path d="M4 269q102-22 183-7t173-5 196 2v93H4Z" fill="url(#route-road)"/>
+      <path d="M5 269q100-21 182-7t173-5 196 2" fill="none" stroke="#efd6a2" strokeWidth="4"/>
+      <path d="M18 318q90-20 169-7m26 4q64 5 120-4m28-3q70-13 126-4" fill="none" stroke="#d2aa7d" strokeWidth="4" strokeLinecap="round" strokeDasharray="30 21" opacity=".9"/>
+      <path d="M499 252q-2-42-20-69m20 13q-28-31-50-24m48 26q13-33 35-35m-33 36q32-18 48-8" fill="none" stroke="#48534d" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M24 260h100" stroke="#f0cf90" strokeWidth="3" strokeDasharray="5 7" opacity=".7"/>
+    </svg>
+    <div className="hero-runner"><CharacterPortrait characterId={characterId}/></div>
+    <div className="hero-route-parcel"><ParcelIcon/></div>
+    <svg className="hero-route-cake" viewBox="0 0 64 76" aria-hidden="true">
+      <path d="M9 37h46l-5 31H14Z" fill="#e8c782" stroke="#493c48" strokeWidth="3" strokeLinejoin="round"/>
+      <path d="M9 37q6-8 12 0t12 0 12 0 10 0" fill="none" stroke="#fff0d0" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M32 35V15" stroke="#493c48" strokeWidth="4" strokeLinecap="round"/>
+      <path d="M32 14c-7-5 2-10 0-13 8 5 5 10 0 13Z" fill="#dc8378" stroke="#493c48" strokeWidth="2"/>
+      <circle cx="23" cy="51" r="3" fill="#bd7275"/><circle cx="39" cy="57" r="3" fill="#bd7275"/>
+      <path d="M17 69h30" stroke="#493c48" strokeWidth="4" strokeLinecap="round"/>
+    </svg>
+  </div>
 }
 
 function roundedRect(ctx, x, y, w, h, r) {
@@ -208,31 +262,87 @@ function drawCrab(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   const airborne = jumpY > 2
   const falling = airborne && vy < -80
   const running = phase === 'playing'
-  const stride = running ? Math.sin(elapsed * 17) : 0
-  const base = groundY - jumpY - (!airborne && running ? Math.abs(stride) * 1.5 : 0)
+  const stride = running ? Math.sin(elapsed * 15) : 0
+  const base = groundY - jumpY - (!airborne && running ? Math.max(0, Math.sin(elapsed * 30)) * 1.5 : 0)
+  const bob = !airborne && running ? Math.abs(Math.sin(elapsed * 30)) * 1.2 : 0
+  const reach = airborne ? (falling ? 7 : -8) : 0
   ctx.save()
-  ctx.globalAlpha = .22; ctx.fillStyle = '#17111f'; ctx.beginPath(); ctx.ellipse(x + 30, groundY + 3, Math.max(15, 27 - jumpY * .08), 7, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
-  const bodyBob = airborne ? 0 : Math.max(0, Math.sin(elapsed * 17)) * 2
-  ctx.save(); ctx.translate(x + 31, base - 24 - bodyBob); ctx.rotate(airborne ? (falling ? -.16 : .13) : stride * .055); ctx.translate(-(x + 31), -(base - 24 - bodyBob))
-  ctx.fillStyle = '#e47d61'; ctx.strokeStyle = '#493249'; ctx.lineWidth = 3
-  ctx.beginPath(); ctx.ellipse(x + 31, base - 24, 29, 20, 0, Math.PI, Math.PI * 2); ctx.lineTo(x + 60, base - 19); ctx.quadraticCurveTo(x + 31, base + 1, x + 2, base - 19); ctx.closePath(); ctx.fill(); ctx.stroke()
-  ctx.strokeStyle = '#f6ad78'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x + 31, base - 23, 20, Math.PI * 1.05, Math.PI * 1.95); ctx.stroke()
-  // Six alternating legs give Boakye a quick sideways scuttle; airborne legs tuck, then reach to land.
-  ctx.strokeStyle = '#ac624d'; ctx.lineWidth = 4.5; ctx.lineCap = 'round'; ctx.beginPath()
-  for (let i = 0; i < 3; i++) {
-    const offset = airborne ? (falling ? 5 : -4) : stride * (i % 2 ? -8 : 8)
-    const leftX = x + 10 + i * 9, rightX = x + 52 - i * 9
-    const legEndY = falling ? base + 2 : airborne ? base - 8 : base + 2
-    ctx.moveTo(leftX, base - 17); ctx.lineTo(leftX - 6 + offset, legEndY)
-    ctx.moveTo(rightX, base - 17); ctx.lineTo(rightX + 6 - offset, legEndY)
+  ctx.globalAlpha = .22; ctx.fillStyle = '#17111f'; ctx.beginPath(); ctx.ellipse(x + 31, groundY + 3, Math.max(13, 28 - jumpY * .08), 7, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
+
+  // Four small side legs scuttle behind the upright runner.
+  ctx.strokeStyle = '#a95743'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.beginPath()
+  for (let i = 0; i < 2; i++) {
+    const kick = airborne ? (falling ? 3 : -2) : stride * (i ? -4 : 4)
+    const sy = base - 21 - i * 8
+    ctx.moveTo(x + 16, sy); ctx.lineTo(x + 5 - kick, sy + 8 + reach)
+    ctx.moveTo(x + 48, sy); ctx.lineTo(x + 59 + kick, sy + 8 + reach)
   }
   ctx.stroke()
-  ctx.strokeStyle = '#493249'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x + 20, base - 39); ctx.lineTo(x + 18, base - 47); ctx.moveTo(x + 43, base - 39); ctx.lineTo(x + 45, base - 47); ctx.stroke()
-  ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.arc(x + 17, base - 49, 6, 0, Math.PI * 2); ctx.arc(x + 46, base - 49, 6, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#29253e'; ctx.beginPath(); ctx.arc(x + 19, base - 49, 2, 0, Math.PI * 2); ctx.arc(x + 48, base - 49, 2, 0, Math.PI * 2); ctx.fill()
-  // Claws bob opposite each other in a scuttle and sweep forward to balance a jump.
-  const clawLift = airborne ? (falling ? -2 : 10) : stride * 5
-  ctx.strokeStyle = '#ac624d'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(x + 4, base - 27); ctx.lineTo(x - 2, base - 38 - clawLift); ctx.lineTo(x - 6, base - 42 - clawLift); ctx.moveTo(x + 57, base - 27); ctx.lineTo(x + 63, base - 38 + clawLift); ctx.lineTo(x + 67, base - 42 + clawLift); ctx.stroke()
-  ctx.fillStyle = '#e88c68'; ctx.beginPath(); ctx.arc(x - 7, base - 44 - clawLift, 6, .2, Math.PI * 1.85); ctx.arc(x + 68, base - 44 + clawLift, 6, 1.3, Math.PI * 2.95); ctx.fill()
+  ctx.strokeStyle = '#e88c68'; ctx.lineWidth = 1.5; ctx.beginPath()
+  ctx.moveTo(x + 5 - stride * 4, base - 13 + reach); ctx.lineTo(x + 2 - stride * 4, base - 10 + reach)
+  ctx.moveTo(x + 59 + stride * 4, base - 13 + reach); ctx.lineTo(x + 62 + stride * 4, base - 10 + reach)
+  ctx.stroke()
+
+  // Human legs and shoes keep the silhouette upright; they tuck in the jump and reach on landing.
+  const legs = airborne
+    ? [{ phase: falling ? -.25 : .35, lift: falling ? 1 : 7 }, { phase: falling ? .25 : -.35, lift: falling ? 1 : 4 }]
+    : [{ phase: stride, lift: Math.max(0, -stride) * 7 }, { phase: -stride, lift: Math.max(0, stride) * 7 }]
+  ctx.lineCap = 'round'
+  legs.forEach((leg, i) => {
+    const hipX = x + (i ? 38 : 28)
+    const kneeX = hipX + leg.phase * 5
+    const ankleX = hipX + leg.phase * 10
+    const kneeY = base - 4 - leg.lift * .35
+    const ankleY = base + 1 - leg.lift
+    ctx.strokeStyle = '#70463c'; ctx.lineWidth = 6; ctx.beginPath()
+    ctx.moveTo(hipX, base - 15); ctx.lineTo(kneeX, kneeY); ctx.lineTo(ankleX, ankleY); ctx.stroke()
+    ctx.fillStyle = '#a9614a'; ctx.beginPath(); ctx.arc(kneeX, kneeY, 2.4, 0, Math.PI * 2); ctx.fill()
+    ctx.fillStyle = '#252b3a'; ctx.beginPath(); ctx.roundRect(ankleX - 6, ankleY - 2, 14, 6, 3); ctx.fill()
+    ctx.fillStyle = '#f0c878'; ctx.fillRect(ankleX - 4, ankleY + 1, 7, 1.5)
+  })
+
+  ctx.save(); ctx.translate(x + 32, base - 35 - bob); ctx.rotate(airborne ? (falling ? -.1 : .1) : stride * .035); ctx.translate(-(x + 32), -(base - 35 - bob))
+  // Shell carapace sits behind his shoulders and waist.
+  ctx.fillStyle = '#d96c51'; ctx.strokeStyle = '#493249'; ctx.lineWidth = 3
+  ctx.beginPath(); ctx.moveTo(x + 15, base - 25); ctx.quadraticCurveTo(x + 9, base - 39, x + 17, base - 52); ctx.quadraticCurveTo(x + 31, base - 63, x + 47, base - 51); ctx.quadraticCurveTo(x + 55, base - 38, x + 49, base - 25); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.strokeStyle = '#f6ad78'; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(x + 19, base - 48); ctx.lineTo(x + 45, base - 48); ctx.moveTo(x + 15, base - 38); ctx.lineTo(x + 50, base - 38); ctx.moveTo(x + 22, base - 28); ctx.lineTo(x + 43, base - 28); ctx.stroke()
+
+  // Jersey and shorts give the crab a clear human torso.
+  ctx.fillStyle = '#263446'; ctx.strokeStyle = '#493249'; ctx.lineWidth = 3
+  ctx.beginPath(); ctx.moveTo(x + 23, base - 25); ctx.lineTo(x + 41, base - 25); ctx.lineTo(x + 44, base - 14); ctx.lineTo(x + 32, base - 12); ctx.lineTo(x + 20, base - 14); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.fillStyle = '#477878'; ctx.beginPath(); ctx.moveTo(x + 22, base - 55); ctx.quadraticCurveTo(x + 31, base - 61, x + 41, base - 55); ctx.lineTo(x + 46, base - 27); ctx.quadraticCurveTo(x + 32, base - 22, x + 18, base - 27); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.strokeStyle = '#efc878'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + 28, base - 57); ctx.lineTo(x + 32, base - 49); ctx.lineTo(x + 36, base - 57); ctx.moveTo(x + 32, base - 49); ctx.lineTo(x + 32, base - 29); ctx.stroke()
+
+  // Arms swing against the legs. Pincers open slightly in mid-air.
+  const armSwing = airborne ? (falling ? 3 : -8) : stride * 9
+  ctx.strokeStyle = '#94543f'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath()
+  const elbowLeft = x + 15 - armSwing * .3, elbowRight = x + 49 + armSwing * .3
+  const handLeft = x + 12 - armSwing * .55, handRight = x + 52 + armSwing * .55
+  const armDrop = airborne ? (falling ? 2 : -6) : 0
+  ctx.moveTo(x + 22, base - 51); ctx.lineTo(elbowLeft, base - 43 - armDrop); ctx.lineTo(handLeft, base - 34 - armSwing * .25)
+  ctx.moveTo(x + 42, base - 51); ctx.lineTo(elbowRight, base - 43 - armDrop); ctx.lineTo(handRight, base - 34 + armSwing * .25); ctx.stroke()
+  ctx.strokeStyle = '#e88c68'; ctx.lineWidth = 4; ctx.beginPath()
+  ctx.moveTo(handLeft, base - 34 - armSwing * .25); ctx.lineTo(handLeft - 4, base - 30 - armSwing * .25)
+  ctx.moveTo(handRight, base - 34 + armSwing * .25); ctx.lineTo(handRight + 4, base - 30 + armSwing * .25); ctx.stroke()
+  ctx.fillStyle = '#e88c68'; ctx.beginPath()
+  const clawY1 = base - 30 - armSwing * .25, clawY2 = base - 30 + armSwing * .25
+  ctx.arc(handLeft - 5, clawY1, 4.5, .2, Math.PI * 1.8); ctx.arc(handRight + 5, clawY2, 4.5, 1.3, Math.PI * 2.9); ctx.fill()
+  ctx.strokeStyle = '#493249'; ctx.lineWidth = 1.5; ctx.beginPath()
+  ctx.moveTo(handLeft - 8, clawY1 - 4); ctx.lineTo(handLeft - 3, clawY1 - 7)
+  ctx.moveTo(handRight + 8, clawY2 - 4); ctx.lineTo(handRight + 3, clawY2 - 7); ctx.stroke()
+
+  // A friendly human face framed by crab eyestalks and short curls.
+  ctx.fillStyle = '#a9614a'; ctx.strokeStyle = '#493249'; ctx.lineWidth = 2.5
+  ctx.beginPath(); ctx.roundRect(x + 22, base - 77, 20, 23, 8); ctx.fill(); ctx.stroke()
+  ctx.fillStyle = '#23242c'; ctx.beginPath(); ctx.arc(x + 24, base - 75, 4, Math.PI, Math.PI * 2); ctx.arc(x + 30, base - 78, 4.5, Math.PI, Math.PI * 2); ctx.arc(x + 37, base - 76, 4.5, Math.PI, Math.PI * 2); ctx.arc(x + 41, base - 72, 3.5, Math.PI, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.ellipse(x + 29, base - 66, 2.2, 3, 0, 0, Math.PI * 2); ctx.ellipse(x + 37, base - 66, 2.2, 3, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#29253e'; ctx.beginPath(); ctx.arc(x + 30, base - 66, 1.2, 0, Math.PI * 2); ctx.arc(x + 38, base - 66, 1.2, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#382c31'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + 27, base - 69); ctx.lineTo(x + 31, base - 70); ctx.moveTo(x + 35, base - 70); ctx.lineTo(x + 39, base - 69); ctx.stroke()
+  ctx.fillStyle = '#6d4038'; ctx.beginPath(); ctx.ellipse(x + 33, base - 61, 5, 2.2, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#332a34'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + 30, base - 59); ctx.quadraticCurveTo(x + 33, base - 56, x + 37, base - 59); ctx.stroke()
+  ctx.strokeStyle = '#493249'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + 27, base - 76); ctx.lineTo(x + 25, base - 82); ctx.moveTo(x + 38, base - 76); ctx.lineTo(x + 41, base - 82); ctx.stroke()
+  ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.arc(x + 24, base - 83, 3.3, 0, Math.PI * 2); ctx.arc(x + 42, base - 83, 3.3, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#29253e'; ctx.beginPath(); ctx.arc(x + 25, base - 83, 1.2, 0, Math.PI * 2); ctx.arc(x + 43, base - 83, 1.2, 0, Math.PI * 2); ctx.fill()
   ctx.restore(); ctx.restore()
 }
 
@@ -1062,17 +1172,16 @@ function App() {
     <header className="topbar"><a className="brand" href="#top" aria-label="Ella's birthday run, October 27"><span className="brand-bib" aria-hidden="true"><small>OCT</small><strong>27</strong></span><span className="brand-lockup"><strong>ELLA'S RUN</strong><small>BIRTHDAY DASH · OCTOBER 27</small></span></a><div className="topbar-right"><span className="for-ella"><MapPin size={14}/><span>TAKORADI<small>GHANA</small></span></span></div></header>
     {!unlocked ? <section className="countdown-screen" id="top"><div className="countdown-copy"><span className="eyebrow"><Clock3 size={14} /> THE START LINE OPENS SOON</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>Her route through Takoradi is almost ready.<br />The start line opens at 7:10 PM on October 27.</p><div className="clock-grid">{timeParts && Object.entries(timeParts).map(([unit, val]) => <div className="clock-card" key={unit}><strong>{String(val).padStart(2, '0')}</strong><span>{unit}</span></div>)}</div><div className="unlock-note"><Clock3 size={15} /> Opens October 27 at 7:10 PM · Ghana time</div>{import.meta.env.DEV && <button className="preview-link" onClick={() => { const url = new URL(window.location.href); url.searchParams.set('preview', '1'); window.location.href = url.toString() }}>Developer preview <ChevronRight size={14}/></button>}<div className="countdown-cake" aria-hidden="true"><SlimePortrait/></div></div><div className="countdown-footer">October 27 · Takoradi</div></section> : <>
       {DEV_PREVIEW && <div className="preview-banner">DEVELOPER PREVIEW · data is saved separately from the live game <button onClick={() => { const url = new URL(window.location.href); url.searchParams.delete('preview'); window.location.href = url.toString() }}>Exit preview</button></div>}
-      <section className="hero" id="top"><div className="hero-copy"><span className="eyebrow"><MapPin size={14} /> TAKORADI · OCTOBER 27</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>Take a run around Takoradi. Dodge the cakes and grab as many parcels as you can.</p><button className="primary-btn" onClick={startRun}><span>START A RUN</span><ChevronRight size={18} /></button><div className="control-hint"><span className="desktop-control-hint"><span>SPACE</span> or <span>↑</span> jump</span><span className="mobile-control-hint">Tap anywhere to jump</span></div></div><div className="hero-art"><div className="hero-disc"/><div className="portrait-frame"><CharacterPortrait characterId={selectedCharacter} /></div><span className="float-item fi-a"><Gift size={23}/></span><span className="float-item fi-b"><Cherry size={22}/></span><span className="float-item fi-c"><Heart size={18}/></span><span className="float-item fi-d"><CakeSlice size={23}/></span><div className="hero-label">TAKORADI<br />OCTOBER 27</div></div></section>
-      <section className="dashboard"><div className="dashboard-head"><div><span className="eyebrow small">YOUR RUNS</span><h2>Your run so far</h2></div></div><div className="character-picker"><div className="character-picker-head"><span className="eyebrow small">CHOOSE YOUR RUNNER</span><small>Each has their own power.</small></div><div className="character-options">{CHARACTERS.map((runner) => <button key={runner.id} className={`character-option ${selectedCharacter === runner.id ? 'is-selected' : ''}`} aria-pressed={selectedCharacter === runner.id} onClick={() => chooseCharacter(runner.id)}><span className="character-option-art"><CharacterPortrait characterId={runner.id} /></span><span className="character-option-copy"><strong>{runner.name}</strong><small>{runner.detail}</small></span>{selectedCharacter === runner.id && <Check size={15} />}</button>)}</div></div><div className="stat-grid"><div className="stat-card score-card"><div className="stat-icon pink"><Star size={18} /></div><div><span>YOUR POINTS</span><strong>{points.toLocaleString()}</strong><small>Collected on your runs</small></div><div className="score-spark">✦</div></div><div className="stat-card prize-card surprise-card"><div className="stat-icon gold"><Trophy size={18} /></div><div><span>{balance.cashedOut ? 'YOUR BIRTHDAY GIFT' : 'BIRTHDAY GIFT'}</span><strong>{balance.cashedOut ? fmtMoney(balance.claimedAmount) : '???'}</strong><small>{balance.cashedOut ? 'Claimed · thank you for playing' : 'Tap cash out when you’re ready'}</small></div>{!balance.cashedOut && <div className="surprise-mark">✦</div>}</div></div><div className="game-panel"><div className="game-panel-icon"><Flag size={19} /></div><div className="game-panel-copy"><strong>The Takoradi run</strong><span>Jump the cakes, grab parcels, and see if you can beat your last score.</span></div><button className="outline-btn" onClick={startRun}>Play a round <ChevronRight size={16} /></button></div><div className="cashout-strip"><div className="cashout-copy"><div className="cashout-gift"><Gift size={19} /></div><div><strong>{balance.cashedOut ? 'Gift claimed' : 'Your birthday gift'}</strong><span>{balance.cashedOut ? 'All sorted. Have the best birthday, Ella.' : 'Play a few runs, then cash out once when you’re ready.'}</span></div></div><button className="cashout-btn" disabled={balance.cashedOut} onClick={openCashout}>{balance.cashedOut ? <><Check size={16} /> Claimed</> : <>Cash out <ChevronRight size={16} /></>}</button></div><div className="love-note"><Heart size={13} /> Happy birthday, Ella. Hope this makes you smile.</div></section>
+      <section className="hero" id="top"><div className="hero-copy"><h1>Ella's<br /><span>birthday dash.</span></h1><p>Run the streets, dodge the cakes, and collect parcels. How far can you get?</p><button className="primary-btn" onClick={startRun}><span>START A RUN</span><ChevronRight size={18} /></button><div className="control-hint"><span className="desktop-control-hint"><span>SPACE</span> or <span>↑</span> jump</span><span className="mobile-control-hint">Tap anywhere to jump</span></div></div><HeroRunScene characterId={selectedCharacter}/></section>
+      <section className="dashboard"><div className="dashboard-head"><div><h2>Your run so far</h2></div></div><div className="character-picker"><div className="character-picker-head"><span className="eyebrow small">CHOOSE YOUR RUNNER</span></div><div className="character-options">{CHARACTERS.map((runner) => <button key={runner.id} className={`character-option ${selectedCharacter === runner.id ? 'is-selected' : ''}`} aria-pressed={selectedCharacter === runner.id} onClick={() => chooseCharacter(runner.id)}><span className="character-option-art"><CharacterPortrait characterId={runner.id} /></span><span className="character-option-copy"><strong>{runner.name}</strong><small>{runner.detail}</small></span>{selectedCharacter === runner.id && <Check size={15} />}</button>)}</div></div><div className="stat-grid"><div className="stat-card score-card"><div><span>YOUR POINTS</span><strong>{points.toLocaleString()}</strong><small>Collected on your runs</small></div><div className="score-spark">✦</div></div><div className="stat-card prize-card surprise-card"><div><span>{balance.cashedOut ? 'YOUR BIRTHDAY GIFT' : 'BIRTHDAY GIFT'}</span><strong>{balance.cashedOut ? fmtMoney(balance.claimedAmount) : '???'}</strong></div>{!balance.cashedOut && <div className="surprise-mark">✦</div>}</div></div><div className="game-panel"><div className="game-panel-icon"><Flag size={19} /></div><div className="game-panel-copy"><strong>Ready for another?</strong><span>Dodge cakes and collect parcels to add to your points.</span></div><button className="outline-btn" onClick={startRun}>Play a round <ChevronRight size={16} /></button></div><div className="cashout-strip"><div className="cashout-copy"><div className="cashout-gift"><Gift size={19} /></div><div><strong>{balance.cashedOut ? 'Gift claimed' : 'Your birthday gift'}</strong><span>{balance.cashedOut ? 'All sorted. Have the best birthday, Ella.' : 'Play a few runs, then cash out once when you’re ready.'}</span></div></div><button className="cashout-btn" disabled={balance.cashedOut} onClick={openCashout}>{balance.cashedOut ? <><Check size={16} /> Claimed</> : <>Cash out <ChevronRight size={16} /></>}</button></div></section>
     </>}
 
     {modal === 'welcome' && <div className="modal-backdrop welcome-backdrop" onClick={() => setModal('')}><div className="modal welcome-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="welcome-confetti" aria-hidden="true"><i/><i/><i/><SlimePortrait/></div><span className="eyebrow">OCTOBER 27 · YOUR DAY</span><h2>Happy Birthday,<br /><span>Ella.</span></h2><p>I made you a little game for your day. Take the long way through Takoradi, dodge the cakes, and see how many parcels you can bring back.</p><div className="welcome-signoff">Hope you have a really good day <Heart size={15} /></div><button className="primary-btn modal-cta" onClick={() => setModal('')}><span>TAKE A LOOK</span><ChevronRight size={18}/></button></div></div>}
     {modal === 'round' && <div className="modal-backdrop" onClick={() => setModal('')}><div className="modal round-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="celebrate-burst"><ParcelIcon/></div><span className="eyebrow">RUN SUMMARY</span><h2>Nice run, <span>Ella.</span></h2><div className="round-stats"><div><strong>{lastRun.score}</strong><span>POINTS</span></div><div><strong>{lastRun.gifts}</strong><span>PARCELS</span></div><div><strong>{lastRun.seconds}s</strong><span>TIME</span></div></div><p>That’s all three lives. Fancy another go, or ready to claim your gift?</p><button className="primary-btn modal-cta" onClick={startRun}><span>RUN AGAIN</span><ChevronRight size={18}/></button><button className="round-cashout" onClick={openCashout} disabled={savingRun || balance.cashedOut}>{savingRun ? 'Saving your run…' : balance.cashedOut ? 'Gift already claimed' : 'Claim your gift'}</button></div></div>}
-    {modal === 'cashout' && <div className="modal-backdrop" onClick={() => setModal('')}><form className="modal cashout-modal" onSubmit={cashout} onClick={(e) => e.stopPropagation()}><button type="button" className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="cashout-modal-icon"><Gift size={23}/></div><span className="eyebrow">YOUR BIRTHDAY GIFT</span><h2>You won <span>{quoteLoading || cashoutQuote === null ? '…' : fmtMoney(cashoutQuote)}</span></h2><p>Add your details and I’ll get your birthday gift to you.</p><label>Your name<input required value={claim.name} onChange={(e) => setClaim({ ...claim, name: e.target.value })} placeholder="Name" maxLength="80" /></label><label>Mobile money number<input required value={claim.mobile} onChange={(e) => setClaim({ ...claim, mobile: e.target.value })} placeholder="e.g. 024 123 4567" inputMode="tel" maxLength="20" /></label><label>How much fun did you have? <span className="rating-line">{claim.rating}/10</span><input className="rating-range" type="range" min="1" max="10" value={claim.rating} onChange={(e) => setClaim({ ...claim, rating: e.target.value })}/></label><button className="primary-btn submit-btn" type="submit" disabled={busy || quoteLoading || cashoutQuote === null}><span>{busy ? 'SAVING…' : 'SEND MY DETAILS'}</span><ChevronRight size={18}/></button><small className="privacy-note">I’ll use these details to send your gift.</small></form></div>}
+        {modal === 'cashout' && <div className="modal-backdrop" onClick={() => setModal('')}><form className="modal cashout-modal" role="dialog" aria-modal="true" aria-labelledby="cashout-title" onSubmit={cashout} onClick={(e) => e.stopPropagation()}><button type="button" className="modal-close" aria-label="Close cash-out form" onClick={() => setModal('')}><X size={18}/></button><div className="cashout-heading"><div className="cashout-modal-icon"><Gift size={22}/></div><span className="eyebrow">YOUR BIRTHDAY GIFT</span><h2 id="cashout-title">You earned this.</h2><div className="cashout-ticket"><span>GIFT AMOUNT</span><strong>{quoteLoading || cashoutQuote === null ? '…' : fmtMoney(cashoutQuote)}</strong><small>Ready to send when you are.</small></div><p>Add your name and MoMo number, then give the run a quick rating. I’ll send your gift after that.</p></div><div className="cashout-fields"><label>Your name<input required autoComplete="name" value={claim.name} onChange={(e) => setClaim({ ...claim, name: e.target.value })} placeholder="What should I call you?" maxLength="80" /></label><label>MoMo number<input required autoComplete="tel" value={claim.mobile} onChange={(e) => setClaim({ ...claim, mobile: e.target.value })} placeholder="024 123 4567" inputMode="tel" maxLength="20" /></label><label className="rating-label">How was the run? <span className="rating-line" aria-live="polite">{claim.rating}/10</span><input className="rating-range" type="range" min="1" max="10" value={claim.rating} aria-label="Rate your run from 1 to 10" aria-valuetext={claim.rating + ' out of 10'} onChange={(e) => setClaim({ ...claim, rating: e.target.value })}/><span className="rating-ends"><span>Not great</span><span>Had a blast</span></span></label></div><button className="primary-btn submit-btn" type="submit" disabled={busy || quoteLoading || cashoutQuote === null}><span>{busy ? 'Sending…' : 'Send details'}</span><ChevronRight size={18}/></button><small className="privacy-note">I’ll use your number to send the gift.</small></form></div>}
     {modal === 'celebrate' && <div className="modal-backdrop" onClick={() => setModal('')}><div className="modal celebrate-modal" onClick={(e) => e.stopPropagation()}><div className="celebrate-photo" aria-hidden="true"/><button className="modal-close" onClick={() => setModal('')}><X size={18}/></button><div className="celebrate-burst"><Check size={35}/></div><span className="eyebrow">ALL YOURS</span><h2>It’s yours,<br /><span>Ella!</span></h2><p>You’ve got <strong className="claimed-reveal">{fmtMoney(balance.claimedAmount)}</strong> coming your way. Happy birthday!</p><button className="primary-btn modal-cta" onClick={() => setModal('')}><span>BACK TO THE GAME</span><ChevronRight size={18}/></button></div></div>}
     {gameActive && <CanvasGame onFinish={finishRun} onAbort={() => setGameActive(false)} claimedAmount={balance.cashedOut ? balance.claimedAmount : null} character={selectedCharacter} />}
     {toast && <div className="toast">{toast}</div>}
-    <footer className="site-footer">Takoradi · October 27</footer>
   </main>
 }
 

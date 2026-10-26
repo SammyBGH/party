@@ -113,3 +113,49 @@ body{background:#211d2b}.app-shell{background:linear-gradient(135deg,#2b2635 0%,
   .for-ella>svg{width:12px;height:12px}
   .for-ella small{font-size:6px}
 }
+
+/* The homepage hero is a small scene from the runner, not a floating icon collage. */
+.hero-art{display:block;isolation:isolate;width:48%;height:370px;animation:fadeUp .65s .08s both}
+.hero-route-art{position:absolute;inset:0;width:100%;height:100%;border:1px solid #f4ead84d;border-radius:24px;box-shadow:0 18px 42px #100e1738}
+.hero-runner{position:absolute;z-index:2;left:36%;bottom:49px;width:150px;height:165px;display:grid;place-items:center;animation:portraitBob 2.8s ease-in-out infinite}
+.hero-runner .slime-portrait{width:100%;height:100%}
+.hero-route-parcel{position:absolute;z-index:3;left:17%;bottom:82px;width:40px;height:40px;transform:rotate(-8deg);animation:parcelHop 2.3s ease-in-out infinite}
+.hero-route-parcel .parcel-icon{width:100%;height:100%;filter:drop-shadow(0 4px 3px #241a2935)}
+.hero-route-cake{position:absolute;z-index:2;right:9%;bottom:42px;width:49px;height:59px;filter:drop-shadow(0 5px 3px #241a2935)}
+@keyframes parcelHop{0%,100%{translate:0 0;rotate:-8deg}50%{translate:0 -7px;rotate:0deg}}
+@media(max-width:700px){
+  .hero-art{width:100%;height:235px;margin-top:4px}
+  .hero-route-art{border-radius:17px}
+  .hero-runner{left:35%;bottom:29px;width:105px;height:119px}
+  .hero-route-parcel{left:16%;bottom:56px;width:31px;height:31px}
+  .hero-route-cake{right:8%;bottom:24px;width:36px;height:44px}
+}
+.hero-copy h1{margin-top:0}
+.stat-grid{gap:0;overflow:hidden;border:1px solid #f4ead81c;border-radius:12px;background:#f4ead806}
+.stat-card{min-width:0;border:0!important;border-radius:0!important;background:transparent!important;padding:19px 23px}
+.stat-card+.stat-card{border-left:1px solid #f4ead81c!important}
+.stat-icon{display:none}
+@media(max-width:700px){.stat-card{padding:15px 13px}.stat-card strong{font-size:21px}.stat-card small{font-size:9px}}
+
+.cashout-modal{width:min(100%,460px);max-height:min(92vh,820px);overflow-y:auto;padding:30px 32px 24px;background:#302a38;border-color:#f4ead833;box-shadow:0 22px 65px #100e1780}
+.cashout-heading{text-align:center}
+.cashout-modal .cashout-modal-icon{width:40px;height:40px;margin:0 auto 12px;border:1px solid #efc87848;border-radius:50%;background:#efc87812;color:#efc878}
+.cashout-modal .eyebrow{justify-content:center;color:#e7bd91;font-size:9px}
+.cashout-modal h2{margin:7px 0 15px;font-size:32px;letter-spacing:-.025em}
+.cashout-ticket{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;margin:0 0 14px;padding:12px 18px 11px;border:1px dashed #8f704a;border-radius:9px;background:radial-gradient(circle at 0 50%,#302a38 0 7px,transparent 7.5px),radial-gradient(circle at 100% 50%,#302a38 0 7px,transparent 7.5px),#efc878;color:#292431}
+.cashout-ticket>span{font:700 8px 'Space Grotesk',sans-serif;letter-spacing:.17em;color:#64503a}
+.cashout-ticket strong{font:700 35px/1 'Space Grotesk',sans-serif;letter-spacing:-.045em}
+.cashout-ticket small{font-size:10px;color:#67533e}
+.cashout-heading p{max-width:360px;margin:0 auto 15px;color:#c9bdb2;font-size:11px;line-height:1.6}
+.cashout-fields{margin-top:5px}
+.cashout-modal .cashout-fields label{margin:12px 0;color:#eee2d3;font-size:11px;letter-spacing:0}
+.cashout-modal input:not([type=range]){min-height:43px;margin-top:6px;padding:11px 12px;border:1px solid #f4ead82a;border-radius:8px;background:#211d2b;color:#f4ead8;font-size:13px}
+.cashout-modal input:not([type=range]):focus{border-color:#efc878;box-shadow:0 0 0 2px #efc87824}
+.cashout-modal input::placeholder{color:#a99c92}
+.cashout-modal .rating-label{margin-top:15px}
+.cashout-modal .rating-line{float:right;color:#efc878;font:700 11px 'Space Grotesk',sans-serif}
+.cashout-modal .rating-range{display:block;height:22px;margin:8px 0 0;accent-color:#efc878;cursor:pointer}
+.rating-ends{display:flex;justify-content:space-between;color:#a99c92;font-size:9px;letter-spacing:0}
+.cashout-modal .submit-btn{margin-top:6px;padding:13px 15px;border-radius:8px;background:#efc878;color:#292431;font-size:12px;letter-spacing:.025em;text-transform:none}
+.cashout-modal .privacy-note{margin-top:11px;color:#b9aa9e;font-size:9px;line-height:1.5}
+@media(max-width:700px){.cashout-modal{width:min(100%,420px);max-height:calc(100dvh - 24px);padding:27px 22px 20px}.cashout-modal h2{font-size:29px}.cashout-ticket strong{font-size:33px}.cashout-heading p{font-size:10px}.cashout-modal .cashout-fields label{margin:10px 0}.cashout-modal .modal-close{right:11px;top:11px}}
