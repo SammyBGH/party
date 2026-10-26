@@ -82,20 +82,27 @@ function AketePortrait() {
     <path d="m78 153-2 14m26-14 3 14" stroke="#84543d" strokeWidth="8" strokeLinecap="round" />
     <path d="M67 169h17m18 0h17" stroke="#3e3550" strokeWidth="9" strokeLinecap="round" />
     <path d="M69 170h13m22 0h13" stroke="#f0bd72" strokeWidth="3" strokeLinecap="round" />
-    <path d="M67 95q8-15 26-15t28 15l10 44H57Z" fill="#5f4876" stroke="#30253a" strokeWidth="5" strokeLinejoin="round" />
+    <path d="M71 95q7-15 22-15t24 15l9 44H62Z" fill="#5f4876" stroke="#30253a" strokeWidth="5" strokeLinejoin="round" />
     <path d="m84 84 9 15 10-15m-10 15v37" fill="none" stroke="#e6a264" strokeWidth="4" strokeLinejoin="round" />
-    <path d="M59 105 45 120m72-15 15 15" fill="none" stroke="#84543d" strokeWidth="10" strokeLinecap="round" />
+    <path d="M62 105 49 120m66-15 13 15" fill="none" stroke="#84543d" strokeWidth="9" strokeLinecap="round" />
     <path d="m45 120-5 9m92-9 5 9" stroke="#704735" strokeWidth="7" strokeLinecap="round" />
     <path d="M39 127q-9-7-13 0l4 7-3 6q8 4 14-4m96-9q9-7 13 0l-4 7 3 6q-8 4-14-4" fill="#30253a" stroke="#282238" strokeWidth="3" strokeLinejoin="round" />
     <path d="M74 135h39l-3 17-14 3-5-9-5 9-14-3Z" fill="#30253a" stroke="#30253a" strokeWidth="3" strokeLinejoin="round" />
     <path d="M72 63 68 29q2-9 10-2l18 19m19 17 5-34q-1-9-9-3L96 46" fill="#30253a" stroke="#30253a" strokeWidth="4" strokeLinejoin="round" />
     <path d="m73 37 2 20 12-12m33-9-3 20-12-12" fill="#d78f69" />
     <path d="M67 65c0-26 11-42 29-42 20 0 31 17 28 42l-5 24q-8 13-24 13T71 89Z" fill="#84543d" stroke="#30253a" strokeWidth="4" />
+    <path d="M113 47q25 4 25 25l-4 28-8 11-5-8 5-29q-8-6-17-8" fill="#211a26" stroke="#30253a" strokeWidth="3" strokeLinejoin="round" />
+    <path d="m130 70 7 2m-8 7 7 2m-8 7 7 2m-8 7 6 2" fill="none" stroke="#6d596e" strokeWidth="2" strokeLinecap="round" />
     <path d="M66 65q-2-39 31-44 32-2 35 34l-7 18q-8-4-10-20-17 14-47 13Z" fill="#211a26" stroke="#30253a" strokeWidth="4" strokeLinejoin="round" />
     <circle cx="77" cy="43" r="5" fill="#211a26"/><circle cx="91" cy="37" r="5" fill="#211a26"/><circle cx="105" cy="40" r="5" fill="#211a26"/><circle cx="116" cy="48" r="5" fill="#211a26"/>
-    <path d="M75 72q7-4 13 0m14 0q7-4 13 0" fill="none" stroke="#30253a" strokeWidth="3" strokeLinecap="round" />
-    <ellipse cx="83" cy="79" rx="2.5" ry="3.5" fill="#29253e"/><ellipse cx="107" cy="79" rx="2.5" ry="3.5" fill="#29253e"/>
+    <path d="M74 72q8-5 15-1m13 0q8-4 14 1" fill="none" stroke="#30253a" strokeWidth="3" strokeLinecap="round" />
+    <path d="m76 74-3-3m6 2-2-4m28 3 3-4m2 4 4-3" fill="none" stroke="#211a26" strokeWidth="1.8" strokeLinecap="round" />
+    <ellipse cx="83" cy="79" rx="3.2" ry="4.1" fill="#fff3dc"/><ellipse cx="107" cy="79" rx="3.2" ry="4.1" fill="#fff3dc"/>
+    <ellipse cx="84" cy="79" rx="2.2" ry="3" fill="#b9784e"/><ellipse cx="108" cy="79" rx="2.2" ry="3" fill="#b9784e"/>
+    <circle cx="84" cy="79" r="1.2" fill="#29253e"/><circle cx="108" cy="79" r="1.2" fill="#29253e"/>
+    <circle cx="83" cy="78" r=".8" fill="#fff"/><circle cx="107" cy="78" r=".8" fill="#fff"/>
     <path d="m93 83 4 2-4 2m-4 5q7 6 14 0" fill="none" stroke="#30253a" strokeWidth="2.5" strokeLinecap="round" />
+    <ellipse cx="75" cy="87" rx="4" ry="2" fill="#c67870" opacity=".6"/><ellipse cx="117" cy="87" rx="4" ry="2" fill="#c67870" opacity=".6"/>
     <path d="M78 88h-9m10 4-8 3m39-7h9m-10 4 8 3" stroke="#30253a" strokeWidth="1.8" strokeLinecap="round" />
     <path d="M79 123h25l-3 16-11 4-10-4Z" fill="#30253a" stroke="#30253a" strokeWidth="3" />
     <path d="M84 122h16v5H84Z" fill="#e6a264" />
@@ -391,8 +398,8 @@ function drawAkete(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   const nearElbow = x + 49 + arm * .35, nearHand = x + 51 + arm * .65
   const farElbow = x + 17 - arm * .3, farHand = x + 14 - arm * .55
   ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 5; ctx.strokeStyle = '#704735'
-  ctx.beginPath(); ctx.moveTo(x + 41, base - 52); ctx.lineTo(nearElbow, base - 43); ctx.lineTo(nearHand, base - 34 - arm * .2); ctx.stroke()
-  ctx.strokeStyle = '#84543d'; ctx.beginPath(); ctx.moveTo(x + 24, base - 52); ctx.lineTo(farElbow, base - 43); ctx.lineTo(farHand, base - 34 + arm * .2); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(x + 39, base - 52); ctx.lineTo(nearElbow, base - 43); ctx.lineTo(nearHand, base - 34 - arm * .2); ctx.stroke()
+  ctx.strokeStyle = '#84543d'; ctx.beginPath(); ctx.moveTo(x + 26, base - 52); ctx.lineTo(farElbow, base - 43); ctx.lineTo(farHand, base - 34 + arm * .2); ctx.stroke()
   ctx.fillStyle = '#30253a'; ctx.strokeStyle = '#282238'; ctx.lineWidth = 1.2
   for (const [px, py] of [[nearHand, base - 34 - arm * .2], [farHand, base - 34 + arm * .2]]) {
     ctx.beginPath(); ctx.ellipse(px, py, 4, 3.5, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
@@ -403,24 +410,35 @@ function drawAkete(ctx, x, groundY, jumpY, elapsed, vy, phase) {
 
   // Slim jacket, shorts, and a small tail opening keep the human runner readable.
   ctx.fillStyle = '#5f4876'; ctx.strokeStyle = '#30253a'; ctx.lineWidth = 2.5
-  ctx.beginPath(); ctx.moveTo(x + 23, base - 54); ctx.quadraticCurveTo(x + 31, base - 60, x + 41, base - 54); ctx.lineTo(x + 46, base - 27); ctx.quadraticCurveTo(x + 32, base - 23, x + 18, base - 27); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(x + 25, base - 54); ctx.quadraticCurveTo(x + 31, base - 59, x + 39, base - 54); ctx.lineTo(x + 44, base - 27); ctx.quadraticCurveTo(x + 32, base - 23, x + 20, base - 27); ctx.closePath(); ctx.fill(); ctx.stroke()
   ctx.fillStyle = '#e6a264'; ctx.beginPath(); ctx.moveTo(x + 31, base - 56); ctx.lineTo(x + 34, base - 50); ctx.lineTo(x + 37, base - 56); ctx.lineTo(x + 37, base - 31); ctx.lineTo(x + 31, base - 31); ctx.closePath(); ctx.fill()
   ctx.fillStyle = '#30253a'; ctx.beginPath(); ctx.moveTo(x + 20, base - 29); ctx.lineTo(x + 44, base - 29); ctx.lineTo(x + 42, base - 20); ctx.lineTo(x + 33, base - 18); ctx.lineTo(x + 23, base - 20); ctx.closePath(); ctx.fill(); ctx.stroke()
   ctx.strokeStyle = '#d78f69'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + 32, base - 26); ctx.lineTo(x + 32, base - 20); ctx.stroke()
 
-  // Rounded cat ears, short swept hair, and a confident face match the game's character art.
+  // Rounded panther ears frame a high braided ponytail and softer face.
   ctx.fillStyle = '#30253a'; ctx.strokeStyle = '#30253a'; ctx.lineWidth = 2
   ctx.beginPath(); ctx.moveTo(x + 23, base - 75); ctx.lineTo(x + 20, base - 91); ctx.quadraticCurveTo(x + 20, base - 94, x + 24, base - 92); ctx.lineTo(x + 33, base - 82); ctx.closePath(); ctx.fill(); ctx.stroke()
   ctx.beginPath(); ctx.moveTo(x + 37, base - 82); ctx.lineTo(x + 47, base - 93); ctx.quadraticCurveTo(x + 51, base - 95, x + 50, base - 91); ctx.lineTo(x + 47, base - 74); ctx.closePath(); ctx.fill(); ctx.stroke()
   ctx.fillStyle = '#d78f69'; ctx.beginPath(); ctx.moveTo(x + 24, base - 88); ctx.lineTo(x + 30, base - 82); ctx.lineTo(x + 25, base - 80); ctx.closePath(); ctx.fill()
   ctx.beginPath(); ctx.moveTo(x + 46, base - 89); ctx.lineTo(x + 40, base - 82); ctx.lineTo(x + 46, base - 79); ctx.closePath(); ctx.fill()
+  ctx.fillStyle = '#211a26'; ctx.strokeStyle = '#30253a'; ctx.lineWidth = 1.5
+  ctx.beginPath(); ctx.moveTo(x + 41, base - 81); ctx.quadraticCurveTo(x + 54, base - 80, x + 55, base - 67); ctx.lineTo(x + 52, base - 53); ctx.quadraticCurveTo(x + 48, base - 51, x + 47, base - 57); ctx.lineTo(x + 49, base - 69); ctx.quadraticCurveTo(x + 43, base - 73, x + 39, base - 74); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.strokeStyle = '#6d596e'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(x + 50, base - 69); ctx.lineTo(x + 54, base - 68); ctx.moveTo(x + 49, base - 64); ctx.lineTo(x + 53, base - 63); ctx.moveTo(x + 48, base - 59); ctx.lineTo(x + 52, base - 58); ctx.stroke()
+  ctx.fillStyle = '#e6a264'; ctx.beginPath(); ctx.ellipse(x + 41, base - 77, 3.5, 2.5, -.3, 0, Math.PI * 2); ctx.fill()
   ctx.fillStyle = '#84543d'; ctx.lineWidth = 2
   ctx.beginPath(); ctx.roundRect(x + 25, base - 80, 22, 26, 9); ctx.fill(); ctx.stroke()
   ctx.fillStyle = '#211a26'; ctx.beginPath(); ctx.arc(x + 28, base - 79, 6, Math.PI, Math.PI * 2); ctx.arc(x + 35, base - 81, 7, Math.PI, Math.PI * 2); ctx.arc(x + 42, base - 78, 6, Math.PI, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.ellipse(x + 31, base - 68, 2.3, 3.2, 0, 0, Math.PI * 2); ctx.ellipse(x + 40, base - 68, 2.3, 3.2, 0, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#29253e'; ctx.beginPath(); ctx.arc(x + 32, base - 68, 1.3, 0, Math.PI * 2); ctx.arc(x + 41, base - 68, 1.3, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#30253a'; ctx.beginPath(); ctx.arc(x + 31, base - 63, 1.2, 0, Math.PI * 2); ctx.fill()
-  ctx.strokeStyle = '#30253a'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x + 34, base - 60); ctx.quadraticCurveTo(x + 38, base - 57, x + 42, base - 60); ctx.stroke()
+  ctx.strokeStyle = '#30253a'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + 28, base - 74); ctx.quadraticCurveTo(x + 31, base - 76, x + 34, base - 74); ctx.moveTo(x + 37, base - 74); ctx.quadraticCurveTo(x + 40, base - 76, x + 43, base - 74); ctx.stroke()
+  ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.ellipse(x + 31, base - 68, 2.7, 3.6, 0, 0, Math.PI * 2); ctx.ellipse(x + 40, base - 68, 2.7, 3.6, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#211a26'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x + 29, base - 70); ctx.lineTo(x + 27, base - 72); ctx.moveTo(x + 31, base - 71); ctx.lineTo(x + 30, base - 73); ctx.moveTo(x + 40, base - 71); ctx.lineTo(x + 41, base - 73); ctx.moveTo(x + 42, base - 70); ctx.lineTo(x + 44, base - 72); ctx.stroke()
+  ctx.fillStyle = '#b9784e'; ctx.beginPath(); ctx.arc(x + 32, base - 68, 1.8, 0, Math.PI * 2); ctx.arc(x + 41, base - 68, 1.8, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#29253e'; ctx.beginPath(); ctx.arc(x + 32.5, base - 68, 1, 0, Math.PI * 2); ctx.arc(x + 41.5, base - 68, 1, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x + 32, base - 69, .6, 0, Math.PI * 2); ctx.arc(x + 41, base - 69, .6, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#704735'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x + 36, base - 67); ctx.quadraticCurveTo(x + 34, base - 63, x + 36, base - 62); ctx.quadraticCurveTo(x + 37, base - 61, x + 39, base - 62); ctx.stroke()
+  ctx.fillStyle = '#30253a'; ctx.beginPath(); ctx.arc(x + 36, base - 61.5, .7, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#843d4c'; ctx.beginPath(); ctx.ellipse(x + 37, base - 58.5, 3.5, 1.8, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#fff0da'; ctx.beginPath(); ctx.ellipse(x + 37, base - 59, 2.1, .65, 0, Math.PI, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#c67870'; ctx.globalAlpha = .55; ctx.beginPath(); ctx.ellipse(x + 27, base - 62, 2.2, 1.1, 0, 0, Math.PI * 2); ctx.ellipse(x + 45, base - 62, 2.2, 1.1, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
   ctx.fillStyle = '#e6a264'; ctx.beginPath(); ctx.arc(x + 26, base - 62, 1.7, 0, Math.PI * 2); ctx.arc(x + 46, base - 62, 1.7, 0, Math.PI * 2); ctx.fill()
   ctx.restore()
 }
