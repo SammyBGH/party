@@ -9,7 +9,7 @@ import Run from './models/Run.js'
 
 const app = express()
 const port = Number(process.env.PORT || 4000)
-const unlockAt = Date.parse('2026-10-27T07:00:00+00:00') // Ghana time is UTC
+const unlockAt = Date.parse('2026-10-27T19:10:00+00:00') // Ghana time is UTC
 const clientDist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client/dist')
 
 const allowedOrigins = (process.env.CLIENT_ORIGINS || process.env.CLIENT_ORIGIN || 'http://localhost:5173')
