@@ -74,35 +74,33 @@ function CrabPortrait() {
 }
 
 function AketePortrait() {
-  return <svg className="slime-portrait" viewBox="0 0 180 190" role="img" aria-label="Akete, a young woman in a blue jacket with long braids">
+  return <svg className="slime-portrait" viewBox="0 0 180 190" role="img" aria-label="Akete, a human and panther hybrid">
     <ellipse cx="91" cy="171" rx="48" ry="8" fill="#1b102f" opacity=".2" />
-    {/* Long braids sit behind her shoulders and move as a pair. */}
-    <path d="M64 71q-18 25-6 61l8 4 3-42m45-23q20 23 8 61l-8 4-3-42" fill="#171923" stroke="#202235" strokeWidth="4" strokeLinejoin="round" />
-    <path d="m60 88 9 5m-10 8 11 5m-10 7 11 5m44-30-9 5m10 8-11 5m10 7-11 5" fill="none" stroke="#48404a" strokeWidth="3" strokeLinecap="round" />
-    <circle cx="65" cy="137" r="4" fill="#347fdc" stroke="#202235" strokeWidth="2"/><circle cx="115" cy="137" r="4" fill="#347fdc" stroke="#202235" strokeWidth="2"/>
-    {/* Runner's jacket, shorts and bright trainers. */}
-    <path d="M53 162q3-35 27-47l12 10 12-10q25 11 28 47Z" fill="#171923" stroke="#202235" strokeWidth="4" strokeLinejoin="round" />
-    <path d="M61 160q4-31 24-39l7 8v31Zm48-39q20 8 24 39h-31v-31Z" fill="#2876d5" stroke="#202235" strokeWidth="3" />
-    <path d="m91 128 7 7 7-7m-7 7v25" fill="none" stroke="#93c4ff" strokeWidth="3" strokeLinecap="round" />
-    <path d="M75 153h40l-3 14-14 3-5-9-5 9-14-3Z" fill="#171923" stroke="#202235" strokeWidth="3" strokeLinejoin="round" />
-    <path d="m85 167-3 8m23-8 3 8" stroke="#8f513d" strokeWidth="6" strokeLinecap="round" />
-    <path d="M78 177h15m12 0h16" stroke="#171923" strokeWidth="8" strokeLinecap="round" />
-    <path d="M77 179h13m16 0h12" stroke="#4b91e7" strokeWidth="3" strokeLinecap="round" />
-    {/* Face and braided crown. */}
-    <path d="m80 105 16 12 16-12-7-10H86Z" fill="#8f513d" stroke="#202235" strokeWidth="3" />
-    <path d="M66 73c0-27 12-43 31-43 21 0 32 17 30 43l-5 25q-9 14-27 14T69 98Z" fill="#8f513d" stroke="#202235" strokeWidth="4" />
-    <path d="M65 72Q61 32 95 25q33-5 37 34l-7 18q-7-5-9-20-18 16-49 16Z" fill="#171923" stroke="#202235" strokeWidth="4" strokeLinejoin="round" />
-    <path d="M70 52q9-13 24-20m-18 27q14-17 33-24m-20 28q14-17 32-22" fill="none" stroke="#48404a" strokeWidth="3" strokeLinecap="round" />
-    <path d="M74 80q8-5 15 0m19 0q8-5 15 0" fill="none" stroke="#241d29" strokeWidth="3" strokeLinecap="round" />
-    <ellipse cx="82" cy="87" rx="3" ry="4" fill="#211c2d"/><ellipse cx="114" cy="87" rx="3" ry="4" fill="#211c2d"/>
-    <path d="m96 87-2 8q2 2 5 0" fill="none" stroke="#754536" strokeWidth="2" strokeLinecap="round" />
-    <path d="M90 102q7-2 13 0" fill="none" stroke="#663e42" strokeWidth="2.5" strokeLinecap="round" />
-    <path d="M70 99q-4 5 1 8m49-8q4 5-1 8" fill="none" stroke="#c67870" strokeWidth="2.5" strokeLinecap="round" />
-    <path d="M65 85q-7 9-2 16m69-16q7 9 2 16" fill="none" stroke="#347fdc" strokeWidth="3" strokeLinecap="round" />
-    <circle cx="63" cy="102" r="3" fill="#efc878"/><circle cx="135" cy="102" r="3" fill="#efc878"/>
+    {/* A compact upright runner with panther ears, tail, and paw hands, drawn in Boakye's style. */}
+    <path d="M72 135q-28 8-20 26 4 9 14 5" fill="none" stroke="#30253a" strokeWidth="9" strokeLinecap="round" />
+    <path d="m57 165 7 1" stroke="#d78f69" strokeWidth="3" strokeLinecap="round" />
+    <path d="m78 153-2 14m26-14 3 14" stroke="#84543d" strokeWidth="8" strokeLinecap="round" />
+    <path d="M67 169h17m18 0h17" stroke="#3e3550" strokeWidth="9" strokeLinecap="round" />
+    <path d="M69 170h13m22 0h13" stroke="#f0bd72" strokeWidth="3" strokeLinecap="round" />
+    <path d="M67 95q8-15 26-15t28 15l10 44H57Z" fill="#5f4876" stroke="#30253a" strokeWidth="5" strokeLinejoin="round" />
+    <path d="m84 84 9 15 10-15m-10 15v37" fill="none" stroke="#e6a264" strokeWidth="4" strokeLinejoin="round" />
+    <path d="M59 105 45 120m72-15 15 15" fill="none" stroke="#84543d" strokeWidth="10" strokeLinecap="round" />
+    <path d="m45 120-5 9m92-9 5 9" stroke="#704735" strokeWidth="7" strokeLinecap="round" />
+    <path d="M39 127q-9-7-13 0l4 7-3 6q8 4 14-4m96-9q9-7 13 0l-4 7 3 6q-8 4-14-4" fill="#30253a" stroke="#282238" strokeWidth="3" strokeLinejoin="round" />
+    <path d="M74 135h39l-3 17-14 3-5-9-5 9-14-3Z" fill="#30253a" stroke="#30253a" strokeWidth="3" strokeLinejoin="round" />
+    <path d="M72 63 68 29q2-9 10-2l18 19m19 17 5-34q-1-9-9-3L96 46" fill="#30253a" stroke="#30253a" strokeWidth="4" strokeLinejoin="round" />
+    <path d="m73 37 2 20 12-12m33-9-3 20-12-12" fill="#d78f69" />
+    <path d="M67 65c0-26 11-42 29-42 20 0 31 17 28 42l-5 24q-8 13-24 13T71 89Z" fill="#84543d" stroke="#30253a" strokeWidth="4" />
+    <path d="M66 65q-2-39 31-44 32-2 35 34l-7 18q-8-4-10-20-17 14-47 13Z" fill="#211a26" stroke="#30253a" strokeWidth="4" strokeLinejoin="round" />
+    <circle cx="77" cy="43" r="5" fill="#211a26"/><circle cx="91" cy="37" r="5" fill="#211a26"/><circle cx="105" cy="40" r="5" fill="#211a26"/><circle cx="116" cy="48" r="5" fill="#211a26"/>
+    <path d="M75 72q7-4 13 0m14 0q7-4 13 0" fill="none" stroke="#30253a" strokeWidth="3" strokeLinecap="round" />
+    <ellipse cx="83" cy="79" rx="2.5" ry="3.5" fill="#29253e"/><ellipse cx="107" cy="79" rx="2.5" ry="3.5" fill="#29253e"/>
+    <path d="m93 83 4 2-4 2m-4 5q7 6 14 0" fill="none" stroke="#30253a" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M78 88h-9m10 4-8 3m39-7h9m-10 4 8 3" stroke="#30253a" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M79 123h25l-3 16-11 4-10-4Z" fill="#30253a" stroke="#30253a" strokeWidth="3" />
+    <path d="M84 122h16v5H84Z" fill="#e6a264" />
   </svg>
 }
-
 const CHARACTERS = [
   { id: 'slime', name: 'Bloop', detail: 'Double jump' },
   { id: 'cat', name: 'Miso', detail: 'Parcel magnet' },
@@ -360,86 +358,72 @@ function drawAkete(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   const airborne = jumpY > 2
   const falling = airborne && vy < -80
   const running = phase === 'playing'
-  const gait = running && !airborne ? Math.sin(elapsed * 17) : 0
-  const base = groundY - jumpY - (running && !airborne ? Math.abs(gait) * 1.5 : 0)
-  const leg = airborne ? (falling ? -2 : 3) : gait * 8
-  const arm = airborne ? (falling ? 4 : -5) : -gait * 4
+  const gait = running && !airborne ? Math.sin(elapsed * 15) : 0
+  const base = groundY - jumpY - (!airborne && running ? Math.abs(gait) * 1.3 : 0)
+  const leg = airborne ? (falling ? 2 : -4) : gait * 6
+  const arm = airborne ? (falling ? -2 : 7) : -gait * 7
+  const bob = airborne ? 0 : Math.abs(gait) * 1.5
 
-  // Soft ground contact shadow.
-  ctx.save(); ctx.globalAlpha = .2; ctx.fillStyle = '#17111f'
-  ctx.beginPath(); ctx.ellipse(x + 31, groundY + 3, Math.max(14, 25 - jumpY * .08), 6, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore()
+  ctx.save(); ctx.globalAlpha = .22; ctx.fillStyle = '#17111f'
+  ctx.beginPath(); ctx.ellipse(x + 32, groundY + 3, Math.max(14, 27 - jumpY * .08), 6, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore()
+  ctx.save(); ctx.translate(x + 32, base - 39 - bob); ctx.rotate(airborne ? (falling ? -.08 : .1) : gait * .025); ctx.translate(-(x + 32), -(base - 39 - bob))
 
-  // Short, tied braids trail behind her, separated into a few clear shapes.
-  ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round'
-  ctx.strokeStyle = '#17141d'; ctx.lineWidth = 5
-  ctx.beginPath()
-  ctx.moveTo(x + 31, base - 76); ctx.bezierCurveTo(x + 22, base - 70, x + 19, base - 58 + gait * 2, x + 22, base - 48 + gait * 2)
-  ctx.moveTo(x + 35, base - 76); ctx.bezierCurveTo(x + 29, base - 69, x + 27, base - 58 + gait * 2, x + 30, base - 48 + gait * 2)
-  ctx.stroke()
-  ctx.strokeStyle = '#51404c'; ctx.lineWidth = 1
-  ctx.beginPath()
-  ctx.moveTo(x + 28, base - 69); ctx.lineTo(x + 24, base - 65 + gait); ctx.lineTo(x + 26, base - 61 + gait); ctx.lineTo(x + 21, base - 57 + gait * 2)
-  ctx.moveTo(x + 35, base - 67); ctx.lineTo(x + 31, base - 63 + gait); ctx.lineTo(x + 33, base - 59 + gait); ctx.lineTo(x + 28, base - 54 + gait * 2)
-  ctx.stroke()
-  ctx.fillStyle = '#4d9bea'; ctx.beginPath(); ctx.arc(x + 22, base - 48 + gait * 2, 2, 0, Math.PI * 2); ctx.arc(x + 30, base - 48 + gait * 2, 2, 0, Math.PI * 2); ctx.fill()
-  ctx.restore()
+  // Panther tail and hindquarters give her the same bold hybrid silhouette as Boakye.
+  ctx.strokeStyle = '#30253a'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.beginPath()
+  ctx.moveTo(x + 25, base - 22); ctx.bezierCurveTo(x + 9, base - 25 - gait * 3, x + 5, base - 40 + gait * 2, x + (airborne ? 9 : 12 + gait * 2), base - (falling ? 50 : 47)); ctx.stroke()
+  ctx.strokeStyle = '#d78f69'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + 12 + gait * 2, base - 47); ctx.lineTo(x + 10 + gait * 2, base - 42); ctx.stroke()
 
-  // Legs with a clear knee bend and compact trainers.
-  const hipY = base - 21
-  const rearKnee = x + 31 - leg * .45, frontKnee = x + 36 + leg * .45
-  const tuck = airborne ? (falling ? -1 : 6) : 0
-  const rearFoot = [x + 29 - leg, base - tuck + Math.max(0, gait) * 2]
-  const frontFoot = [x + 39 + leg, base - tuck + Math.max(0, -gait) * 2]
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#754b3b'; ctx.lineWidth = 6
-  ctx.beginPath(); ctx.moveTo(x + 31, hipY); ctx.lineTo(rearKnee, base - 11 - tuck * .4); ctx.lineTo(rearFoot[0], rearFoot[1]); ctx.stroke()
-  ctx.strokeStyle = '#84543d'; ctx.lineWidth = 6
-  ctx.beginPath(); ctx.moveTo(x + 37, hipY); ctx.lineTo(frontKnee, base - 10 - tuck * .4); ctx.lineTo(frontFoot[0], frontFoot[1]); ctx.stroke()
-  const shoe = (sx, sy) => {
-    ctx.fillStyle = '#172033'; ctx.strokeStyle = '#101522'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(sx - 5, sy - 3); ctx.quadraticCurveTo(sx - 2, sy - 5, sx + 1, sy - 3); ctx.lineTo(sx + 8, sy - 1); ctx.quadraticCurveTo(sx + 11, sy, sx + 10, sy + 3); ctx.lineTo(sx - 5, sy + 3); ctx.closePath(); ctx.fill(); ctx.stroke()
-    ctx.strokeStyle = '#4d9bea'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(sx - 3, sy + 1); ctx.lineTo(sx + 7, sy + 1); ctx.stroke()
+  // Legs alternate in a compact running stride; the lifted pose carries into jumps.
+  const rearX = x + 27 - leg, frontX = x + 39 + leg
+  const rearLift = airborne ? (falling ? 1 : 7) : Math.max(0, gait) * 3
+  const frontLift = airborne ? (falling ? 1 : 6) : Math.max(0, -gait) * 3
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#704735'; ctx.lineWidth = 6
+  ctx.beginPath(); ctx.moveTo(x + 29, base - 21); ctx.lineTo(rearX, base - 10 - rearLift * .3); ctx.lineTo(rearX - 2, base - rearLift); ctx.stroke()
+  ctx.strokeStyle = '#84543d'; ctx.beginPath(); ctx.moveTo(x + 37, base - 21); ctx.lineTo(frontX, base - 10 - frontLift * .3); ctx.lineTo(frontX + 2, base - frontLift); ctx.stroke()
+  const shoe = (sx, sy, dark = false) => {
+    ctx.fillStyle = dark ? '#30253a' : '#3e3550'; ctx.strokeStyle = '#282238'; ctx.lineWidth = 1.5
+    ctx.beginPath(); ctx.roundRect(sx - 5, sy - 2, 13, 6, 3); ctx.fill(); ctx.stroke()
+    ctx.strokeStyle = '#f0bd72'; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.moveTo(sx - 2, sy + 2); ctx.lineTo(sx + 5, sy + 2); ctx.stroke()
   }
-  shoe(rearFoot[0] + 2, rearFoot[1] + 1); shoe(frontFoot[0] + 2, frontFoot[1] + 1)
+  shoe(rearX - 2, base - rearLift + 1, true); shoe(frontX + 2, base - frontLift + 1)
 
-  // The rear arm is largely occluded by her torso, with only a quiet hint at the back.
-  ctx.strokeStyle = '#754b3b'; ctx.lineWidth = 3.6; ctx.lineCap = 'round'; ctx.lineJoin = 'round'
-  ctx.beginPath(); ctx.moveTo(x + 31, base - 53); ctx.lineTo(x + 26 - arm * .2, base - 45); ctx.lineTo(x + 27, base - 39); ctx.stroke()
+  // Swinging arms end in small panther paws, as Boakye's arms end in crab claws.
+  const nearElbow = x + 49 + arm * .35, nearHand = x + 51 + arm * .65
+  const farElbow = x + 17 - arm * .3, farHand = x + 14 - arm * .55
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 5; ctx.strokeStyle = '#704735'
+  ctx.beginPath(); ctx.moveTo(x + 41, base - 52); ctx.lineTo(nearElbow, base - 43); ctx.lineTo(nearHand, base - 34 - arm * .2); ctx.stroke()
+  ctx.strokeStyle = '#84543d'; ctx.beginPath(); ctx.moveTo(x + 24, base - 52); ctx.lineTo(farElbow, base - 43); ctx.lineTo(farHand, base - 34 + arm * .2); ctx.stroke()
+  ctx.fillStyle = '#30253a'; ctx.strokeStyle = '#282238'; ctx.lineWidth = 1.2
+  for (const [px, py] of [[nearHand, base - 34 - arm * .2], [farHand, base - 34 + arm * .2]]) {
+    ctx.beginPath(); ctx.ellipse(px, py, 4, 3.5, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
+    ctx.strokeStyle = '#f0bd72'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(px + 2, py + 1); ctx.lineTo(px + 4, py + 2); ctx.moveTo(px - 1, py + 2); ctx.lineTo(px, py + 3); ctx.stroke()
+    ctx.strokeStyle = '#282238'; ctx.lineWidth = 1.2
+  }
 
-  // Track tee: a narrow shoulder, short sleeve, and simple blue body.
-  ctx.fillStyle = '#176fbd'; ctx.strokeStyle = '#13243b'; ctx.lineWidth = 1.5
-  ctx.beginPath()
-  ctx.moveTo(x + 31, base - 58); ctx.lineTo(x + 34, base - 60); ctx.quadraticCurveTo(x + 38, base - 61, x + 41, base - 57)
-  ctx.lineTo(x + 46, base - 52); ctx.lineTo(x + 43, base - 47); ctx.lineTo(x + 40, base - 49)
-  ctx.lineTo(x + 42, base - 23); ctx.quadraticCurveTo(x + 35, base - 20, x + 27, base - 23)
-  ctx.lineTo(x + 29, base - 46); ctx.lineTo(x + 26, base - 48); ctx.closePath(); ctx.fill(); ctx.stroke()
-  ctx.fillStyle = '#2784d1'; ctx.beginPath(); ctx.moveTo(x + 41, base - 57); ctx.lineTo(x + 46, base - 52); ctx.lineTo(x + 43, base - 47); ctx.lineTo(x + 40, base - 49); ctx.closePath(); ctx.fill()
-  ctx.strokeStyle = '#a6d8f3'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 36, base - 55); ctx.lineTo(x + 36, base - 38); ctx.stroke()
-  ctx.fillStyle = '#171a27'; ctx.beginPath(); ctx.moveTo(x + 28, base - 34); ctx.lineTo(x + 43, base - 34); ctx.lineTo(x + 46, base - 22); ctx.quadraticCurveTo(x + 36, base - 19, x + 25, base - 22); ctx.closePath(); ctx.fill()
-  ctx.strokeStyle = '#4d91dc'; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.moveTo(x + 27, base - 23); ctx.lineTo(x + 45, base - 23); ctx.stroke()
+  // Slim jacket, shorts, and a small tail opening keep the human runner readable.
+  ctx.fillStyle = '#5f4876'; ctx.strokeStyle = '#30253a'; ctx.lineWidth = 2.5
+  ctx.beginPath(); ctx.moveTo(x + 23, base - 54); ctx.quadraticCurveTo(x + 31, base - 60, x + 41, base - 54); ctx.lineTo(x + 46, base - 27); ctx.quadraticCurveTo(x + 32, base - 23, x + 18, base - 27); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.fillStyle = '#e6a264'; ctx.beginPath(); ctx.moveTo(x + 31, base - 56); ctx.lineTo(x + 34, base - 50); ctx.lineTo(x + 37, base - 56); ctx.lineTo(x + 37, base - 31); ctx.lineTo(x + 31, base - 31); ctx.closePath(); ctx.fill()
+  ctx.fillStyle = '#30253a'; ctx.beginPath(); ctx.moveTo(x + 20, base - 29); ctx.lineTo(x + 44, base - 29); ctx.lineTo(x + 42, base - 20); ctx.lineTo(x + 33, base - 18); ctx.lineTo(x + 23, base - 20); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.strokeStyle = '#d78f69'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + 32, base - 26); ctx.lineTo(x + 32, base - 20); ctx.stroke()
 
-  // Neck and face, turned toward the direction she runs.
-  ctx.fillStyle = '#84543d'; ctx.beginPath(); ctx.roundRect(x + 34, base - 68, 7, 8, 3); ctx.fill()
-  ctx.fillStyle = '#84543d'; ctx.strokeStyle = '#36252b'; ctx.lineWidth = 1.5
-  ctx.beginPath(); ctx.moveTo(x + 29, base - 77); ctx.quadraticCurveTo(x + 30, base - 87, x + 39, base - 87); ctx.quadraticCurveTo(x + 48, base - 86, x + 49, base - 78); ctx.lineTo(x + 52, base - 74); ctx.lineTo(x + 48, base - 71); ctx.quadraticCurveTo(x + 46, base - 65, x + 39, base - 65); ctx.quadraticCurveTo(x + 30, base - 67, x + 29, base - 77); ctx.closePath(); ctx.fill(); ctx.stroke()
-  ctx.strokeStyle = '#b77c5a'; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.moveTo(x + 46, base - 78); ctx.quadraticCurveTo(x + 50, base - 76, x + 47, base - 73); ctx.stroke()
-  ctx.fillStyle = '#17131d'; ctx.beginPath(); ctx.ellipse(x + 44, base - 79, 1.3, 1.8, 0, 0, Math.PI * 2); ctx.fill()
-  ctx.strokeStyle = '#4c302b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 45, base - 69); ctx.quadraticCurveTo(x + 47, base - 68, x + 49, base - 70); ctx.stroke()
-
-  // Braided crown and low tie keep her outline distinct while she moves.
-  ctx.fillStyle = '#17141d'; ctx.strokeStyle = '#2b2230'; ctx.lineWidth = 1.4
-  ctx.beginPath(); ctx.moveTo(x + 28, base - 77); ctx.quadraticCurveTo(x + 26, base - 89, x + 37, base - 91); ctx.quadraticCurveTo(x + 48, base - 92, x + 50, base - 83); ctx.lineTo(x + 47, base - 80); ctx.quadraticCurveTo(x + 40, base - 84, x + 30, base - 78); ctx.closePath(); ctx.fill(); ctx.stroke()
-  ctx.strokeStyle = '#51404c'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 30, base - 82); ctx.quadraticCurveTo(x + 37, base - 89, x + 46, base - 85); ctx.moveTo(x + 29, base - 79); ctx.quadraticCurveTo(x + 37, base - 86, x + 48, base - 82); ctx.stroke()
-  ctx.fillStyle = '#347fdc'; ctx.beginPath(); ctx.arc(x + 25, base - 74, 1.8, 0, Math.PI * 2); ctx.fill()
-
-  // Near arm stays outside the shirt line: shoulder into a bent elbow, forearm, then hand.
-  const elbowX = x + 47 + arm * .22, elbowY = base - 42 - (airborne ? 3 : arm * .08)
-  const wristX = x + 45 + arm * .3, wristY = base - 33 - (airborne ? 5 : arm * .12)
-  ctx.strokeStyle = '#84543d'; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 4.2
-  ctx.beginPath(); ctx.moveTo(x + 43, base - 50); ctx.lineTo(elbowX, elbowY); ctx.stroke()
-  ctx.lineWidth = 3.8; ctx.beginPath(); ctx.moveTo(elbowX, elbowY); ctx.lineTo(wristX, wristY); ctx.stroke()
-  ctx.fillStyle = '#84543d'; ctx.beginPath(); ctx.ellipse(wristX, wristY + 2, 2.4, 3.4, .15, 0, Math.PI * 2); ctx.fill()
+  // Rounded cat ears, short swept hair, and a confident face match the game's character art.
+  ctx.fillStyle = '#30253a'; ctx.strokeStyle = '#30253a'; ctx.lineWidth = 2
+  ctx.beginPath(); ctx.moveTo(x + 23, base - 75); ctx.lineTo(x + 20, base - 91); ctx.quadraticCurveTo(x + 20, base - 94, x + 24, base - 92); ctx.lineTo(x + 33, base - 82); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(x + 37, base - 82); ctx.lineTo(x + 47, base - 93); ctx.quadraticCurveTo(x + 51, base - 95, x + 50, base - 91); ctx.lineTo(x + 47, base - 74); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.fillStyle = '#d78f69'; ctx.beginPath(); ctx.moveTo(x + 24, base - 88); ctx.lineTo(x + 30, base - 82); ctx.lineTo(x + 25, base - 80); ctx.closePath(); ctx.fill()
+  ctx.beginPath(); ctx.moveTo(x + 46, base - 89); ctx.lineTo(x + 40, base - 82); ctx.lineTo(x + 46, base - 79); ctx.closePath(); ctx.fill()
+  ctx.fillStyle = '#84543d'; ctx.lineWidth = 2
+  ctx.beginPath(); ctx.roundRect(x + 25, base - 80, 22, 26, 9); ctx.fill(); ctx.stroke()
+  ctx.fillStyle = '#211a26'; ctx.beginPath(); ctx.arc(x + 28, base - 79, 6, Math.PI, Math.PI * 2); ctx.arc(x + 35, base - 81, 7, Math.PI, Math.PI * 2); ctx.arc(x + 42, base - 78, 6, Math.PI, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.ellipse(x + 31, base - 68, 2.3, 3.2, 0, 0, Math.PI * 2); ctx.ellipse(x + 40, base - 68, 2.3, 3.2, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#29253e'; ctx.beginPath(); ctx.arc(x + 32, base - 68, 1.3, 0, Math.PI * 2); ctx.arc(x + 41, base - 68, 1.3, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#30253a'; ctx.beginPath(); ctx.arc(x + 31, base - 63, 1.2, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#30253a'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x + 34, base - 60); ctx.quadraticCurveTo(x + 38, base - 57, x + 42, base - 60); ctx.stroke()
+  ctx.fillStyle = '#e6a264'; ctx.beginPath(); ctx.arc(x + 26, base - 62, 1.7, 0, Math.PI * 2); ctx.arc(x + 46, base - 62, 1.7, 0, Math.PI * 2); ctx.fill()
+  ctx.restore()
 }
-
 function drawCharacter(ctx, character, x, groundY, jumpY, elapsed, phase, playerVY) {
   if (character === 'cat') drawCat(ctx, x, groundY, jumpY, elapsed, playerVY, phase)
   else if (character === 'crab') drawCrab(ctx, x, groundY, jumpY, elapsed, playerVY, phase)
