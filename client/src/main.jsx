@@ -111,7 +111,7 @@ function roundedRect(ctx, x, y, w, h, r) {
 }
 
 function createGame() {
-  return { phase: 'intro', elapsed: 0, speed: 310, groundOffset: 0, playerY: 0, playerVY: 0, grounded: true, obstacles: [], gifts: [], powerups: [], particles: [], obstacleTimer: 1.25, giftTimer: 1.1, powerupTimer: 8, giftsCount: 0, lives: 3, shieldTimer: 0, magnetTimer: 0, abilityCooldown: 0, aketeBoostTimer: 0, powerupMessage: '', powerupMessageTimer: 0, invulnerableUntil: 0, resurrectionTimer: 0, overAt: 0 }
+  return { phase: 'intro', elapsed: 0, speed: 310, groundOffset: 0, playerY: 0, playerVY: 0, grounded: true, obstacles: [], gifts: [], powerups: [], particles: [], obstacleTimer: 1.25, giftTimer: 1.1, powerupTimer: 8, giftsCount: 0, lives: 3, shieldTimer: 0, magnetTimer: 0, abilityCooldown: 0, aketeBoostTimer: 0, powerupMessage: '', powerupMessageTimer: 0, invulnerableUntil: 0, resurrectionTimer: 0, deathEffectTimer: 0, overAt: 0 }
 }
 
 function drawSlime(ctx, x, groundY, jumpY, elapsed, vy, phase) {
@@ -429,6 +429,73 @@ function drawResurrection(ctx, width, groundY, playerX, game) {
   ctx.restore()
 }
 
+function drawDefeatPile(ctx, playerX, groundY, progress, elapsed) {
+  const reveal = Math.max(0, Math.min(1, progress / .12))
+  const fade = 1 - Math.max(0, Math.min(1, (progress - .68) / .16))
+  if (fade <= 0) return
+  const cx = playerX + 31, cy = groundY - 7
+  ctx.save(); ctx.globalAlpha = fade
+  ctx.translate(cx, cy); ctx.scale(.68 + reveal * .32, .68 + reveal * .32)
+  // A soft dust puff marks the impact before the little bone pile settles.
+  ctx.fillStyle = '#e9d9c2'
+  for (let i = 0; i < 5; i++) {
+    const drift = Math.sin(elapsed * 8 + i * 1.7) * 3
+    const px = Math.cos(i * Math.PI * .4) * (12 + reveal * 5) + drift
+    const py = -3 - Math.sin(i * Math.PI * .4) * 4 - reveal * ((i % 2) * 4)
+    ctx.globalAlpha = fade * (.13 + .08 * (i % 3)); ctx.beginPath(); ctx.ellipse(px, py, 8 + (i % 2) * 2, 4 + (i % 3), 0, 0, Math.PI * 2); ctx.fill()
+  }
+  ctx.globalAlpha = fade
+  ctx.fillStyle = '#f1e8d7'; ctx.strokeStyle = '#6d5d5d'; ctx.lineWidth = 1.5
+  // Skull and jaw.
+  ctx.beginPath(); ctx.ellipse(0, -6, 9, 7, -.08, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
+  ctx.fillStyle = '#4d4352'; ctx.beginPath(); ctx.ellipse(-3, -6, 1.8, 2.3, 0, 0, Math.PI * 2); ctx.ellipse(3, -6, 1.8, 2.3, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#f1e8d7'; ctx.beginPath(); ctx.roundRect(-5, -1, 10, 4, 1.5); ctx.fill(); ctx.stroke()
+  // A few small crossed bones make the gag readable at phone size.
+  ctx.lineCap = 'round'; ctx.lineWidth = 4; ctx.strokeStyle = '#f1e8d7'
+  ctx.beginPath(); ctx.moveTo(-17, 3); ctx.lineTo(16, -1); ctx.moveTo(-15, -1); ctx.lineTo(14, 4); ctx.stroke()
+  ctx.lineWidth = 1.3; ctx.strokeStyle = '#6d5d5d'
+  ctx.beginPath(); ctx.moveTo(-17, 3); ctx.lineTo(16, -1); ctx.moveTo(-15, -1); ctx.lineTo(14, 4); ctx.stroke()
+  for (const [bx, by] of [[-17, 3], [16, -1], [-15, -1], [14, 4]]) {
+    ctx.fillStyle = '#f1e8d7'; ctx.beginPath(); ctx.arc(bx, by, 3, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
+  }
+  // A few motes drift away as the angel reaches the runner.
+  ctx.fillStyle = '#ffe8a9'
+  for (let i = 0; i < 4; i++) {
+    const drift = Math.sin(elapsed * 5 + i * 2.1) * 2
+    const rise = Math.min(12, progress * 22 + i * 2)
+    ctx.globalAlpha = fade * (.25 + .25 * Math.sin(elapsed * 7 + i) ** 2)
+    ctx.beginPath(); ctx.arc((i - 1.5) * 13 + drift, -9 - rise, 1.5, 0, Math.PI * 2); ctx.fill()
+  }
+  ctx.restore()
+}
+
+function drawReviveBurst(ctx, playerX, groundY, progress) {
+  const amount = Math.max(0, Math.min(1, (progress - .64) / .3))
+  if (!amount) return
+  const cx = playerX + 31, cy = groundY - 31
+  ctx.save()
+  ctx.globalAlpha = (1 - amount * .48) * .8
+  const glow = ctx.createRadialGradient(cx, cy, 2, cx, cy, 62 + amount * 22)
+  glow.addColorStop(0, 'rgba(255, 238, 184, .55)'); glow.addColorStop(1, 'rgba(255, 238, 184, 0)')
+  ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(cx, cy, 85, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#fff0bc'; ctx.lineWidth = 2
+  for (let ring = 0; ring < 2; ring++) {
+    const ringProgress = Math.max(0, Math.min(1, amount * 1.45 - ring * .5))
+    if (!ringProgress) continue
+    ctx.globalAlpha = (1 - ringProgress) * .8
+    ctx.beginPath(); ctx.ellipse(cx, groundY - 8, 12 + ringProgress * 48, 4 + ringProgress * 10, 0, 0, Math.PI * 2); ctx.stroke()
+  }
+  for (let i = 0; i < 8; i++) {
+    const angle = i * Math.PI / 4 - Math.PI / 2
+    const distance = 14 + amount * 34
+    const px = cx + Math.cos(angle) * distance, py = cy + Math.sin(angle) * distance
+    ctx.globalAlpha = (1 - amount) * .9
+    ctx.fillStyle = i % 2 ? '#fff4cf' : '#f2c976'
+    ctx.beginPath(); ctx.arc(px, py, i % 2 ? 2.1 : 1.6, 0, Math.PI * 2); ctx.fill()
+  }
+  ctx.restore()
+}
+
 const RUN_SCENES = [
   { name: 'HIGH STREET', kind: 'shops', sky: ['#332550', '#76526d', '#d88979'], buildings: ['#493b58', '#554258', '#43384f'], roof: '#70505f', windows: '#efbd83', awning: '#d77f78', road: ['#e9ab76', '#bd6e72', '#493249', '#28243b'] },
   { name: 'BEACH ROAD', kind: 'coast', sky: ['#293c55', '#657986', '#df9b7a'], buildings: ['#716254', '#5d645b', '#786a5b'], roof: '#957960', windows: '#f1d39a', awning: '#d98172', road: ['#e4b77b', '#c98271', '#534052', '#282b3d'] },
@@ -622,6 +689,8 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
       } else if (game.phase === 'resurrect') {
         game.resurrectionTimer -= dt
         if (game.resurrectionTimer <= 0) { playSound('revive'); pulse([14, 22, 14]); game.phase = 'playing'; game.resurrectionTimer = 0; setPhase('playing') }
+      } else if (game.phase === 'over') {
+        game.deathEffectTimer = Math.max(0, game.deathEffectTimer - dt)
       } else if (game.phase === 'playing') {
         game.elapsed += dt
         game.abilityCooldown = Math.max(0, game.abilityCooldown - dt)
@@ -707,7 +776,7 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
               setPhase('resurrect')
             } else {
               playSound('over')
-              game.phase = 'over'; game.overAt = now; setPhase('over')
+              game.phase = 'over'; game.deathEffectTimer = 1.35; game.overAt = now; setPhase('over')
             }
             break
           }
@@ -754,16 +823,34 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
       game.powerups.forEach((item) => drawPowerup(ctx, item, game.elapsed))
       game.particles.forEach((p) => { ctx.globalAlpha = Math.max(0, p.life * 1.6); ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1 })
       const playerX = Math.max(52, width * .17)
-      let playerAlpha = game.elapsed < game.invulnerableUntil && Math.floor(game.elapsed * 12) % 2 === 0 ? .4 : 1
       if (game.phase === 'resurrect') {
         const reviveProgress = 1 - game.resurrectionTimer / 1.8
-        playerAlpha *= Math.max(0, Math.min(1, (reviveProgress - .58) / .18))
+        drawDefeatPile(ctx, playerX, groundY, reviveProgress, game.elapsed)
+        drawResurrection(ctx, width, groundY, playerX, game)
+        drawReviveBurst(ctx, playerX, groundY, reviveProgress)
+        // Keep every runner fully gone until the angel has landed. Then lift them
+        // out of the dust with a short glow and settle them back onto the track.
+        const reveal = Math.max(0, Math.min(1, (reviveProgress - .68) / .2))
+        if (reveal > 0) {
+          const eased = 1 - Math.pow(1 - reveal, 3)
+          const alpha = Math.min(1, reveal * 2.2)
+          const rise = (1 - eased) * 27
+          const scale = .76 + eased * .24 + Math.sin(reveal * Math.PI) * .09
+          ctx.save(); ctx.globalAlpha = alpha
+          ctx.translate(playerX + 31, groundY - 35 - rise); ctx.scale(scale, scale); ctx.translate(-(playerX + 31), -(groundY - 35))
+          drawPowerupAura(ctx, playerX, groundY, game.playerY, game)
+          drawCharacter(ctx, character, playerX, groundY, game.playerY, game.elapsed, game.phase, game.playerVY)
+          ctx.restore()
+        }
+      } else if (game.phase === 'over') {
+        drawDefeatPile(ctx, playerX, groundY, 1 - game.deathEffectTimer / 1.35, game.elapsed + (now - game.overAt) / 1000)
+      } else {
+        const playerAlpha = game.elapsed < game.invulnerableUntil && Math.floor(game.elapsed * 12) % 2 === 0 ? .4 : 1
+        ctx.save(); ctx.globalAlpha = playerAlpha
+        drawPowerupAura(ctx, playerX, groundY, game.playerY, game)
+        drawCharacter(ctx, character, playerX, groundY, game.playerY, game.elapsed, game.phase, game.playerVY)
+        ctx.restore()
       }
-      ctx.globalAlpha = playerAlpha
-      drawPowerupAura(ctx, playerX, groundY, game.playerY, game)
-      drawCharacter(ctx, character, playerX, groundY, game.playerY, game.elapsed, game.phase, game.playerVY)
-      ctx.globalAlpha = 1
-      if (game.phase === 'resurrect') drawResurrection(ctx, width, groundY, playerX, game)
       if (game.powerupMessageTimer > 0 && game.phase === 'playing') {
         const fade = Math.min(1, game.powerupMessageTimer * 2)
         ctx.save(); ctx.globalAlpha = fade; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
@@ -784,7 +871,7 @@ function CanvasGame({ onFinish, onAbort, claimedAmount, character = 'slime' }) {
         ctx.fillStyle = '#21123dcc'; ctx.fillRect(0, 0, width, height)
         ctx.fillStyle = '#f2d18d'; ctx.font = '700 28px Space Grotesk, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('THAT’S THE RUN', width / 2, height / 2 - 10)
         ctx.fillStyle = '#fff4e9'; ctx.font = '600 13px DM Sans, sans-serif'; ctx.fillText(`${game.giftsCount} gifts collected`, width / 2, height / 2 + 24)
-        if (!finishRef.current && now - game.overAt > 850) endRef.current()
+        if (!finishRef.current && now - game.overAt > 1400) endRef.current()
       }
       raf = requestAnimationFrame(frame)
     }
@@ -972,7 +1059,7 @@ function App() {
 
   return <main className="app-shell">
     <div className="grain" />
-    <header className="topbar"><a className="brand" href="#top"><span className="brand-icon"><Flag size={17} /></span><span>ELLA<span className="brand-soft"> / OCTOBER 27</span></span></a><div className="topbar-right"><span className="for-ella">TAKORADI · GHANA</span></div></header>
+    <header className="topbar"><a className="brand" href="#top" aria-label="Ella's birthday run, October 27"><span className="brand-bib" aria-hidden="true"><small>OCT</small><strong>27</strong></span><span className="brand-lockup"><strong>ELLA'S RUN</strong><small>BIRTHDAY DASH · OCTOBER 27</small></span></a><div className="topbar-right"><span className="for-ella"><MapPin size={14}/><span>TAKORADI<small>GHANA</small></span></span></div></header>
     {!unlocked ? <section className="countdown-screen" id="top"><div className="countdown-copy"><span className="eyebrow"><Clock3 size={14} /> THE START LINE OPENS SOON</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>Her route through Takoradi is almost ready.<br />The start line opens at 7:10 PM on October 27.</p><div className="clock-grid">{timeParts && Object.entries(timeParts).map(([unit, val]) => <div className="clock-card" key={unit}><strong>{String(val).padStart(2, '0')}</strong><span>{unit}</span></div>)}</div><div className="unlock-note"><Clock3 size={15} /> Opens October 27 at 7:10 PM · Ghana time</div>{import.meta.env.DEV && <button className="preview-link" onClick={() => { const url = new URL(window.location.href); url.searchParams.set('preview', '1'); window.location.href = url.toString() }}>Developer preview <ChevronRight size={14}/></button>}<div className="countdown-cake" aria-hidden="true"><SlimePortrait/></div></div><div className="countdown-footer">October 27 · Takoradi</div></section> : <>
       {DEV_PREVIEW && <div className="preview-banner">DEVELOPER PREVIEW · data is saved separately from the live game <button onClick={() => { const url = new URL(window.location.href); url.searchParams.delete('preview'); window.location.href = url.toString() }}>Exit preview</button></div>}
       <section className="hero" id="top"><div className="hero-copy"><span className="eyebrow"><MapPin size={14} /> TAKORADI · OCTOBER 27</span><h1>Ella's<br /><span>birthday dash.</span></h1><p>Take a run around Takoradi. Dodge the cakes and grab as many parcels as you can.</p><button className="primary-btn" onClick={startRun}><span>START A RUN</span><ChevronRight size={18} /></button><div className="control-hint"><span className="desktop-control-hint"><span>SPACE</span> or <span>↑</span> jump</span><span className="mobile-control-hint">Tap anywhere to jump</span></div></div><div className="hero-art"><div className="hero-disc"/><div className="portrait-frame"><CharacterPortrait characterId={selectedCharacter} /></div><span className="float-item fi-a"><Gift size={23}/></span><span className="float-item fi-b"><Cherry size={22}/></span><span className="float-item fi-c"><Heart size={18}/></span><span className="float-item fi-d"><CakeSlice size={23}/></span><div className="hero-label">TAKORADI<br />OCTOBER 27</div></div></section>

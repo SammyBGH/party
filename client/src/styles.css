@@ -85,3 +85,31 @@ body{background:#211d2b}.app-shell{background:linear-gradient(135deg,#2b2635 0%,
   .runner-power-tip{max-width:290px;font-size:9px}
   .dino-intro .dino-tip{margin:13px 0}
 }
+
+/* A small race ticket gives the header a birthday mark without crowding it. */
+.topbar{gap:16px}
+.brand{gap:12px;min-width:0;letter-spacing:normal}
+.brand-bib{position:relative;width:43px;height:43px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;border:1px solid #c49a5d;border-radius:8px;background:radial-gradient(circle at 0 50%,#211d2b 0 3px,transparent 3.7px),radial-gradient(circle at 100% 50%,#211d2b 0 3px,transparent 3.7px),#efc878;color:#292431;line-height:1}
+.brand-bib::after{content:"";position:absolute;inset:4px;border:1px dashed #55443b70;border-radius:5px;pointer-events:none}
+.brand-bib small{font:700 7px 'Space Grotesk',sans-serif;letter-spacing:.15em}
+.brand-bib strong{font:700 21px/.95 'Space Grotesk',sans-serif;letter-spacing:-.08em}
+.brand-lockup{display:flex;min-width:0;flex-direction:column;gap:4px}
+.brand-lockup strong{font:700 13px 'Space Grotesk',sans-serif;letter-spacing:.11em;white-space:nowrap}
+.brand-lockup small{font:600 8px 'Space Grotesk',sans-serif;letter-spacing:.12em;color:#b9aa9e;white-space:nowrap}
+.topbar-right{flex:none}
+.for-ella{gap:7px;color:#e7bd91;font-size:8px;letter-spacing:.12em}
+.for-ella>svg{flex:none;color:#efc878}
+.for-ella>span{display:flex;flex-direction:column;gap:3px}
+.for-ella small{font:600 7px 'Space Grotesk',sans-serif;letter-spacing:.15em;color:#a99c92}
+@media(max-width:700px){
+  .topbar{gap:8px;padding:0 15px}
+  .brand{gap:9px}
+  .brand-bib{width:39px;height:39px}
+  .brand-bib strong{font-size:19px}
+  .brand-lockup{gap:3px}
+  .brand-lockup strong{font-size:11px;letter-spacing:.08em}
+  .brand-lockup small{font-size:7px;letter-spacing:.08em}
+  .for-ella{gap:5px;font-size:7px;letter-spacing:.08em}
+  .for-ella>svg{width:12px;height:12px}
+  .for-ella small{font-size:6px}
+}
