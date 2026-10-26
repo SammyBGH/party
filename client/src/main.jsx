@@ -576,24 +576,46 @@ function drawResurrection(ctx, width, groundY, playerX, game) {
   glow.addColorStop(0, `rgba(255, 235, 177, ${.48 * landing})`); glow.addColorStop(1, 'rgba(255, 235, 177, 0)')
   ctx.fillStyle = glow; ctx.fillRect(cx - 112, targetY - 92, 224, 130)
 
-  // The angel drops in from above, flares its wings, and releases a pulse on landing.
-  const flap = Math.sin(progress * 35) * 7
+  // A small, human-shaped angel descends with articulated feathered wings.
+  const flap = Math.sin(progress * 35) * 5
   const wing = (side) => {
-    ctx.save(); ctx.translate(cx + side * 9, angelY + 2); ctx.scale(side, 1)
-    ctx.fillStyle = '#fff7e7'; ctx.strokeStyle = '#d8c9ad'; ctx.lineWidth = 1.5
-    ctx.beginPath(); ctx.moveTo(2, 4); ctx.quadraticCurveTo(-12, -13 - flap, -29, -10 - flap); ctx.quadraticCurveTo(-25, 3, -7, 14); ctx.closePath(); ctx.fill(); ctx.stroke()
-    ctx.strokeStyle = '#e4d6bc'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(-4, 6); ctx.quadraticCurveTo(-17, 1 - flap * .3, -24, -7 - flap); ctx.moveTo(-5, 9); ctx.quadraticCurveTo(-17, 8, -22, 1); ctx.stroke()
+    ctx.save(); ctx.translate(cx + side * 8, angelY + 1); ctx.scale(side, 1)
+    ctx.fillStyle = '#fff8ea'; ctx.strokeStyle = '#b9a995'; ctx.lineWidth = 1.2
+    ctx.beginPath(); ctx.moveTo(3, 3); ctx.quadraticCurveTo(-7, -4, -8, -15 - flap); ctx.quadraticCurveTo(-20, -12 - flap, -30, -9 - flap); ctx.quadraticCurveTo(-27, 1, -19, 10); ctx.quadraticCurveTo(-11, 16, -3, 11); ctx.closePath(); ctx.fill(); ctx.stroke()
+    // Overlapping feather tips give the wing a layered edge at this small scale.
+    ctx.fillStyle = '#f1e5d2'; ctx.strokeStyle = '#cbbca7'; ctx.lineWidth = .7
+    for (let i = 0; i < 4; i++) {
+      const py = -10 + i * 5 + flap * .35
+      ctx.beginPath(); ctx.ellipse(-22 + i * 2, py, 7, 2.2, -.35, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
+    }
+    ctx.strokeStyle = '#d6c8b4'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(0, 5); ctx.quadraticCurveTo(-12, 2, -25, -7 - flap * .4); ctx.moveTo(-2, 8); ctx.quadraticCurveTo(-12, 9, -20, 2); ctx.stroke()
     ctx.restore()
   }
   wing(-1); wing(1)
+
+  // Robe, collar, belt, and feet make the body read as a little person in flight.
+  ctx.strokeStyle = '#b98262'; ctx.lineWidth = 3; ctx.lineCap = 'round'
+  ctx.beginPath(); ctx.moveTo(cx - 6, angelY + 6); ctx.lineTo(cx - 13, angelY + 12); ctx.moveTo(cx + 6, angelY + 6); ctx.lineTo(cx + 13, angelY + 12); ctx.stroke()
   ctx.fillStyle = '#fff1d8'; ctx.strokeStyle = '#695467'; ctx.lineWidth = 1.5
-  ctx.beginPath(); ctx.ellipse(cx, angelY - 7, 8, 9, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
-  ctx.fillStyle = '#695467'; ctx.beginPath(); ctx.arc(cx - 2.5, angelY - 7, 1, 0, Math.PI * 2); ctx.arc(cx + 2.5, angelY - 7, 1, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#f4ead8'; ctx.strokeStyle = '#695467'; ctx.lineWidth = 1.5
   ctx.beginPath(); ctx.moveTo(cx - 7, angelY + 1); ctx.lineTo(cx + 7, angelY + 1); ctx.lineTo(cx + 10, angelY + 20); ctx.quadraticCurveTo(cx, angelY + 25, cx - 10, angelY + 20); ctx.closePath(); ctx.fill(); ctx.stroke()
-  ctx.strokeStyle = '#efc878'; ctx.lineWidth = 2
-  ctx.beginPath(); ctx.ellipse(cx, angelY - 20, 10, 3.5, 0, 0, Math.PI * 2); ctx.stroke()
+  ctx.fillStyle = '#e1c9a5'; ctx.beginPath(); ctx.moveTo(cx - 4, angelY + 2); ctx.lineTo(cx, angelY + 6); ctx.lineTo(cx + 4, angelY + 2); ctx.lineTo(cx + 2, angelY + 10); ctx.lineTo(cx - 2, angelY + 10); ctx.closePath(); ctx.fill()
+  ctx.strokeStyle = '#d9c7aa'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(cx - 4, angelY + 12); ctx.lineTo(cx - 2, angelY + 20); ctx.moveTo(cx + 3, angelY + 12); ctx.lineTo(cx + 4, angelY + 20); ctx.stroke()
+  ctx.strokeStyle = '#efc878'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx - 7, angelY + 14); ctx.quadraticCurveTo(cx, angelY + 16, cx + 7, angelY + 14); ctx.stroke()
+  ctx.strokeStyle = '#695467'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(cx - 4, angelY + 23); ctx.lineTo(cx - 5, angelY + 27); ctx.moveTo(cx + 4, angelY + 23); ctx.lineTo(cx + 5, angelY + 27); ctx.stroke()
+  ctx.fillStyle = '#f2d3a8'; ctx.beginPath(); ctx.ellipse(cx - 5, angelY + 28, 3, 1.8, 0, 0, Math.PI * 2); ctx.ellipse(cx + 5, angelY + 28, 3, 1.8, 0, 0, Math.PI * 2); ctx.fill()
+
+  // Warm face, short curls, and a thin halo sit above the collar.
+  ctx.fillStyle = '#9b624d'; ctx.strokeStyle = '#695467'; ctx.lineWidth = 1.3
+  ctx.beginPath(); ctx.ellipse(cx, angelY - 7, 7.5, 8.5, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
+  ctx.fillStyle = '#382d3c'; ctx.beginPath()
+  for (let i = 0; i < 5; i++) ctx.arc(cx - 6 + i * 3, angelY - 13, 3, Math.PI, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = '#fff1d8'; ctx.beginPath(); ctx.arc(cx - 2.5, angelY - 7, 1.4, 0, Math.PI * 2); ctx.arc(cx + 2.5, angelY - 7, 1.4, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#49364a'; ctx.beginPath(); ctx.arc(cx - 2.2, angelY - 7, .7, 0, Math.PI * 2); ctx.arc(cx + 2.8, angelY - 7, .7, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#754b4a'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx - 1, angelY - 3); ctx.quadraticCurveTo(cx, angelY - 2, cx + 1, angelY - 3); ctx.stroke()
+  ctx.strokeStyle = '#efc878'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(cx, angelY - 20, 10, 3.5, 0, 0, Math.PI * 2); ctx.stroke()
 
   if (landing > 0) {
     ctx.globalAlpha = 1 - landing
