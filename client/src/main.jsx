@@ -360,108 +360,86 @@ function drawAkete(ctx, x, groundY, jumpY, elapsed, vy, phase) {
   const airborne = jumpY > 2
   const falling = airborne && vy < -80
   const running = phase === 'playing'
-  const stride = running && !airborne ? Math.sin(elapsed * 18) : 0
-  const bob = running && !airborne ? Math.abs(stride) * 2 : 0
-  const base = groundY - jumpY - bob
-  const legDrive = airborne ? (falling ? -2 : 3) : stride * 10
-  const armDrive = airborne ? (falling ? 7 : -10) : -stride * 9
+  const gait = running && !airborne ? Math.sin(elapsed * 17) : 0
+  const base = groundY - jumpY - (running && !airborne ? Math.abs(gait) * 1.5 : 0)
+  const leg = airborne ? (falling ? -2 : 3) : gait * 8
+  const arm = airborne ? (falling ? 4 : -5) : -gait * 4
 
-  ctx.save()
-  ctx.globalAlpha = .22
-  ctx.fillStyle = '#17111f'
+  // Soft ground contact shadow.
+  ctx.save(); ctx.globalAlpha = .2; ctx.fillStyle = '#17111f'
+  ctx.beginPath(); ctx.ellipse(x + 31, groundY + 3, Math.max(14, 25 - jumpY * .08), 6, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore()
+
+  // Short, tied braids trail behind her, separated into a few clear shapes.
+  ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round'
+  ctx.strokeStyle = '#17141d'; ctx.lineWidth = 5
   ctx.beginPath()
-  ctx.ellipse(x + 31, groundY + 3, Math.max(14, 25 - jumpY * .08), 6, 0, 0, Math.PI * 2)
-  ctx.fill()
+  ctx.moveTo(x + 31, base - 76); ctx.bezierCurveTo(x + 22, base - 70, x + 19, base - 58 + gait * 2, x + 22, base - 48 + gait * 2)
+  ctx.moveTo(x + 35, base - 76); ctx.bezierCurveTo(x + 29, base - 69, x + 27, base - 58 + gait * 2, x + 30, base - 48 + gait * 2)
+  ctx.stroke()
+  ctx.strokeStyle = '#51404c'; ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(x + 28, base - 69); ctx.lineTo(x + 24, base - 65 + gait); ctx.lineTo(x + 26, base - 61 + gait); ctx.lineTo(x + 21, base - 57 + gait * 2)
+  ctx.moveTo(x + 35, base - 67); ctx.lineTo(x + 31, base - 63 + gait); ctx.lineTo(x + 33, base - 59 + gait); ctx.lineTo(x + 28, base - 54 + gait * 2)
+  ctx.stroke()
+  ctx.fillStyle = '#4d9bea'; ctx.beginPath(); ctx.arc(x + 22, base - 48 + gait * 2, 2, 0, Math.PI * 2); ctx.arc(x + 30, base - 48 + gait * 2, 2, 0, Math.PI * 2); ctx.fill()
   ctx.restore()
 
-  ctx.save()
-  // Her body leans into the run; the braids lag behind and bounce with each step.
-  const lean = airborne ? (falling ? -.06 : .08) : -.035 + stride * .012
-  ctx.translate(x + 33, base - 44)
-  ctx.rotate(lean)
-  ctx.translate(-(x + 33), -(base - 44))
-
-  // Back braids and rear arm sit behind her body.
-  ctx.strokeStyle = '#201925'; ctx.lineWidth = 5.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'
-  ctx.beginPath()
-  ctx.moveTo(x + 29, base - 77)
-  ctx.bezierCurveTo(x + 17, base - 71 + stride * 2, x + 13, base - 57 + stride * 4, x + 17, base - 43 + stride * 3)
-  ctx.moveTo(x + 34, base - 76)
-  ctx.bezierCurveTo(x + 24, base - 67 + stride * 2, x + 22, base - 54 + stride * 4, x + 25, base - 43 + stride * 3)
-  ctx.stroke()
-  ctx.strokeStyle = '#473443'; ctx.lineWidth = 1.2
-  ctx.beginPath()
-  ctx.moveTo(x + 27, base - 68); ctx.lineTo(x + 21, base - 63 + stride * 2); ctx.lineTo(x + 22, base - 58 + stride * 2); ctx.lineTo(x + 17, base - 53 + stride * 3); ctx.lineTo(x + 20, base - 48 + stride * 3)
-  ctx.moveTo(x + 34, base - 66); ctx.lineTo(x + 28, base - 61 + stride * 2); ctx.lineTo(x + 30, base - 56 + stride * 2); ctx.lineTo(x + 24, base - 51 + stride * 3)
-  ctx.stroke()
-  ctx.fillStyle = '#4c91df'; ctx.beginPath(); ctx.arc(x + 19, base - 43 + stride * 3, 2.2, 0, Math.PI * 2); ctx.arc(x + 25, base - 43 + stride * 3, 2.2, 0, Math.PI * 2); ctx.fill()
-
-  const drawShoe = (sx, sy, tilt = 0) => {
-    ctx.save(); ctx.translate(sx, sy); ctx.rotate(tilt)
-    ctx.fillStyle = '#172033'; ctx.strokeStyle = '#101522'; ctx.lineWidth = 1.5
-    ctx.beginPath(); ctx.moveTo(-5, -3); ctx.quadraticCurveTo(-2, -5, 1, -3); ctx.lineTo(8, -1); ctx.quadraticCurveTo(12, 0, 11, 3); ctx.lineTo(-5, 3); ctx.closePath(); ctx.fill(); ctx.stroke()
-    ctx.strokeStyle = '#4d9bea'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-3, 1); ctx.lineTo(8, 1); ctx.stroke()
-    ctx.restore()
+  // Legs with a clear knee bend and compact trainers.
+  const hipY = base - 21
+  const rearKnee = x + 31 - leg * .45, frontKnee = x + 36 + leg * .45
+  const tuck = airborne ? (falling ? -1 : 6) : 0
+  const rearFoot = [x + 29 - leg, base - tuck + Math.max(0, gait) * 2]
+  const frontFoot = [x + 39 + leg, base - tuck + Math.max(0, -gait) * 2]
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#754b3b'; ctx.lineWidth = 6
+  ctx.beginPath(); ctx.moveTo(x + 31, hipY); ctx.lineTo(rearKnee, base - 11 - tuck * .4); ctx.lineTo(rearFoot[0], rearFoot[1]); ctx.stroke()
+  ctx.strokeStyle = '#84543d'; ctx.lineWidth = 6
+  ctx.beginPath(); ctx.moveTo(x + 37, hipY); ctx.lineTo(frontKnee, base - 10 - tuck * .4); ctx.lineTo(frontFoot[0], frontFoot[1]); ctx.stroke()
+  const shoe = (sx, sy) => {
+    ctx.fillStyle = '#172033'; ctx.strokeStyle = '#101522'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(sx - 5, sy - 3); ctx.quadraticCurveTo(sx - 2, sy - 5, sx + 1, sy - 3); ctx.lineTo(sx + 8, sy - 1); ctx.quadraticCurveTo(sx + 11, sy, sx + 10, sy + 3); ctx.lineTo(sx - 5, sy + 3); ctx.closePath(); ctx.fill(); ctx.stroke()
+    ctx.strokeStyle = '#4d9bea'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(sx - 3, sy + 1); ctx.lineTo(sx + 7, sy + 1); ctx.stroke()
   }
+  shoe(rearFoot[0] + 2, rearFoot[1] + 1); shoe(frontFoot[0] + 2, frontFoot[1] + 1)
 
-  // Legs bend at the knee instead of swinging as rigid sticks.
-  const hipY = base - 22
-  const rearKneeX = x + 31 - legDrive * .48, nearKneeX = x + 36 + legDrive * .48
-  const tuck = airborne ? (falling ? -1 : 7) : 0
-  const rearAnkleX = x + 29 - legDrive, nearAnkleX = x + 39 + legDrive
-  const rearAnkleY = base - tuck + Math.max(0, stride) * 2
-  const nearAnkleY = base - tuck + Math.max(0, -stride) * 2
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round'
-  ctx.strokeStyle = '#84543d'; ctx.lineWidth = 7
-  ctx.beginPath(); ctx.moveTo(x + 31, hipY); ctx.lineTo(rearKneeX, base - 11 - tuck * .45); ctx.lineTo(rearAnkleX, rearAnkleY); ctx.stroke()
-  ctx.strokeStyle = '#84543d'; ctx.lineWidth = 7.5
-  ctx.beginPath(); ctx.moveTo(x + 37, hipY); ctx.lineTo(nearKneeX, base - 10 - tuck * .4); ctx.lineTo(nearAnkleX, nearAnkleY); ctx.stroke()
-  ctx.fillStyle = '#9c654b'; ctx.beginPath(); ctx.arc(nearKneeX, base - 10 - tuck * .4, 2.2, 0, Math.PI * 2); ctx.fill()
-  drawShoe(rearAnkleX + 2, rearAnkleY + 1, falling ? -.16 : 0)
-  drawShoe(nearAnkleX + 2, nearAnkleY + 1, falling ? -.16 : 0)
+  // The rear arm is largely occluded by her torso, with only a quiet hint at the back.
+  ctx.strokeStyle = '#754b3b'; ctx.lineWidth = 3.6; ctx.lineCap = 'round'; ctx.lineJoin = 'round'
+  ctx.beginPath(); ctx.moveTo(x + 31, base - 53); ctx.lineTo(x + 26 - arm * .2, base - 45); ctx.lineTo(x + 27, base - 39); ctx.stroke()
 
-  // Far arm sits behind her jacket. Its hand stays inside the silhouette in profile.
-  const armY = base - 53
-  ctx.strokeStyle = '#57382f'; ctx.lineWidth = 5.5
-  const farElbowX = x + 31 + Math.max(-1.5, Math.min(1.5, armDrive * .1))
-  ctx.beginPath(); ctx.moveTo(x + 30, armY); ctx.lineTo(farElbowX, base - 44 - armDrive * .08); ctx.lineTo(x + 32, base - 31); ctx.stroke()
-  ctx.fillStyle = '#764b3b'; ctx.beginPath(); ctx.arc(x + 32, base - 31, 2.6, 0, Math.PI * 2); ctx.fill()
-
-  // Jacket, short running skirt and belt use the game's blue and ink palette.
-  ctx.fillStyle = '#101827'; ctx.strokeStyle = '#121722'; ctx.lineWidth = 2
-  ctx.beginPath(); ctx.moveTo(x + 27, base - 59); ctx.quadraticCurveTo(x + 38, base - 64, x + 45, base - 56); ctx.lineTo(x + 44, base - 23); ctx.quadraticCurveTo(x + 36, base - 19, x + 27, base - 23); ctx.closePath(); ctx.fill(); ctx.stroke()
-  ctx.fillStyle = '#2478ce'; ctx.beginPath(); ctx.moveTo(x + 29, base - 58); ctx.quadraticCurveTo(x + 38, base - 62, x + 43, base - 55); ctx.lineTo(x + 42, base - 34); ctx.lineTo(x + 28, base - 34); ctx.closePath(); ctx.fill()
-  ctx.strokeStyle = '#8bc8f4'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + 36, base - 57); ctx.lineTo(x + 36, base - 37); ctx.stroke()
+  // Track tee: a narrow shoulder, short sleeve, and simple blue body.
+  ctx.fillStyle = '#176fbd'; ctx.strokeStyle = '#13243b'; ctx.lineWidth = 1.5
+  ctx.beginPath()
+  ctx.moveTo(x + 31, base - 58); ctx.lineTo(x + 34, base - 60); ctx.quadraticCurveTo(x + 38, base - 61, x + 41, base - 57)
+  ctx.lineTo(x + 46, base - 52); ctx.lineTo(x + 43, base - 47); ctx.lineTo(x + 40, base - 49)
+  ctx.lineTo(x + 42, base - 23); ctx.quadraticCurveTo(x + 35, base - 20, x + 27, base - 23)
+  ctx.lineTo(x + 29, base - 46); ctx.lineTo(x + 26, base - 48); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.fillStyle = '#2784d1'; ctx.beginPath(); ctx.moveTo(x + 41, base - 57); ctx.lineTo(x + 46, base - 52); ctx.lineTo(x + 43, base - 47); ctx.lineTo(x + 40, base - 49); ctx.closePath(); ctx.fill()
+  ctx.strokeStyle = '#a6d8f3'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 36, base - 55); ctx.lineTo(x + 36, base - 38); ctx.stroke()
   ctx.fillStyle = '#171a27'; ctx.beginPath(); ctx.moveTo(x + 28, base - 34); ctx.lineTo(x + 43, base - 34); ctx.lineTo(x + 46, base - 22); ctx.quadraticCurveTo(x + 36, base - 19, x + 25, base - 22); ctx.closePath(); ctx.fill()
-  ctx.strokeStyle = '#4d91dc'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + 27, base - 23); ctx.lineTo(x + 45, base - 23); ctx.stroke()
+  ctx.strokeStyle = '#4d91dc'; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.moveTo(x + 27, base - 23); ctx.lineTo(x + 45, base - 23); ctx.stroke()
 
-  // Neck and face in side profile, with a warm highlight along her cheek.
-  ctx.fillStyle = '#744936'; ctx.beginPath(); ctx.roundRect(x + 32, base - 65, 10, 12, 4); ctx.fill()
-  ctx.fillStyle = '#84543d'; ctx.strokeStyle = '#36252b'; ctx.lineWidth = 1.8
-  ctx.beginPath(); ctx.moveTo(x + 29, base - 77); ctx.quadraticCurveTo(x + 30, base - 88, x + 40, base - 87); ctx.quadraticCurveTo(x + 49, base - 85, x + 49, base - 77); ctx.lineTo(x + 52, base - 73); ctx.lineTo(x + 48, base - 71); ctx.quadraticCurveTo(x + 46, base - 65, x + 39, base - 65); ctx.quadraticCurveTo(x + 30, base - 67, x + 29, base - 77); ctx.closePath(); ctx.fill(); ctx.stroke()
-  ctx.strokeStyle = '#b77c5a'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(x + 46, base - 78); ctx.quadraticCurveTo(x + 50, base - 76, x + 47, base - 73); ctx.stroke()
-  ctx.fillStyle = '#17131d'; ctx.beginPath(); ctx.ellipse(x + 44, base - 79, 1.4, 2, 0, 0, Math.PI * 2); ctx.fill()
-  ctx.strokeStyle = '#4c302b'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x + 45, base - 69); ctx.quadraticCurveTo(x + 47, base - 68, x + 49, base - 70); ctx.stroke()
-  ctx.fillStyle = '#d59a70'; ctx.beginPath(); ctx.arc(x + 34, base - 75, 2.1, 0, Math.PI * 2); ctx.fill()
+  // Neck and face, turned toward the direction she runs.
+  ctx.fillStyle = '#84543d'; ctx.beginPath(); ctx.roundRect(x + 34, base - 68, 7, 8, 3); ctx.fill()
+  ctx.fillStyle = '#84543d'; ctx.strokeStyle = '#36252b'; ctx.lineWidth = 1.5
+  ctx.beginPath(); ctx.moveTo(x + 29, base - 77); ctx.quadraticCurveTo(x + 30, base - 87, x + 39, base - 87); ctx.quadraticCurveTo(x + 48, base - 86, x + 49, base - 78); ctx.lineTo(x + 52, base - 74); ctx.lineTo(x + 48, base - 71); ctx.quadraticCurveTo(x + 46, base - 65, x + 39, base - 65); ctx.quadraticCurveTo(x + 30, base - 67, x + 29, base - 77); ctx.closePath(); ctx.fill(); ctx.stroke()
+  ctx.strokeStyle = '#b77c5a'; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.moveTo(x + 46, base - 78); ctx.quadraticCurveTo(x + 50, base - 76, x + 47, base - 73); ctx.stroke()
+  ctx.fillStyle = '#17131d'; ctx.beginPath(); ctx.ellipse(x + 44, base - 79, 1.3, 1.8, 0, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#4c302b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 45, base - 69); ctx.quadraticCurveTo(x + 47, base - 68, x + 49, base - 70); ctx.stroke()
 
-  // Braided crown and a low puff. Fine blue thread ties the style to her jacket.
-  ctx.fillStyle = '#17141d'; ctx.strokeStyle = '#2b2230'; ctx.lineWidth = 1.5
+  // Braided crown and low tie keep her outline distinct while she moves.
+  ctx.fillStyle = '#17141d'; ctx.strokeStyle = '#2b2230'; ctx.lineWidth = 1.4
   ctx.beginPath(); ctx.moveTo(x + 28, base - 77); ctx.quadraticCurveTo(x + 26, base - 89, x + 37, base - 91); ctx.quadraticCurveTo(x + 48, base - 92, x + 50, base - 83); ctx.lineTo(x + 47, base - 80); ctx.quadraticCurveTo(x + 40, base - 84, x + 30, base - 78); ctx.closePath(); ctx.fill(); ctx.stroke()
-  ctx.strokeStyle = '#51404c'; ctx.lineWidth = 1.1; ctx.beginPath()
-  ctx.moveTo(x + 30, base - 82); ctx.quadraticCurveTo(x + 37, base - 89, x + 46, base - 85)
-  ctx.moveTo(x + 29, base - 79); ctx.quadraticCurveTo(x + 37, base - 86, x + 48, base - 82)
-  ctx.stroke()
-  ctx.fillStyle = '#17141d'; ctx.beginPath(); ctx.ellipse(x + 26, base - 78, 4, 5, -.4, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#347fdc'; ctx.beginPath(); ctx.arc(x + 25, base - 74, 1.7, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#51404c'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 30, base - 82); ctx.quadraticCurveTo(x + 37, base - 89, x + 46, base - 85); ctx.moveTo(x + 29, base - 79); ctx.quadraticCurveTo(x + 37, base - 86, x + 48, base - 82); ctx.stroke()
+  ctx.fillStyle = '#347fdc'; ctx.beginPath(); ctx.arc(x + 25, base - 74, 1.8, 0, Math.PI * 2); ctx.fill()
 
-  // Near arm lifts into a compact runner's swing. Airborne poses open both arms for balance.
-  const frontElbowX = x + 41 + armDrive * .25, frontElbowY = base - 46 - (airborne ? 4 : armDrive * .12)
-  const frontHandX = x + 44 + armDrive * .45, frontHandY = base - 43 - (airborne ? 8 : armDrive * .2)
-  ctx.strokeStyle = '#84543d'; ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.lineJoin = 'round'
-  ctx.beginPath(); ctx.moveTo(x + 40, armY); ctx.lineTo(frontElbowX, frontElbowY); ctx.lineTo(frontHandX, frontHandY); ctx.stroke()
-  ctx.fillStyle = '#9b674d'; ctx.beginPath(); ctx.arc(frontHandX, frontHandY, 3.3, 0, Math.PI * 2); ctx.fill()
-  ctx.restore()
+  // Near arm stays outside the shirt line: shoulder into a bent elbow, forearm, then hand.
+  const elbowX = x + 47 + arm * .22, elbowY = base - 42 - (airborne ? 3 : arm * .08)
+  const wristX = x + 45 + arm * .3, wristY = base - 33 - (airborne ? 5 : arm * .12)
+  ctx.strokeStyle = '#84543d'; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 4.2
+  ctx.beginPath(); ctx.moveTo(x + 43, base - 50); ctx.lineTo(elbowX, elbowY); ctx.stroke()
+  ctx.lineWidth = 3.8; ctx.beginPath(); ctx.moveTo(elbowX, elbowY); ctx.lineTo(wristX, wristY); ctx.stroke()
+  ctx.fillStyle = '#84543d'; ctx.beginPath(); ctx.ellipse(wristX, wristY + 2, 2.4, 3.4, .15, 0, Math.PI * 2); ctx.fill()
 }
+
 function drawCharacter(ctx, character, x, groundY, jumpY, elapsed, phase, playerVY) {
   if (character === 'cat') drawCat(ctx, x, groundY, jumpY, elapsed, playerVY, phase)
   else if (character === 'crab') drawCrab(ctx, x, groundY, jumpY, elapsed, playerVY, phase)
