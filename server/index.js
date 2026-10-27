@@ -9,7 +9,7 @@ import Run from './models/Run.js'
 
 const app = express()
 const port = Number(process.env.PORT || 4000)
-const unlockAt = Date.parse('2026-10-27T19:10:00+00:00') // Ghana time is UTC
+const unlockAt = Date.parse('2026-10-27T19:50:00+00:00') // Ghana time is UTC
 const clientDist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client/dist')
 
 const allowedOrigins = (process.env.CLIENT_ORIGINS || process.env.CLIENT_ORIGIN || 'http://localhost:5173')
@@ -71,6 +71,7 @@ app.get('/api/cashout/quote', async (req, res) => {
   try {
     const account = await Account.findById(getAccountId(req)).lean()
     if (account?.cashedOut) return res.status(409).json({ error: 'This birthday surprise has already been claimed.' })
+    if (!account?.totalRuns) return res.status(409).json({ error: 'Finish one run before claiming your birthday gift.' })
     res.json({ amount: Math.max(50, Math.min(500, account?.earned || 0)) })
   } catch {
     res.status(503).json({ error: 'Could not prepare the birthday surprise just yet.' })
@@ -112,7 +113,7 @@ app.post('/api/cashout', async (req, res) => {
   try {
     const accountId = getAccountId(req)
     const claimed = await Account.findOneAndUpdate(
-      { _id: accountId, cashedOut: { $ne: true } },
+      { _id: accountId, cashedOut: { $ne: true }, totalRuns: { $gte: 1 } },
       [{ $set: {
         cashedOut: true,
         cashout: {
@@ -121,9 +122,12 @@ app.post('/api/cashout', async (req, res) => {
           submittedAt: new Date(),
         },
       } }],
-      { new: true, upsert: true },
+      { new: true },
     )
-    if (!claimed) return res.status(409).json({ error: 'This birthday surprise has already been claimed.' })
+    if (!claimed) {
+      const account = await Account.findById(accountId).lean()
+      return res.status(409).json({ error: account?.cashedOut ? 'This birthday surprise has already been claimed.' : 'Finish one run before claiming your birthday gift.' })
+    }
     res.json({ account: accountView(claimed) })
   } catch (error) {
     if (error?.code === 11000) return res.status(409).json({ error: 'This birthday surprise has already been claimed.' })
